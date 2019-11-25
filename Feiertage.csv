@@ -1,0 +1,256 @@
+Feiertag;Datum;Gesetzlicher Feiertag;Brückentag ;Langes Wochenende ;Wochentag
+Neujahr;01.01.2012;1;0;0;Sonntag
+Heilige Drei Könige;06.01.2012;0;0;;
+Valentinstag;14.02.2012;0;0;;
+Altweiber;16.02.2012;0;0;;
+Rosenmontag;20.02.2012;0;0;;
+Veilchendienstag;21.02.2012;0;0;;
+Aschermittwoch;22.02.2012;0;0;;
+Grndonnerstag;05.04.2012;0;0;;
+Karfreitag;06.04.2012;1;0;;Freitag
+Ostersonntag;08.04.2012;1;0;;Sonntag
+Ostermontag;09.04.2012;1;0;;Montag
+Erster Mai;01.05.2012;1;1;0;Dienstag
+Himmelfahrt;17.05.2012;1;1;0;Donnerstag
+Pfingstsonntag;27.05.2012;1;0;;Sonntag
+Pfingstmontag;28.05.2012;1;0;;Montag
+Fronleichnam;07.06.2012;0;0;;
+Maria Himmelfahrt;15.08.2012;0;0;;
+Tag der Deutschen Einheit;03.10.2012;1;0;0;Mittwoch
+Reformationstag;31.10.2012;0;0;0;Mittwoch
+Allerheiligen;01.11.2012;0;0;;
+Volkstrauertag;18.11.2012;0;0;;
+Buá- und Bettag;21.11.2012;0;0;;
+Totensonntag;25.11.2012;0;0;;
+Nikolaus;06.12.2012;0;0;;
+Heiligabend;24.12.2012;0;0;;
+Erster Weihnachtstag;25.12.2012;1;1;0;Dienstag
+Zweiter Weihnachtstag;26.12.2012;1;1;0;Mittwoch
+Silvester;31.12.2012;0;0;;
+Neujahr;01.01.2013;1;1;0;Dienstag
+Heilige Drei Könige;06.01.2013;0;0;;
+Altweiber;07.02.2013;0;0;;
+Rosenmontag;11.02.2013;0;0;;
+Veilchendienstag;12.02.2013;0;0;;
+Aschermittwoch;13.02.2013;0;0;;
+Valentinstag;14.02.2013;0;0;;
+Grndonnerstag;28.03.2013;0;0;;
+Karfreitag;29.03.2013;1;0;;Freitag
+Ostersonntag;31.03.2013;1;0;;Sonntag
+Ostermontag;01.04.2013;1;0;;Montag
+Erster Mai;01.05.2013;1;0;0;Mittwoch
+Himmelfahrt;09.05.2013;1;1;0;Donnerstag
+Pfingstsonntag;19.05.2013;1;0;;Sonntag
+Pfingstmontag;20.05.2013;1;0;;Montag
+Fronleichnam;30.05.2013;0;0;;
+Maria Himmelfahrt;15.08.2013;0;0;;
+Tag der Deutschen Einheit;03.10.2013;1;1;0;Donnerstag
+Reformationstag;31.10.2013;0;1;0;Donnerstag
+Allerheiligen;01.11.2013;0;0;;
+Volkstrauertag;17.11.2013;0;0;;
+Buá- und Bettag;20.11.2013;0;0;;
+Totensonntag;24.11.2013;0;0;;
+Nikolaus;06.12.2013;0;0;;
+Heiligabend;24.12.2013;0;0;;
+Erster Weihnachtstag;25.12.2013;1;0;0;Mittwoch
+Zweiter Weihnachtstag;26.12.2013;1;1;0;Donnerstag
+Silvester;31.12.2013;0;0;;
+Neujahr;01.01.2014;1;0;0;Mittwoch
+Heilige Drei Könige;06.01.2014;0;0;;
+Valentinstag;14.02.2014;0;0;;
+Altweiber;27.02.2014;0;0;;
+Rosenmontag;03.03.2014;0;0;;
+Veilchendienstag;04.03.2014;0;0;;
+Aschermittwoch;05.03.2014;0;0;;
+Grndonnerstag;17.04.2014;0;0;;
+Karfreitag;18.04.2014;1;0;;Freitag
+Ostersonntag;20.04.2014;1;0;;Sonntag
+Ostermontag;21.04.2014;1;0;;Montag
+Erster Mai;01.05.2014;1;1;0;Donnerstag
+Himmelfahrt;29.05.2014;1;1;0;Donnerstag
+Pfingstsonntag;08.06.2014;1;0;;Sonntag
+Pfingstmontag;09.06.2014;1;0;;Montag
+Fronleichnam;19.06.2014;0;0;;
+Maria Himmelfahrt;15.08.2014;0;0;;
+Tag der Deutschen Einheit;03.10.2014;1;0;1;Freitag
+Reformationstag;31.10.2014;0;0;0;Freitag
+Allerheiligen;01.11.2014;0;0;;
+Volkstrauertag;16.11.2014;0;0;;
+Buá- und Bettag;19.11.2014;0;0;;
+Totensonntag;23.11.2014;0;0;;
+Nikolaus;06.12.2014;0;0;;
+Heiligabend;24.12.2014;0;0;;
+Erster Weihnachtstag;25.12.2014;1;0;1;Donnerstag
+Zweiter Weihnachtstag;26.12.2014;1;0;1;Freitag
+Silvester;31.12.2014;0;0;;
+Neujahr;01.01.2015;1;1;0;Donnerstag
+Heilige Drei Könige;06.01.2015;0;0;;
+Altweiber;12.02.2015;0;0;;
+Valentinstag;14.02.2015;0;0;;
+Rosenmontag;16.02.2015;0;0;;
+Veilchendienstag;17.02.2015;0;0;;
+Aschermittwoch;18.02.2015;0;0;;
+Grndonnerstag;02.04.2015;0;0;;
+Karfreitag;03.04.2015;1;0;;Freitag
+Ostersonntag;05.04.2015;1;0;;Sonntag
+Ostermontag;06.04.2015;1;0;;Montag
+Erster Mai;01.05.2015;1;0;1;Freitag
+Himmelfahrt;14.05.2015;1;1;0;Donnerstag
+Pfingstsonntag;24.05.2015;1;0;;Sonntag
+Pfingstmontag;25.05.2015;1;0;;Montag
+Fronleichnam;04.06.2015;0;0;;
+Maria Himmelfahrt;15.08.2015;0;0;;
+Tag der Deutschen Einheit;03.10.2015;1;0;0;Samstag
+Reformationstag;31.10.2015;0;0;0;Samstag
+Allerheiligen;01.11.2015;0;0;;
+Volkstrauertag;15.11.2015;0;0;;
+Buá- und Bettag;18.11.2015;0;0;;
+Totensonntag;22.11.2015;0;0;;
+Nikolaus;06.12.2015;0;0;;
+Heiligabend;24.12.2015;0;0;;
+Erster Weihnachtstag;25.12.2015;1;0;1;Freitag
+Zweiter Weihnachtstag;26.12.2015;1;0;0;Samstag
+Silvester;31.12.2015;0;0;;
+Neujahr;01.01.2016;1;0;1;Freitag
+Heilige Drei Könige;06.01.2016;0;0;;
+Altweiber;04.02.2016;0;0;;
+Rosenmontag;08.02.2016;0;0;;
+Veilchendienstag;09.02.2016;0;0;;
+Aschermittwoch;10.02.2016;0;0;;
+Valentinstag;14.02.2016;0;0;;
+Grndonnerstag;24.03.2016;0;0;;
+Karfreitag;25.03.2016;1;0;;Freitag
+Ostersonntag;27.03.2016;1;0;;Sonntag
+Ostermontag;28.03.2016;1;0;;Montag
+Erster Mai;01.05.2016;1;0;0;Sonntag
+Himmelfahrt;05.05.2016;1;1;0;Donnerstag
+Pfingstsonntag;15.05.2016;1;0;;Sonntag
+Pfingstmontag;16.05.2016;1;0;;Montag
+Fronleichnam;26.05.2016;0;0;;
+Maria Himmelfahrt;15.08.2016;0;0;;
+Tag der Deutschen Einheit;03.10.2016;1;0;1;Montag
+Reformationstag;31.10.2016;0;0;0;Montag
+Allerheiligen;01.11.2016;0;0;;
+Volkstrauertag;13.11.2016;0;0;;
+Buá- und Bettag;16.11.2016;0;0;;
+Totensonntag;20.11.2016;0;0;;
+Nikolaus;06.12.2016;0;0;;
+Heiligabend;24.12.2016;0;0;;
+Erster Weihnachtstag;25.12.2016;1;0;0;Sonntag
+Zweiter Weihnachtstag;26.12.2016;1;0;1;Montag
+Silvester;31.12.2016;0;0;;
+Neujahr;01.01.2017;1;0;0;Sonntag
+Heilige Drei Könige;06.01.2017;0;0;;
+Valentinstag;14.02.2017;0;0;;
+Altweiber;23.02.2017;0;0;;
+Rosenmontag;27.02.2017;0;0;;
+Veilchendienstag;28.02.2017;0;0;;
+Aschermittwoch;01.03.2017;0;0;;
+Grndonnerstag;13.04.2017;0;0;;
+Karfreitag;14.04.2017;1;0;;Freitag
+Ostersonntag;16.04.2017;1;0;;Sonntag
+Ostermontag;17.04.2017;1;0;;Montag
+Erster Mai;01.05.2017;1;0;1;Montag
+Himmelfahrt;25.05.2017;1;1;0;Donnerstag
+Pfingstsonntag;04.06.2017;1;0;;Sonntag
+Pfingstmontag;05.06.2017;1;0;;Montag
+Fronleichnam;15.06.2017;0;0;;
+Maria Himmelfahrt;15.08.2017;0;0;;
+Tag der Deutschen Einheit;03.10.2017;1;1;0;Dienstag
+Reformationstag;31.10.2017;1;1;0;Dienstag
+Allerheiligen;01.11.2017;0;0;;
+Volkstrauertag;19.11.2017;0;0;;
+Buá- und Bettag;22.11.2017;0;0;;
+Totensonntag;26.11.2017;0;0;;
+Nikolaus;06.12.2017;0;0;;
+Heiligabend;24.12.2017;0;0;;
+Erster Weihnachtstag;25.12.2017;1;0;1;Montag
+Zweiter Weihnachtstag;26.12.2017;1;0;1;Dienstag
+Silvester;31.12.2017;0;0;;
+Neujahr;01.01.2018;1;0;1;Montag
+Heilige Drei Könige;06.01.2018;0;0;;
+Altweiber;08.02.2018;0;0;;
+Rosenmontag;12.02.2018;0;0;;
+Veilchendienstag;13.02.2018;0;0;;
+Aschermittwoch;14.02.2018;0;0;;
+Valentinstag;14.02.2018;0;0;;
+Grndonnerstag;29.03.2018;0;0;;
+Karfreitag;30.03.2018;1;0;;Freitag
+Ostersonntag;01.04.2018;1;0;;Sonntag
+Ostermontag;02.04.2018;1;0;;Montag
+Erster Mai;01.05.2018;1;1;0;Dienstag
+Himmelfahrt;10.05.2018;1;1;0;Donnerstag
+Pfingstsonntag;20.05.2018;1;0;;Sonntag
+Pfingstmontag;21.05.2018;1;0;;Montag
+Fronleichnam;31.05.2018;0;0;;
+Maria Himmelfahrt;15.08.2018;0;0;;
+Tag der Deutschen Einheit;03.10.2018;1;0;0;Mittwoch
+Reformationstag;31.10.2018;1;0;0;Mittwoch
+Allerheiligen;01.11.2018;0;0;;
+Volkstrauertag;18.11.2018;0;0;;
+Buá- und Bettag;21.11.2018;0;0;;
+Totensonntag;25.11.2018;0;0;;
+Nikolaus;06.12.2018;0;0;;
+Heiligabend;24.12.2018;0;0;;
+Erster Weihnachtstag;25.12.2018;1;1;0;Dienstag
+Zweiter Weihnachtstag;26.12.2018;1;1;0;Mittwoch
+Silvester;31.12.2018;0;0;;
+Neujahr;01.01.2019;1;1;0;Dienstag
+Heilige Drei Könige;06.01.2019;0;0;;
+Valentinstag;14.02.2019;0;0;;
+Altweiber;28.02.2019;0;0;;
+Rosenmontag;04.03.2019;0;0;;
+Veilchendienstag;05.03.2019;0;0;;
+Aschermittwoch;06.03.2019;0;0;;
+Weltfrauentag;08.03.2019;0;0;;
+Grndonnerstag;18.04.2019;0;0;;
+Karfreitag;19.04.2019;1;0;;Freitag
+Ostersonntag;21.04.2019;1;0;;Sonntag
+Ostermontag;22.04.2019;1;0;;Montag
+Erster Mai;01.05.2019;1;0;0;Mittwoch
+Himmelfahrt;30.05.2019;1;1;0;Donnerstag
+Pfingstsonntag;09.06.2019;1;0;;Sonntag
+Pfingstmontag;10.06.2019;1;0;;Montag
+Fronleichnam;20.06.2019;0;0;;
+Maria Himmelfahrt;15.08.2019;0;0;;
+Tag der Deutschen Einheit;03.10.2019;1;1;0;Donnerstag
+Reformationstag;31.10.2019;1;1;0;Donnerstag
+Allerheiligen;01.11.2019;0;0;;
+Volkstrauertag;17.11.2019;0;0;;
+Buá- und Bettag;20.11.2019;0;0;;
+Totensonntag;24.11.2019;0;0;;
+Nikolaus;06.12.2019;0;0;;
+Heiligabend;24.12.2019;0;0;;
+Erster Weihnachtstag;25.12.2019;1;0;0;Mittwoch
+Zweiter Weihnachtstag;26.12.2019;1;1;0;Donnerstag
+Silvester;31.12.2019;0;0;;
+Neujahr;01.01.2020;1;0;0;Mittwoch
+Heilige Drei Könige;06.01.2020;0;0;;
+Valentinstag;14.02.2020;0;0;;
+Altweiber;20.02.2020;0;0;;
+Rosenmontag;24.02.2020;0;0;;
+Veilchendienstag;25.02.2020;0;0;;
+Aschermittwoch;26.02.2020;0;0;;
+Weltfrauentag;08.03.2020;0;0;;
+Grndonnerstag;09.04.2020;0;0;;
+Karfreitag;10.04.2020;1;0;;Freitag
+Ostersonntag;12.04.2020;1;0;;Sonntag
+Ostermontag;13.04.2020;1;0;;Montag
+Erster Mai;01.05.2020;1;0;1;Freitag
+Himmelfahrt;21.05.2020;1;1;0;Donnerstag
+Pfingstsonntag;31.05.2020;1;0;;Sonntag
+Pfingstmontag;01.06.2020;1;0;;Montag
+Fronleichnam;11.06.2020;0;0;;
+Maria Himmelfahrt;15.08.2020;0;0;;
+Tag der Deutschen Einheit;03.10.2020;1;0;0;Samstag
+Reformationstag;31.10.2020;1;0;0;Samstag
+Allerheiligen;01.11.2020;0;0;;
+Volkstrauertag;15.11.2020;0;0;;
+Buá- und Bettag;18.11.2020;0;0;;
+Totensonntag;22.11.2020;0;0;;
+Nikolaus;06.12.2020;0;0;;
+Heiligabend;24.12.2020;0;0;;
+Erster Weihnachtstag;25.12.2020;1;0;1;Freitag
+Zweiter Weihnachtstag;26.12.2020;1;0;0;Samstag
+Silvester;31.12.2020;0;0;;
+;;;;;
