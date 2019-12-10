@@ -1,0 +1,143 @@
+---
+title: "R Notebook"
+output: test, test, test
+---
+
+
+```{r}
+###load libraries###
+##
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+
+###load datasets###
+##
+umsatz <- read_csv("umsatzdaten_gekuerzt.csv")
+kiwo <- read_csv("kiwo.csv") 
+wetter <- read_csv("wetter.csv")
+
+###add weekdays and months to umsatz###
+###
+umsatz$wochentag <- weekdays(umsatz$Datum)
+umsatz$monat <- months(umsatz$Datum)
+
+###Wochentage und monate sortieren###
+##
+umsatz$wochentag <- factor(umsatz$wochentag, levels = c("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"))
+
+umsatz$monat <- factor(umsatz$monat, levels = c("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"))
+
+###join datasets "umsatz" and "kiwo"###
+##
+total <- left_join(umsatz, kiwo, by = "Datum")
+
+###replace na values in KielerWoche with 0###
+##
+total$KielerWoche[is.na(total$KielerWoche)] = 0
+
+###dataset wetter: drop column wettercode & join with dataset total###
+##
+wetter <- wetter[-5]
+total <- left_join(total, wetter, by = "Datum")
+```
+
+
+Umsatz pro Wochentag, alle Warengruppen
+```{r}
+###calculate mean and sd per weekday###
+##
+Umsatz_pro_Wochentag <- umsatz %>%
+  group_by(wochentag) %>%
+  summarise (n=n(), mean=mean(Umsatz), sd=sd(Umsatz)) %>%
+  mutate(se=sd/sqrt(n))  %>%
+  mutate(ic=se * qt((1-0.05)/2 + .5, n-1))
+
+###create barplot with errorbars###
+##
+ggplot(Umsatz_pro_Wochentag, aes(x=wochentag, y=mean))+
+  geom_bar(stat='identity', fill="hotpink") +
+  theme(axis.text.y = element_text(face = "bold", color = "blue", 
+                           size = 12))+
+  scale_y_continuous(labels = scales::comma) +
+geom_errorbar( aes(x=wochentag, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="blue", alpha=0.9, size=1.5) +
+  ggtitle("Alle Warengruppen")
+```
+
+Umsatz pro Monat, alle Warengruppen
+```{r}
+###calculate mean and sd per month###
+##
+Umsatz_pro_Monat <- umsatz %>%
+  group_by(monat) %>%
+  summarise (n=n(), mean=mean(Umsatz), sd=sd(Umsatz)) %>%
+  mutate(se=sd/sqrt(n))  %>%
+  mutate(ic=se * qt((1-0.05)/2 + .5, n-1))
+
+###create barplot with errorbars###
+##
+ggplot(Umsatz_pro_Monat, aes(x=monat, y=mean))+
+  geom_bar(stat='identity', fill="hotpink") +
+  theme(axis.text.y = element_text(face = "bold", color = "blue", 
+                           size = 12))+
+  theme(axis.text.x = element_text(face = "bold", color = "blue", size = 6)) + 
+  scale_y_continuous(labels = scales::comma) +
+geom_errorbar( aes(x=monat, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="blue", alpha=0.9, size=1.5) +
+  ggtitle("Alle Warengruppen")
+```
+
+Nach Warengruppe filtern, neue Variablen erstellen
+```{r}
+warengruppe1 <- total %>%
+  filter(Warengruppe == 1)
+warengruppe2 <- total %>%
+  filter(Warengruppe == 2)
+warengruppe3 <- total %>%
+  filter(Warengruppe == 3)
+warengruppe4 <- total %>%
+  filter(Warengruppe == 4)
+warengruppe5 <- total %>%
+  filter(Warengruppe == 5)
+warengruppe6 <- total %>%
+  filter(Warengruppe == 6)
+```
+
+
+Umsatz pro Monat, Warengruppe 6
+```{r}
+warengruppe6 %>% 
+  group_by(monat) %>%
+  summarise (n=n(), mean=mean(Umsatz), sd=sd(Umsatz)) %>%
+  mutate(se=sd/sqrt(n))  %>%
+  mutate(ic=se * qt((1-0.05)/2 + .5, n-1)) %>%
+  ggplot(aes(x=monat, y=mean))+
+  geom_bar(stat='identity', fill="hotpink") +
+  theme(axis.text.y = element_text(face = "bold", color = "blue", 
+                           size = 12))+
+  theme(axis.text.x = element_text(face = "bold", color = "blue", size = 6)) + 
+  scale_y_continuous(labels = scales::comma) +
+geom_errorbar( aes(x=monat, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="blue", alpha=0.9, size=1.5) +
+  ggtitle("Warengruppe 6") %>%
+  print()
+```
+
+Umsatz pro Monat, Warengruppe 1
+```{r}
+warengruppe1 %>% 
+  group_by(monat) %>%
+  summarise (n=n(), mean=mean(Umsatz), sd=sd(Umsatz)) %>%
+  mutate(se=sd/sqrt(n))  %>%
+  mutate(ic=se * qt((1-0.05)/2 + .5, n-1)) %>%
+  ggplot(aes(x=monat, y=mean))+
+  geom_bar(stat='identity', fill="hotpink") +
+  theme(axis.text.y = element_text(face = "bold", color = "blue", 
+                           size = 12))+
+  theme(axis.text.x = element_text(face = "bold", color = "blue", size = 6)) + 
+  scale_y_continuous(labels = scales::comma) +
+geom_errorbar( aes(x=monat, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="blue", alpha=0.9, size=1.5) +
+  ggtitle("Warengruppe 1") %>%
+  print()
+```
+
