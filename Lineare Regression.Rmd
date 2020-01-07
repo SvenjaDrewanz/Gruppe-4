@@ -1,0 +1,9 @@
+---
+title: "Lineare Regression, 070120"
+output: html_notebook
+---
+
+```{r}
+
+```
+
