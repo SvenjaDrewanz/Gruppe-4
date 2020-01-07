@@ -4,7 +4,7 @@ output: html_notebook
 ---
 
 ```{r}
-lm_result<-lm( data=total,Umsatz~wochentag+monat+KielerWoche+Temperatur)
+lm_result<-lm( data=total,Umsatz~wochentag+monat+KielerWoche+Temperatur+Windgeschwindigkeit)
 summary(lm_result)
 ```
 
