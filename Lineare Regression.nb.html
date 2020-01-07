@@ -245,52 +245,41 @@ $(document).ready(function () {
 <pre class="r"><code>summary(lm_result)
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFVtc2F0eiB+IHdvY2hlbnRhZyArIG1vbmF0ICsgS2llbGVyV29jaGUgKyBUZW1wZXJhdHVyICsgXG4gICAgV2luZGdlc2Nod2luZGlna2VpdCwgZGF0YSA9IHRvdGFsKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMjcyLjkzICAtOTEuMzEgIC0zNy45MSAgIDc5LjY4IDE3MjYuOTEgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciB0IHZhbHVlIFByKD58dHwpICAgIFxuKEludGVyY2VwdCkgICAgICAgICAxNTIuMjc3NyAgICAgNi42MzMxICAyMi45NTcgIDwgMmUtMTYgKioqXG53b2NoZW50YWdEaWVuc3RhZyAgICAtNi42MzU5ICAgICA0Ljg3MzMgIC0xLjM2MiAwLjE3MzMyNiAgICBcbndvY2hlbnRhZ01pdHR3b2NoICAgIC03LjUwNDAgICAgIDQuODg4MCAgLTEuNTM1IDAuMTI0NzYzICAgIFxud29jaGVudGFnRG9ubmVyc3RhZyAgLTAuMTAyNCAgICAgNC44Nzc2ICAtMC4wMjEgMC45ODMyNTAgICAgXG53b2NoZW50YWdGcmVpdGFnICAgICAgMi4xNDM4ICAgICA0Ljg4ODAgICAwLjQzOSAwLjY2MDk3NyAgICBcbndvY2hlbnRhZ1NhbXN0YWcgICAgIDQ2LjUzMzIgICAgIDQuODg4MSAgIDkuNTIwICA8IDJlLTE2ICoqKlxud29jaGVudGFnU29ubnRhZyAgICAgNTIuMzcyOCAgICAgNC44ODc0ICAxMC43MTYgIDwgMmUtMTYgKioqXG5tb25hdEZlYnJ1YXIgICAgICAgICAxNS4zNjU0ICAgICA2LjUxMDggICAyLjM2MCAwLjAxODI5NCAqICBcbm1vbmF0TcOkcnogICAgICAgICAgICAgOS42NjE4ICAgICA2LjYwMjIgICAxLjQ2MyAwLjE0MzM4MSAgICBcbm1vbmF0QXByaWwgICAgICAgICAgIDIzLjM5NzEgICAgIDcuMjAyOCAgIDMuMjQ4IDAuMDAxMTY0ICoqIFxubW9uYXRNYWkgICAgICAgICAgICAgMjkuMzEwNCAgICAgOC4wODIwICAgMy42MjcgMC4wMDAyODggKioqXG5tb25hdEp1bmkgICAgICAgICAgICAyOS43Mzg5ICAgICA5LjY0NTQgICAzLjA4MyAwLjAwMjA1MyAqKiBcbm1vbmF0SnVsaSAgICAgICAgICAgIDgyLjg5MDIgICAgIDkuNTI0OCAgIDguNzAzICA8IDJlLTE2ICoqKlxubW9uYXRBdWd1c3QgICAgICAgICAgOTkuNDU2NiAgICAgOS4yNDcyICAxMC43NTUgIDwgMmUtMTYgKioqXG5tb25hdFNlcHRlbWJlciAgICAgICAzMC4zMTg1ICAgICA4LjQ4NTAgICAzLjU3MyAwLjAwMDM1NCAqKipcbm1vbmF0T2t0b2JlciAgICAgICAgIDMwLjk2MDggICAgIDcuNDU0NCAgIDQuMTUzICAzLjNlLTA1ICoqKlxubW9uYXROb3ZlbWJlciAgICAgICAtMTkuNjkwNyAgICAgNi4zODg4ICAtMy4wODIgMC4wMDIwNjEgKiogXG5tb25hdERlemVtYmVyICAgICAgICAtMi40NDI2ICAgICA2LjMwOTggIC0wLjM4NyAwLjY5ODY3NyAgICBcbktpZWxlcldvY2hlICAgICAgICAgIDM2LjcyMzUgICAgMTAuODYyMyAgIDMuMzgxIDAuMDAwNzI1ICoqKlxuVGVtcGVyYXR1ciAgICAgICAgICAgIDAuOTgyOSAgICAgMC4zODA2ICAgMi41ODIgMC4wMDk4MzEgKiogXG5XaW5kZ2VzY2h3aW5kaWdrZWl0ICAgMC4yNzA1ICAgICAwLjMyMjQgICAwLjgzOSAwLjQwMTUwMSAgICBcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogMTM1LjUgb24gMTA3NjcgZGVncmVlcyBvZiBmcmVlZG9tXG4gICg4MSBvYnNlcnZhdGlvbnMgZGVsZXRlZCBkdWUgdG8gbWlzc2luZ25lc3MpXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjEwMjgsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjEwMTEgXG5GLXN0YXRpc3RpYzogNjEuNjkgb24gMjAgYW5kIDEwNzY3IERGLCAgcC12YWx1ZTogPCAyLjJlLTE2XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFVtc2F0eiB+IHdvY2hlbnRhZyArIEtpZWxlcldvY2hlICsgVGVtcGVyYXR1ciArIFxuICAgIFdpbmRnZXNjaHdpbmRpZ2tlaXQsIGRhdGEgPSB0b3RhbClcblxuUmVzaWR1YWxzOlxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTI2NC41NiAgLTk1LjU1ICAtMzkuMjQgICA4Mi4wOCAxNzIwLjQ1IFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpICAgICAgICAgMTM1LjQ2ODggICAgIDUuNDMwNyAgMjQuOTQ1ICAgPDJlLTE2ICoqKlxud29jaGVudGFnRGllbnN0YWcgICAgLTcuMDIyNiAgICAgNC45Mzc5ICAtMS40MjIgICAwLjE1NTAgICAgXG53b2NoZW50YWdNaXR0d29jaCAgICAtNy43OTU2ICAgICA0Ljk1MjQgIC0xLjU3NCAgIDAuMTE1NSAgICBcbndvY2hlbnRhZ0Rvbm5lcnN0YWcgIC0wLjY5NDkgICAgIDQuOTQxOCAgLTAuMTQxICAgMC44ODgyICAgIFxud29jaGVudGFnRnJlaXRhZyAgICAgIDEuNjE3NSAgICAgNC45NTIyICAgMC4zMjcgICAwLjc0NDAgICAgXG53b2NoZW50YWdTYW1zdGFnICAgICA0Ny4zOTg5ICAgICA0Ljk1MTUgICA5LjU3MyAgIDwyZS0xNiAqKipcbndvY2hlbnRhZ1Nvbm50YWcgICAgIDUxLjk3MDkgICAgIDQuOTUwNSAgMTAuNDk4ICAgPDJlLTE2ICoqKlxuS2llbGVyV29jaGUgICAgICAgICAgMTYuNTcxNiAgICAgOS4zOTE1ICAgMS43NjUgICAwLjA3NzcgLiAgXG5UZW1wZXJhdHVyICAgICAgICAgICAgNC40MTA2ICAgICAwLjE4NjcgIDIzLjYyMiAgIDwyZS0xNiAqKipcbldpbmRnZXNjaHdpbmRpZ2tlaXQgICAwLjU4ODkgICAgIDAuMzE5NCAgIDEuODQ0ICAgMC4wNjUyIC4gIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cblJlc2lkdWFsIHN0YW5kYXJkIGVycm9yOiAxMzcuMyBvbiAxMDc3OCBkZWdyZWVzIG9mIGZyZWVkb21cbiAgKDgxIG9ic2VydmF0aW9ucyBkZWxldGVkIGR1ZSB0byBtaXNzaW5nbmVzcylcbk11bHRpcGxlIFItc3F1YXJlZDogIDAuMDc3ODEsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjA3NzA0IFxuRi1zdGF0aXN0aWM6ICAgMTAxIG9uIDkgYW5kIDEwNzc4IERGLCAgcC12YWx1ZTogPCAyLjJlLTE2XG4ifQ== -->
 <pre><code>
 Call:
-lm(formula = Umsatz ~ wochentag + monat + KielerWoche + Temperatur + 
+lm(formula = Umsatz ~ wochentag + KielerWoche + Temperatur + 
     Windgeschwindigkeit, data = total)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--272.93  -91.31  -37.91   79.68 1726.91 
+-264.56  -95.55  -39.24   82.08 1720.45 
 
 Coefficients:
                     Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)         152.2777     6.6331  22.957  &lt; 2e-16 ***
-wochentagDienstag    -6.6359     4.8733  -1.362 0.173326    
-wochentagMittwoch    -7.5040     4.8880  -1.535 0.124763    
-wochentagDonnerstag  -0.1024     4.8776  -0.021 0.983250    
-wochentagFreitag      2.1438     4.8880   0.439 0.660977    
-wochentagSamstag     46.5332     4.8881   9.520  &lt; 2e-16 ***
-wochentagSonntag     52.3728     4.8874  10.716  &lt; 2e-16 ***
-monatFebruar         15.3654     6.5108   2.360 0.018294 *  
-monatMärz             9.6618     6.6022   1.463 0.143381    
-monatApril           23.3971     7.2028   3.248 0.001164 ** 
-monatMai             29.3104     8.0820   3.627 0.000288 ***
-monatJuni            29.7389     9.6454   3.083 0.002053 ** 
-monatJuli            82.8902     9.5248   8.703  &lt; 2e-16 ***
-monatAugust          99.4566     9.2472  10.755  &lt; 2e-16 ***
-monatSeptember       30.3185     8.4850   3.573 0.000354 ***
-monatOktober         30.9608     7.4544   4.153  3.3e-05 ***
-monatNovember       -19.6907     6.3888  -3.082 0.002061 ** 
-monatDezember        -2.4426     6.3098  -0.387 0.698677    
-KielerWoche          36.7235    10.8623   3.381 0.000725 ***
-Temperatur            0.9829     0.3806   2.582 0.009831 ** 
-Windgeschwindigkeit   0.2705     0.3224   0.839 0.401501    
+(Intercept)         135.4688     5.4307  24.945   &lt;2e-16 ***
+wochentagDienstag    -7.0226     4.9379  -1.422   0.1550    
+wochentagMittwoch    -7.7956     4.9524  -1.574   0.1155    
+wochentagDonnerstag  -0.6949     4.9418  -0.141   0.8882    
+wochentagFreitag      1.6175     4.9522   0.327   0.7440    
+wochentagSamstag     47.3989     4.9515   9.573   &lt;2e-16 ***
+wochentagSonntag     51.9709     4.9505  10.498   &lt;2e-16 ***
+KielerWoche          16.5716     9.3915   1.765   0.0777 .  
+Temperatur            4.4106     0.1867  23.622   &lt;2e-16 ***
+Windgeschwindigkeit   0.5889     0.3194   1.844   0.0652 .  
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 135.5 on 10767 degrees of freedom
+Residual standard error: 137.3 on 10778 degrees of freedom
   (81 observations deleted due to missingness)
-Multiple R-squared:  0.1028,    Adjusted R-squared:  0.1011 
-F-statistic: 61.69 on 20 and 10767 DF,  p-value: &lt; 2.2e-16</code></pre>
+Multiple R-squared:  0.07781,   Adjusted R-squared:  0.07704 
+F-statistic:   101 on 9 and 10778 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkxpbmVhcmUgUmVncmVzc2lvbiwgMDcwMTIwIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KYGBge3J9DQpsbV9yZXN1bHQ8LWxtKCBkYXRhPXRvdGFsLFVtc2F0en53b2NoZW50YWcrbW9uYXQrS2llbGVyV29jaGUrVGVtcGVyYXR1citXaW5kZ2VzY2h3aW5kaWdrZWl0KQ0Kc3VtbWFyeShsbV9yZXN1bHQpDQpgYGANCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkxpbmVhcmUgUmVncmVzc2lvbiwgMDcwMTIwIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KYGBge3J9DQpsbV9yZXN1bHQ8LWxtKCBkYXRhPXRvdGFsLFVtc2F0en53b2NoZW50YWcrS2llbGVyV29jaGUrVGVtcGVyYXR1citXaW5kZ2VzY2h3aW5kaWdrZWl0KQ0Kc3VtbWFyeShsbV9yZXN1bHQpDQoNCmxtX3Jlc3VsdDI8LWxtKCBkYXRhPXRvdGFsLFVtc2F0en53b2NoZW50YWcrbW9uYXQrS2llbGVyV29jaGUrVGVtcGVyYXR1citXaW5kZ2VzY2h3aW5kaWdrZWl0KQ0Kc3VtbWFyeShsbV9yZXN1bHQyKQ0KDQpgYGANCg0K</div>
 
 
 
