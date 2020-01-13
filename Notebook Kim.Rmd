@@ -1,0 +1,72 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Load required packages
+```{r}
+library(readr)
+library(dplyr)
+library(tidyr)
+library(readxl)
+library(lubridate)
+```
+
+Load and join datasets: umsatzdaten, kiwo & wetter
+```{r}
+###load datasets and assign to variables###
+##
+umsatz <- read_csv("umsatzdaten_gekuerzt.csv")
+kiwo <- read_csv("kiwo.csv") 
+wetter <- read_csv("wetter.csv")
+
+###add weekdays and months to umsatz###
+###
+umsatz$wochentag <- weekdays(umsatz$Datum)
+umsatz$monat <- months(umsatz$Datum)
+
+###arrange weekdays and months###
+##
+umsatz$wochentag <- factor(umsatz$wochentag, levels = c("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"))
+
+umsatz$monat <- factor(umsatz$monat, levels = c("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"))
+
+###join datasets "umsatz" and "kiwo" and assign to variable "gesamt"###
+##
+gesamt <- left_join(umsatz, kiwo, by = "Datum")
+gesamt <- left_join(gesamt, wetter, by = "Datum")
+
+###replace na values in KielerWoche with 0###
+##
+gesamt$KielerWoche[is.na(gesamt$KielerWoche)] = 0
+
+```
+
+Load and join datasets Tourismus, Semesterferien & Weihnachtsmarkt
+```{r}
+###load datasets and assign to variables###
+##
+tourismus <- read_xlsx("Tourismus.xlsx")
+semesterferien <- read_xlsx("Mappe_CAU_Semesterferien.xlsx")
+weihnachtsmarkt <- read_xlsx("Weihnachtsmarkt.xlsx")
+
+###change date format for all datasets###
+##
+tourismus <- tourismus %>% mutate(Datum = as.Date(tourismus$Datum)) 
+
+semesterferien <- semesterferien %>% mutate(Datum = as.Date(semesterferien$Datum))
+
+weihnachtsmarkt <- weihnachtsmarkt %>% mutate(Datum = as.Date(weihnachtsmarkt$Datum))
+
+###join with gesamt###
+##
+gesamt <- left_join(gesamt, tourismus, by="Datum")
+gesamt <- left_join(gesamt, semesterferien, by="Datum")
+gesamt <- left_join(gesamt, weihnachtsmarkt, by="Datum")
+```
+
+
+```{r}
+
+```
+
