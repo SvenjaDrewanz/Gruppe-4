@@ -91,14 +91,76 @@ total <- left_join(total, Feiertage, by = "Datum")
 head(total)
 #Regression funktioniert noch nicht mit Feiertagen
 #Einzelne Feiertage haben ergeben,dass Heiligabend signifikant ist
+tourismus <- read_xlsx("Tourismus.xlsx")
+total <- left_join(total, tourismus, by = "Datum")
+head(total)
+library(readxl)
+weihnachtsmarkt <- read_excel("Weihnachtsmarkt.xlsx", 
+    col_types = c("date", "numeric"))
+total <- left_join(total, weihnachtsmarkt, by="Datum")
+wahlen <- read_excel("Wahlen.xlsx", col_types = c("date", 
+    "numeric", "text"))
+total <- left_join(total, wahlen, by="Datum")
+zeitumstellung <- read_excel("Zeitumstellung.xlsx", 
+    col_types = c("date", "numeric", "text"))
+total <- left_join(total, zeitumstellung, by="Datum")
+
+jahreszeiten <- read_excel("Meteorologische Jahreszeiten.xlsx", 
+    col_types = c("date", "numeric", "numeric", 
+        "numeric", "numeric"))
+total <- left_join(total, jahreszeiten, by="Datum")
+schulferien <- read_excel("Schulferien_Spalten_getrennt.xlsx", 
+    col_types = c("date", "numeric"))
+total <- left_join(total, schulferien, by="Datum")
+diwo <- read_excel("Digitale_Woche.xlsx", 
+    col_types = c("date", "numeric"))
+total <- left_join(total, diwo, by="Datum")
 
 
+names(total)[names(total) == 'Wärmer_als_normal'] <- 'Waermer_als_normal'
+names(total)[names(total) == 'Kälter_als_normal'] <- 'Kaelter_als_normal'
+names(total)[names(total) == 'Ankünfte'] <- 'Ankuenfte'
+names(total)[names(total) == 'Übernachtungen'] <- 'Uebernachtungen'
+names(total)[names(total) == 'Übernachtungen gesamt'] <- 'Uebernachtungen_gesamt'
+names(total)[names(total) == 'Ankünfte gesamt'] <- 'Ankuenfte_gesamt'
+names(total)[names(total) == 'Kommentar.x'] <- 'Kommentar'
+names(total)[names(total) == 'Wahl.x'] <- 'Wahl'
+names(total)[names(total) == 'Jahreszeit.x'] <- 'Jahreszeit'
+names(total)[names(total) == 'Kommentar.y'] <- 'Kommentar_Zeitumstellung'
+names(total)[names(total) == 'Frühling'] <- 'Fruehling'
+names(total)[names(total) == 'Wahl.y'] <- 'Wahl'
+names(total)[names(total) == 'Digitale Woche'] <- 'Digitale_Woche'
 
+lm_result1<-lm( data=total,Umsatz~wochentag+monat+KielerWoche+Temperatur+Bewoelkung+
+                  Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz
+                +Waermer_als_normal+Kaelter_als_normal+Semesterferien+Arbeitslose+Ankuenfte
+                +Ankuenfte_gesamt+Uebernachtungen+Uebernachtungen_gesamt
+                +Jahreszeit+Fruehling+Sommer+Herbst+Winter)
 
-lm_result2<-lm( data=total,Umsatz~wochentag+monat+KielerWoche+Temperatur+Windgeschwindigkeit+
-                  Durchschnittstemperatur+Tagestemperatur+Differenz+Semesterferien+Arbeitslose+
-                  Brueckentag)
-summary(lm_result2)
+summary(lm_result1)
+library(e1071)
+#+KielerWoche
+svm_lm1<-svm(Umsatz~wochentag+monat+Temperatur+Bewoelkung+
+                  Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz
+                +Waermer_als_normal+Kaelter_als_normal+Semesterferien+Arbeitslose+Ankuenfte
+                +Ankuenfte_gesamt+Uebernachtungen+Uebernachtungen_gesamt
+                +Jahreszeit+Fruehling+Sommer+Herbst+Winter,data=total)
+summary(svm_lm1)
+svm_tune<- tune(svm, Umsatz~wochentag+monat+Temperatur+Bewoelkung+
+                  Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz
+                +Waermer_als_normal+Kaelter_als_normal+Semesterferien+Arbeitslose+Ankuenfte
+                +Ankuenfte_gesamt+Uebernachtungen+Uebernachtungen_gesamt
+                +Jahreszeit+Fruehling+Sommer+Herbst+Winter,data=total,
+                ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
+summary(svm_tune)
+#alle Variablen:
+#Umsatz~wochentag+monat+KielerWoche+Temperatur+Bewoelkung+
+#                  Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz+
+#                 Waermer_als_normal+Kaelter_als_normal+Semesterferien+Arbeitslose+Ankuenfte+
+#                  Ankuenfte_gesamt+Uebernachtungen+Uebernachtungen_gesamt+
+#                  Weihnachtsmarkt+Wahl+Jahreszeit+Fruehling+Sommer+Herbst+Winter+
+#                  Schulferien)
+
 
 
 ```
