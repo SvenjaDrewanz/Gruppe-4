@@ -10,5 +10,12 @@ summary(lm_result)
 lm_result2<-lm( data=total,Umsatz~wochentag+monat+KielerWoche+Temperatur+Windgeschwindigkeit)
 summary(lm_result2)
 
+#Fehlerberechnung nach linearer Regression
+#errors=forecasts-actual
+#mse=np.square(errors).mean()
+#rmse=np.sqrt(mse)
+#mae=np.abs(error).mean()
+#mape=np.abs(errors/x_valid).mean()  <--mean absolute percentage error
+
 ```
 
