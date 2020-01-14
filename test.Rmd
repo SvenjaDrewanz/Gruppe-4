@@ -18,6 +18,7 @@ library(tidyr)
 umsatz <- read_csv("umsatzdaten_gekuerzt.csv")
 kiwo <- read_csv("kiwo.csv") 
 wetter <- read_csv("wetter.csv")
+Date <- read_delim("Date.csv", ";", escape_double = FALSE,trim_ws = TRUE)
 
 ###add weekdays and months to umsatz###
 ###
@@ -42,6 +43,8 @@ total$KielerWoche[is.na(total$KielerWoche)] = 0
 ##
 wetter <- wetter[-5]
 total <- left_join(total, wetter, by = "Datum")
+
+
 ```
 
 
