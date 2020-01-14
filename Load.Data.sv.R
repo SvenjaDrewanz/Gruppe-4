@@ -33,6 +33,7 @@ Holidays_germany_DT <- read.table("Feiertage.csv", sep = ";", header = TRUE)
 Unemployed_DT <- read.table("Arbeitslosigkeit_nach_Datum.csv", sep = ";", header = TRUE)
 Population_DT <- read.xlsx("Population_Kiel.xlsx", sheetIndex = 1)
 
+
 mod1 <- lm(price~bathrooms, house_pricing_train)
 summary(mod1)
 glance(mod1)
