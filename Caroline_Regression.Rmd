@@ -1,0 +1,110 @@
+---
+title: "Caroline Regression"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+
+###load libraries###
+##
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+
+###load datasets###
+##
+umsatz <- read_csv("umsatzdaten_gekuerzt.csv")
+kiwo <- read_csv("kiwo.csv") 
+
+wetter <- read_csv("wetter.csv")
+
+#temp_diff<-Temperaturdifferenz_und_Durchschnitt
+#temp_diff<-as.Date(as.character(as.POSIXct("2013-07-01:2019-05-31")))
+#temp_diff<-as.data.frame(temp_diff)
+library(readxl)
+Temperaturdifferenz_und_Durchschnitt <- read_excel("Temperaturdifferenz_und_Durchschnitt.xlsx", 
+    sheet = "Temperaturdifferenz_und_Durchsc", 
+    col_types = c("date", "numeric", "numeric", 
+        "numeric", "numeric", "numeric"))
+temp_diff<-Temperaturdifferenz_und_Durchschnitt
+head(temp_diff)
+total$Datum<-as.POSIXct.Date(total$Datum)
+class(total$Datum)
+
+###add weekdays and months to umsatz###
+###
+umsatz$wochentag <- weekdays(umsatz$Datum)
+umsatz$monat <- months(umsatz$Datum)
+
+###Wochentage und monate sortieren###
+##
+umsatz$wochentag <- factor(umsatz$wochentag, levels = c("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"))
+
+umsatz$monat <- factor(umsatz$monat, levels = c("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"))
+
+###join datasets "umsatz" and "kiwo"###
+##
+total <- left_join(umsatz, kiwo, by = "Datum")
+
+###replace na values in KielerWoche with 0###
+##
+total$KielerWoche[is.na(total$KielerWoche)] = 0
+
+###dataset wetter: drop column wettercode & join with dataset total###
+##
+wetter <- wetter[-5]
+total <- left_join(total, wetter, by = "Datum")
+names(total)
+#Tabelle Temperaturdifferenzen hinzufügen
+#total<-(total, temp_diff, by = "Datum")
+total$Datum<-as.POSIXct.Date(total$Datum)
+total <- left_join(total, temp_diff, by = "Datum")
+head(total)
+
+#Semesterferien einfügen
+semesterferien <- read_excel("Mappe_CAU Semesterferien.xlsx")
+head(semesterferien)
+total <- left_join(total, semesterferien, by = "Datum")
+head(total)
+
+#Arbeitslosigkeit einfügen
+Arbeitslosigkeit<- read_delim("Arbeitslosigkeit nach Datum.csv", 
+    ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
+    trim_ws = TRUE)
+View(Arbeitslosigkeit)
+Arbeitslosigkeit$Datum<-as.POSIXct.Date(Arbeitslosigkeit$Datum)
+total <- left_join(total, Arbeitslosigkeit, by = "Datum")
+head(total)
+
+#Feiertage einfügen
+Feiertage <- read_delim("Feiertage.csv", 
+    ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
+    trim_ws = TRUE)
+Feiertage$Datum<-as.POSIXct.Date(Feiertage$Datum)
+total <- left_join(total, Feiertage, by = "Datum")
+head(total)
+#Regression funktioniert noch nicht mit Feiertagen
+#Einzelne Feiertage haben ergeben,dass Heiligabend signifikant ist
+
+
+
+
+lm_result2<-lm( data=total,Umsatz~wochentag+monat+KielerWoche+Temperatur+Windgeschwindigkeit+
+                  Durchschnittstemperatur+Tagestemperatur+Differenz+Semesterferien+Arbeitslose+
+                  Brueckentag)
+summary(lm_result2)
+
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
