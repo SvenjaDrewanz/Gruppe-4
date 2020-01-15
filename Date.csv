@@ -1,4 +1,4 @@
-Datum;Year;Week in Year;Day of Year;Day of Month;Weekday
+Datum;Year;Week_in_year;Day_of_year;Day_of_month;Weekday
 02.01.2012;2012;1;2;2;2
 03.01.2012;2012;1;3;3;3
 04.01.2012;2012;1;4;4;4
