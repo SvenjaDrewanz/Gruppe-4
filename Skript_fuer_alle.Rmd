@@ -163,7 +163,10 @@ total$Uebernachtungen[is.na(total$Uebernachtungen)] = 0
 total$Wahl[is.na(total$Wahl)] = 0
 total$Weihnachtsmarkt[is.na(total$Weihnachtsmarkt)] = 0
 
-
+###delete columns###
+##
+total <- total[,-c(23, 25, 38, 40, 42, 45)]
+    
 #Lineare Regression:
 #+Wochentag (funktioniert, ist aber dasselbe wie Weekday)
 
