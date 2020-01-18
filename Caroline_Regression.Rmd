@@ -21,9 +21,9 @@ library(tidyr)
 ##
 umsatz <- read_csv("umsatzdaten_gekuerzt.csv")
 kiwo <- read_csv("kiwo.csv") 
-
-wetter <- read_csv("wetter.csv")
-
+wetter <- read_delim("Wetter_Trennzeichen geaendert.csv", 
+    ";", escape_double = FALSE, col_types = cols_only(`Datum;Bewoelkung;Temperatur;Windgeschwindigkeit;Wettercode` = col_guess()), 
+    trim_ws = TRUE)
 #temp_diff<-Temperaturdifferenz_und_Durchschnitt
 #temp_diff<-as.Date(as.character(as.POSIXct("2013-07-01:2019-05-31")))
 #temp_diff<-as.data.frame(temp_diff)
@@ -131,6 +131,8 @@ names(total)[names(total) == 'Frühling'] <- 'Fruehling'
 names(total)[names(total) == 'Wahl.y'] <- 'Wahl'
 names(total)[names(total) == 'Digitale Woche'] <- 'Digitale_Woche'
 
+
+
 lm_result1<-lm( data=total,Umsatz~wochentag+monat+KielerWoche+Temperatur+Bewoelkung+
                   Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz
                 +Waermer_als_normal+Kaelter_als_normal+Semesterferien+Arbeitslose+Ankuenfte
@@ -146,13 +148,16 @@ svm_lm1<-svm(Umsatz~wochentag+monat+Temperatur+Bewoelkung+
                 +Ankuenfte_gesamt+Uebernachtungen+Uebernachtungen_gesamt
                 +Jahreszeit+Fruehling+Sommer+Herbst+Winter,data=total)
 summary(svm_lm1)
+
+
+
 svm_tune<- tune(svm, Umsatz~wochentag+monat+Temperatur+Bewoelkung+
                   Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz
                 +Waermer_als_normal+Kaelter_als_normal+Semesterferien+Arbeitslose+Ankuenfte
                 +Ankuenfte_gesamt+Uebernachtungen+Uebernachtungen_gesamt
                 +Jahreszeit+Fruehling+Sommer+Herbst+Winter,data=total,
                 ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
-summary(svm_tune)
+summary(svm_tune$best.model)
 #alle Variablen:
 #Umsatz~wochentag+monat+KielerWoche+Temperatur+Bewoelkung+
 #                  Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz+
