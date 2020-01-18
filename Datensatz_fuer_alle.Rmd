@@ -164,6 +164,7 @@ total$Langes_Wochenende[is.na(total$Langes_Wochenende)] = 0
 ###delete columns###
 ##
 total <- total[,-c(23, 25, 38, 40, 42, 45)]
+total <- total[-17]
 
 ### Datentypenn ändern:
 total <- total %>% mutate(Temperatur = as.numeric(total$Temperatur))
@@ -178,7 +179,6 @@ total <- total %>% mutate(Year = as.factor(total$Year))
 total <- total %>% mutate(Day_of_year = as.factor(total$Day_of_year))
 total <- total %>% mutate(Week_in_year = as.factor(total$Week_in_year))
 total <- total %>% mutate(Day_of_month = as.factor(total$Day_of_month))
-total <- total %>% mutate(Weekday = as.factor(total$Weekday))
 total <- total %>% mutate(Digitale_Woche = as.factor(total$Digitale_Woche))
 total <- total %>% mutate(Feiertagsart = as.factor(total$Feiertagsart))
 total <- total %>% mutate(Gesetzl_Feiertag = as.factor(total$Gesetzl_Feiertag))
