@@ -1,0 +1,84 @@
+---
+title: "Linear Regresssion"
+output: html_notebook
+---
+
+
+```{r}
+###load libraries###
+##
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+library(readxl)
+
+    
+##Lineare Regression:
+#+Wochentag (funktioniert, ist aber dasselbe wie Weekday)
+
+lm_total<-lm(data=total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+
+               Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+
+               Week_in_year+Day_of_year+Day_of_month+Weekday+Digitale_Woche+
+               Gesetzl_Feiertag+Brueckentag+Langes_Wochenende+Wochentag+Neue_Jahreszeit+
+               Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+               Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+               Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+
+               Sommerzeit)
+
+lm_total_chunk<-lm(data=total,Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
+                     Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
+                     Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
+                     Langes_Wochenende+Semesterferien+Digitale_Woche+Neue_Jahreszeit+
+                     Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+                     Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+                     Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+                     ) #Temperatur rausgenommen, da nicht funktional
+summary(lm_total_chunk) #14,88% Erklärungswert bei signifikantem p-value, aber lauter NA's
+
+
+#Support Vector Machine:
+library(e1071)
+
+svm_total<-svm(Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
+                     Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
+                     Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
+                     Langes_Wochenende+Semesterferien+Digitale_Woche+Neue_Jahreszeit+
+                     Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+                     Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+                     Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+               ,data=total)
+summary(svm_total) #kann viele Variablen nicht skalieren, gibt aber Output
+
+#funktionierte mal, enthält aber nicht alle Variablen:
+#svm_lm1<-svm(Umsatz~wochentag+monat+Temperatur+Bewoelkung+
+#                  Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz
+#                +Waermer_als_normal+Kaelter_als_normal+Semesterferien+Arbeitslose+Ankuenfte
+#                +Ankuenfte_gesamt+Uebernachtungen+Uebernachtungen_gesamt
+#                +Jahreszeit+Fruehling+Sommer+Herbst+Winter,data=total)
+#summary(svm_lm1)
+
+
+#SVM Tuning
+svm_tune<- tune(svm, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
+                     Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
+                     Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
+                     Langes_Wochenende+Semesterferien+Digitale_Woche+Neue_Jahreszeit+
+                     Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+                     Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+                     Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+                ,data=total,
+                ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
+summary(svm_tune$best.model)
+
+
+#select training sample
+total_frac1<-sample_frac(total, .10)
+head(total_frac1)
+
+pred_train<-predict(svm_tune$best.model, total_frac1)
+
+```
+
+
