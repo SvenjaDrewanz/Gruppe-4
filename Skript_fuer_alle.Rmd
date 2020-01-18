@@ -135,21 +135,11 @@ total$Kieler_Woche[is.na(total$Kieler_Woche)] = 0
 
 ###dataset wetter: drop column wettercode & join with dataset total###
 ##wetter <- wetter[-5]
-```{r}
 
 names(total)
 names(total)[names(total) == 'Brueckentag '] <- 'Brueckentag'
 names(total)[names(total) == 'Langes_Wochenende '] <- 'Langes_Wochenende'
 names(total)[names(total) == 'Differenz_zum Mittel'] <- 'Differenz_zum_Mittel'
-
-lm_total<-lm(data=total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+
-               Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+
-               Week_in_year+Day_of_year+Day_of_month+Weekday+Digitale_Woche+
-               Gesetzl_Feiertag+Brueckentag+Langes_Wochenende+Wochentag+Neue_Jahreszeit+
-               Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
-               Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
-               Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+
-               Sommerzeit)
 
 #+Digitale_Woche+Neue_Jahreszeit+Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel
 #+Schulferien+Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal
@@ -176,6 +166,16 @@ total$Weihnachtsmarkt[is.na(total$Weihnachtsmarkt)] = 0
 
 #Lineare Regression:
 #+Wochentag (funktioniert, ist aber dasselbe wie Weekday)
+
+lm_total<-lm(data=total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+
+               Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+
+               Week_in_year+Day_of_year+Day_of_month+Weekday+Digitale_Woche+
+               Gesetzl_Feiertag+Brueckentag+Langes_Wochenende+Wochentag+Neue_Jahreszeit+
+               Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+               Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+               Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+
+               Sommerzeit)
+
 lm_total_chunk<-lm(data=total,Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
                      Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
                      Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
