@@ -201,7 +201,7 @@ total <- total %>% mutate(Schulferien = as.factor(total$Schulferien))
 total <- total %>% mutate(Sommerzeit = as.factor(total$Sommerzeit))
 
 
-write.csv(total, "Data Set total.csv")
+#write.csv(total, "Data Set total.csv")
 ```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
