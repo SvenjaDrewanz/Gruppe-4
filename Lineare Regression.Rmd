@@ -1,5 +1,5 @@
 ---
-title: "Linear Regresssion"
+title: "Lineare Regresssion"
 output: html_notebook
 ---
 
@@ -13,6 +13,9 @@ library(dplyr)
 library(lubridate)
 library(tidyr)
 library(readxl)
+
+###load dataset###
+total <- read_csv("Dataset_total.csv")
 
 ### Datentypenn ändern:
 total <- total %>% mutate(Temperatur = as.numeric(total$Temperatur))
