@@ -1,0 +1,68 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(readr)
+wetter <- read_csv("wetter.csv")
+View(wetter)
+min (wetter$Temperatur)
+max(wetter$Temperatur)
+max(wetter$Windgeschwindigkeit)
+
+
+```
+
+```{r}
+###load libraries###
+##
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+
+###load datasets###
+##
+umsatz <- read_csv("umsatzdaten_gekuerzt.csv")
+kiwo <- read_csv("kiwo.csv") 
+wetter <- read_csv("wetter.csv")
+```
+
+
+Nach Warengruppe filtern, neue Variablen erstellen
+```{r}
+warengruppe1 <- total %>%
+  filter(Warengruppe == 1)
+warengruppe2 <- total %>%
+  filter(Warengruppe == 2)
+warengruppe3 <- total %>%
+  filter(Warengruppe == 3)
+warengruppe4 <- total %>%
+  filter(Warengruppe == 4)
+warengruppe5 <- total %>%
+  filter(Warengruppe == 5)
+warengruppe6 <- total %>%
+  filter(Warengruppe == 6)
+```
+
+Umsatz pro Monat, Warengruppe 1
+```{r}
+warengruppe1 %>% 
+  group_by(monat) %>%
+  summarise (n=n(), mean=mean(Umsatz), sd=sd(Umsatz)) %>%
+  mutate(se=sd/sqrt(n))  %>%
+  mutate(ic=se * qt((1-0.05)/2 + .5, n-1)) %>%
+  ggplot(aes(x=monat, y=mean))+
+  geom_bar(stat='identity', fill="hotpink") +
+  theme(axis.text.y = element_text(face = "bold", color = "blue", 
+                           size = 12))+
+  theme(axis.text.x = element_text(face = "bold", color = "blue", size = 6)) + 
+  scale_y_continuous(labels = scales::comma) +
+geom_errorbar( aes(x=monat, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="blue", alpha=0.9, size=1.5) +
+  ggtitle("Warengruppe 1") %>%
+  print()
+```
+
+
