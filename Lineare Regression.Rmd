@@ -14,6 +14,23 @@ library(lubridate)
 library(tidyr)
 library(readxl)
 
+
+####Lineare Regression einzeln je Variable
+lm_total <- lm(data = total, Umsatz~wochentag)
+summary(lm_total)
+
+lm_total <- lm(data = total, Umsatz~Feiertagsart)
+summary(lm_total)
+
+lm_total <- lm(data = total, Umsatz~wochentag+monat)
+summary(lm_total)
+
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche)
+summary(lm_total)
+
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung)
+summary(lm_total)
+
     
 ##Lineare Regression:
 #+Wochentag (funktioniert, ist aber dasselbe wie Weekday)
