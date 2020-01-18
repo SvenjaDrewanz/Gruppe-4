@@ -25,9 +25,7 @@ umsatz <- read_csv("Daten/umsatzdaten_gekuerzt.csv",
 umsatz <- umsatz %>% mutate(Datum = as.Date(umsatz$Datum))
 kiwo <- read_csv("Daten/kiwo.csv", col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
 kiwo <- kiwo %>% mutate(Datum = as.Date(kiwo$Datum))
-wetter <- read_delim("Daten/Wetter_Trennzeichen geaendert.csv", 
-    ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
-    trim_ws = TRUE)
+wetter <- read_csv("Daten/wetter.csv")
 wetter <- wetter %>% mutate(Datum = as.Date(wetter$Datum))
 
 ###add weekdays and months to umsatz###
