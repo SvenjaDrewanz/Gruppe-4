@@ -22,13 +22,13 @@ library(readxl)
 
 umsatz <- read_csv("Daten/umsatzdaten_gekuerzt.csv", 
     col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
-umsatz$Datum<-as.POSIXct.Date(umsatz$Datum)
+umsatz <- umsatz %>% mutate(Datum = as.Date(umsatz$Datum))
 kiwo <- read_csv("Daten/kiwo.csv", col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
-kiwo$Datum<-as.POSIXct.Date(kiwo$Datum)
+kiwo <- kiwo %>% mutate(Datum = as.Date(kiwo$Datum))
 wetter <- read_delim("Daten/Wetter_Trennzeichen geaendert.csv", 
     ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
     trim_ws = TRUE)
-wetter$Datum<-as.POSIXct.Date(wetter$Datum)
+wetter <- wetter %>% mutate(Datum = as.Date(wetter$Datum))
 
 ###add weekdays and months to umsatz###
 ###
@@ -45,67 +45,65 @@ umsatz$monat <- factor(umsatz$monat, levels = c("Januar", "Februar", "März", "A
 arbeitslosigkeit <- read_delim("Daten/Arbeitslosigkeit.csv", 
     ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
     trim_ws = TRUE) 
-arbeitslosigkeit$Datum<-as.POSIXct.Date(arbeitslosigkeit$Datum)
+arbeitslosigkeit <- arbeitslosigkeit %>% mutate(Datum = as.Date(arbeitslosigkeit$Datum))
 
 semesterferien <- read_excel("Daten/CAU_Semesterferien.xlsx", 
     col_types = c("date", "numeric"))
-semesterferien$Datum<-as.POSIXct.Date(semesterferien$Datum)
+semesterferien <- semesterferien %>% mutate(Datum = as.Date(semesterferien$Datum))
 
 datumsangaben <- read_delim("Daten/Date.csv", ";", escape_double = FALSE, 
     col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
     trim_ws = TRUE)
-datumsangaben$Datum<-as.POSIXct.Date(datumsangaben$Datum)
+datumsangaben <- datumsangaben %>% mutate(Datum = as.Date(datumsangaben$Datum))
 
 digitale_woche <- read_excel("Daten/Digitale_Woche.xlsx", 
     col_types = c("date", "numeric"))
-digitale_woche$Datum<-as.POSIXct.Date(digitale_woche$Datum)
+digitale_woche <- digitale_woche %>% mutate(Datum = as.Date(digitale_woche$Datum))
 
 feiertage <- read_delim("Daten/Feiertage.csv", 
     ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")))
-feiertage <- feiertage[,-7] #so oft ausführen bis keine Zeile 7 mehr existiert
-feiertage$Datum<-as.POSIXct.Date(feiertage$Datum)
+feiertage <- feiertage[,-c(7:13)] #so oft ausführen bis keine Zeile 7 mehr existiert
+feiertage <- feiertage %>% mutate(Datum = as.Date(feiertage$Datum))
 
 jahreszeitenbeginn <- read_excel("Daten/Jahreszeitenbeginn.xlsx", 
     col_types = c("date", "numeric", "text"))
-jahreszeitenbeginn$Datum<-as.POSIXct.Date(jahreszeitenbeginn$Datum)
+jahreszeitenbeginn <- jahreszeitenbeginn %>% mutate(Datum = as.Date(jahreszeitenbeginn$Datum))
 
 jahreszeiten <- read_excel("Daten/Meteorologische Jahreszeiten.xlsx", 
     col_types = c("date", "numeric", "numeric", 
         "numeric", "numeric"))
-jahreszeiten$Datum<-as.POSIXct.Date(jahreszeiten$Datum)
+jahreszeiten <- jahreszeiten %>% mutate(Datum = as.Date(jahreszeiten$Datum))
 
 bevoelkerung <- read_excel("Daten/Population_Kiel.xlsx", 
     col_types = c("date", "numeric"))
-bevoelkerung$Datum<-as.POSIXct.Date(bevoelkerung$Datum)
+bevoelkerung <- bevoelkerung %>% mutate(Datum = as.Date(bevoelkerung$Datum))
 
 schulferien <- read_excel("Daten/Schulferien.xlsx", 
     col_types = c("date", "numeric"))
-schulferien$Datum<-as.POSIXct.Date(schulferien$Datum)
+schulferien <- schulferien %>% mutate(Datum = as.Date(schulferien$Datum))
 
 temperaturdifferenz <- read_excel("Daten/Temperaturdifferenz_und_Durchschnitt.xlsx", 
     col_types = c("date", "numeric", "numeric", 
         "numeric", "numeric", "numeric"))
-temperaturdifferenz$Datum<-as.POSIXct.Date(temperaturdifferenz$Datum)
+temperaturdifferenz <- temperaturdifferenz %>% mutate(Datum = as.Date(temperaturdifferenz$Datum))
 
 tourismus <- read_excel("Daten/Tourismus.xlsx", 
     col_types = c("date", "numeric", "numeric", 
         "numeric", "numeric", "text"))
 tourismus <- tourismus[,-6]
-tourismus$Datum<-as.POSIXct.Date(tourismus$Datum)
+tourismus <- tourismus %>% mutate(Datum = as.Date(tourismus$Datum))
 
 wahlen <- read_excel("Daten/Wahlen.xlsx", col_types = c("date", 
     "numeric", "text"))
-wahlen$Datum<-as.POSIXct.Date(wahlen$Datum)
+wahlen <- wahlen %>% mutate(Datum = as.Date(wahlen$Datum))
 
 weihnachtsmarkt <- read_excel("Daten/Weihnachtsmarkt.xlsx", 
     col_types = c("date", "numeric"))
-weihnachtsmarkt$Datum<-as.POSIXct.Date(weihnachtsmarkt$Datum)
+weihnachtsmarkt <- weihnachtsmarkt %>% mutate(Datum = as.Date(weihnachtsmarkt$Datum))
 
 zeitumstellung <- read_excel("Daten/Zeitumstellung.xlsx", 
     col_types = c("date", "numeric", "text"))
-zeitumstellung$Datum<-as.POSIXct.Date(zeitumstellung$Datum)
-
-
+zeitumstellung <- zeitumstellung %>% mutate(Datum = as.Date(zeitumstellung$Datum))
 ###join datasets "umsatz" and "kiwo"###
 ##total$Datum<-as.POSIXct.Date(total$Datum)
 total <- left_join(umsatz, kiwo, by = "Datum")
