@@ -16,21 +16,81 @@ library(readxl)
 
 
 ####Lineare Regression einzeln je Variable
+###Wochentag alleine --> Dienstag, Donnerstag, Freitag nicht sig.
 lm_total <- lm(data = total, Umsatz~wochentag)
 summary(lm_total)
 
+###Feiertagsart alleine --> überwiegend Sig.###
 lm_total <- lm(data = total, Umsatz~Feiertagsart)
 summary(lm_total)
 
+###Zufügen je eine Spalte/Variable### ###jede Variable einzeln###
+###Dez. nicht sig.
+lm_total <- lm(data = total, Umsatz~monat)
+summary(lm_total)
 lm_total <- lm(data = total, Umsatz~wochentag+monat)
 summary(lm_total)
 
+### +Kieler_Woche --> sig###
+lm_total <- lm(data = total, Umsatz~Kieler_Woche)
+summary(lm_total)
 lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche)
 summary(lm_total)
 
+###+Bewoelkung --> Bevoelkung 7 u. 8 sig.###
+lm_total <- lm(data = total, Umsatz~Bewoelkung)
+summary(lm_total)
 lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung)
 summary(lm_total)
 
+###+Temperatur --> nicht mehr sig. ###
+###Temperatur alleine --> hoch signifikant###
+lm_total <- lm(data = total, Umsatz~Temperatur)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur)
+summary(lm_total)
+
+###+Windgeschwindigkeit --> nicht sig.
+lm_total <- lm(data = total, Umsatz~Windgeschwindigkeit)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit)
+summary(lm_total)
+
+###+Wettercode --> code 28, 45 sind sig.###
+lm_total <- lm(data = total, Umsatz~Wettercode)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode)
+summary(lm_total)
+
+###+Arbeitslose --> nicht sig.###
+lm_total <- lm(data = total, Umsatz~Arbeitslose)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose)
+summary(lm_total)
+
+###+Semesterferien --> hochsig.###
+lm_total <- lm(data = total, Umsatz~Semesterferien)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien)
+summary(lm_total)
+
+###+Year -->sig.###
+lm_total <- lm(data = total, Umsatz~Year)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year)
+summary(lm_total)
+
+###+Week in Year --> sig.###
+lm_total <- lm(data = total, Umsatz~Week_in_year)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year)
+summary(lm_total)
+
+###+Day of year --> 
+lm_total <- lm(data = total, Umsatz~Day_of_year)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year)
+summary(lm_total)
     
 ##Lineare Regression:
 #+Wochentag (funktioniert, ist aber dasselbe wie Weekday)
