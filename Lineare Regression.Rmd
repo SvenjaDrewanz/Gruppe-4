@@ -120,11 +120,13 @@ summary(lm_total)
 lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year)
 summary(lm_total)
 
-###+Day of year --> 
+###+Day of year --> nicht sig. --> Aus Datensatz löschen
 lm_total <- lm(data = total, Umsatz~Day_of_year)
 summary(lm_total)
-lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year)
 summary(lm_total)
+
+
     
 ##Lineare Regression:
 #+Wochentag (funktioniert, ist aber dasselbe wie Weekday)
