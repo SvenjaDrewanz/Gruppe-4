@@ -49,8 +49,9 @@ Load and join datasets Tourismus, Semesterferien & Weihnachtsmarkt
 tourismus <- read_xlsx("Tourismus.xlsx")
 semesterferien <- read_xlsx("Mappe_CAU_Semesterferien.xlsx")
 weihnachtsmarkt <- read_xlsx("Weihnachtsmarkt.xlsx")
-bevoelkerung <- read_xlsx("Bevölkerungszahl Kiel.xlsx")
+bevoelkerung <- read_xlsx("population_Kiel.xlsx")
 diwo <- read_xlsx("Digitale_Woche.xlsx")
+arbeitslos <- read.table("Arbeitslosigkeit_nach_Datum.csv", sep = ";", header = TRUE)
 
 ###change date format for all datasets###
 ##
@@ -64,6 +65,8 @@ bevoelkerung <- bevoelkerung %>% mutate(Datum = as.Date(bevoelkerung$Datum))
 
 diwo <- diwo %>% mutate(Datum = as.Date(diwo$Datum))
 
+arbeitslos <- arbeitslos %>% mutate(Datum = as.Date(arbeitslos$Datum))
+
 ###join with gesamt###
 ##
 gesamt <- left_join(gesamt, tourismus, by="Datum")
@@ -71,10 +74,12 @@ gesamt <- left_join(gesamt, semesterferien, by="Datum")
 gesamt <- left_join(gesamt, weihnachtsmarkt, by="Datum")
 gesamt <- left_join(gesamt, bevoelkerung, by="Datum")
 gesamt <- left_join(gesamt, diwo, by="Datum")
+
 ```
 
-
+Lineare Regression
 ```{r}
-
+lm_result1 <- lm(data=gesamt,Umsatz~wochentag+monat+KielerWoche+Temperatur+Windgeschwindigkeit+CAU_Semesterferien)
+summary(lm_result1)
 ```
 
