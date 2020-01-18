@@ -160,6 +160,10 @@ total$Ankuenfte[is.na(total$Ankuenfte)] = 0
 total$Uebernachtungen[is.na(total$Uebernachtungen)] = 0
 total$Wahl[is.na(total$Wahl)] = 0
 total$Weihnachtsmarkt[is.na(total$Weihnachtsmarkt)] = 0
+total$Feiertagsart[is.na(total$Feiertagsart)] = 0
+total$Gesetzl_Feiertag[is.na(total$Gesetzl_Feiertag)] = 0
+total$Brueckentag[is.na(total$Brueckentag)] = 0
+total$Langes_Wochenende[is.na(total$Langes_Wochenende)] = 0
 
 ###delete columns###
 ##
