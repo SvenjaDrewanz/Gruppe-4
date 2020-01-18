@@ -170,6 +170,7 @@ total <- total[,-c(23, 25, 38, 40, 42, 45)]
 ### Datentypenn ändern:
 total <- total %>% mutate(Temperatur = as.numeric(total$Temperatur))
 
+total <- total %>% mutate(Warengruppe = as.factor(total$Warengruppe))
 total <- total %>% mutate(Kieler_Woche = as.factor(total$Kieler_Woche))
 total <- total %>% mutate(Bewoelkung = as.factor(total$Bewoelkung))
 total <- total %>% mutate(Windgeschwindigkeit = as.factor(total$Windgeschwindigkeit))
@@ -177,6 +178,7 @@ total <- total %>% mutate(Wettercode = as.factor(total$Wettercode))
 total <- total %>% mutate(Semesterferien = as.factor(total$Semesterferien))
 total <- total %>% mutate(Year = as.factor(total$Year))
 total <- total %>% mutate(Day_of_year = as.factor(total$Day_of_year))
+total <- total %>% mutate(Week_in_year = as.factor(total$Week_in_year))
 total <- total %>% mutate(Day_of_month = as.factor(total$Day_of_month))
 total <- total %>% mutate(Weekday = as.factor(total$Weekday))
 total <- total %>% mutate(Digitale_Woche = as.factor(total$Digitale_Woche))
@@ -189,13 +191,13 @@ total <- total %>% mutate(Winter = as.factor(total$Winter))
 total <- total %>% mutate(Fruehling = as.factor(total$Fruehling))
 total <- total %>% mutate(Sommer = as.factor(total$Sommer))
 total <- total %>% mutate(Herbst = as.factor(total$Herbst))
-total <- total %>% mutate(Warmer_als_normal = as.factor(total$Waermer_als_normal))
+total <- total %>% mutate(Waermer_als_normal = as.factor(total$Waermer_als_normal))
 total <- total %>% mutate(Kaelter_als_normal = as.factor(total$Kaelter_als_normal))
 total <- total %>% mutate(Wahl = as.factor(total$Wahl))
 total <- total %>% mutate(Weihnachtsmarkt = as.factor(total$Weihnachtsmarkt))
 total <- total %>% mutate(Schulferien = as.factor(total$Schulferien))
 total <- total %>% mutate(Sommerzeit = as.factor(total$Sommerzeit))
-    
+
 
 
 ```
