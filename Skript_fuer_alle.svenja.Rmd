@@ -1,0 +1,241 @@
+---
+title: "Notebook_fuer_alle"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+###load libraries###
+##
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+library(readxl)
+
+
+###load datasets###
+
+umsatz <- read_csv("Daten/umsatzdaten_gekuerzt.csv", 
+    col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
+
+umsatz <- umsatz %>% mutate(Datum = as.Date(umsatz$Datum))
+kiwo <- read_csv("Daten/kiwo.csv", col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
+kiwo <- kiwo %>% mutate(Datum = as.Date(kiwo$Datum))
+wetter <- read_delim("Daten/Wetter_Trennzeichen geaendert.csv", 
+    ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
+    trim_ws = TRUE)
+wetter <- wetter %>% mutate(Datum = as.Date(wetter$Datum))
+
+###add weekdays and months to umsatz###
+###
+umsatz$wochentag <- weekdays(umsatz$Datum)
+umsatz$monat <- months(umsatz$Datum)
+
+###Wochentage und monate sortieren###
+##
+umsatz$wochentag <- factor(umsatz$wochentag, levels = c("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"))
+
+umsatz$monat <- factor(umsatz$monat, levels = c("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"))
+
+### Tabellen hinzufügen: von oben nach unten im Ordner
+arbeitslosigkeit <- read_delim("Daten/Arbeitslosigkeit.csv", 
+    ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
+    trim_ws = TRUE) 
+arbeitslosigkeit <- arbeitslosigkeit %>% mutate(Datum = as.Date(arbeitslosigkeit$Datum))
+
+semesterferien <- read_excel("Daten/CAU_Semesterferien.xlsx", 
+    col_types = c("date", "numeric"))
+semesterferien <- semesterferien %>% mutate(Datum = as.Date(semesterferien$Datum))
+
+datumsangaben <- read_delim("Daten/Date.csv", ";", escape_double = FALSE, 
+    col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
+    trim_ws = TRUE)
+datumsangaben <- datumsangaben %>% mutate(Datum = as.Date(datumsangaben$Datum))
+
+digitale_woche <- read_excel("Daten/Digitale_Woche.xlsx", 
+    col_types = c("date", "numeric"))
+digitale_woche <- digitale_woche %>% mutate(Datum = as.Date(digitale_woche$Datum))
+
+feiertage <- read_delim("Daten/Feiertage.csv", 
+    ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")))
+feiertage <- feiertage[,-c(7:13)] #so oft ausführen bis keine Zeile 7 mehr existiert
+feiertage <- feiertage %>% mutate(Datum = as.Date(feiertage$Datum))
+
+jahreszeitenbeginn <- read_excel("Daten/Jahreszeitenbeginn.xlsx", 
+    col_types = c("date", "numeric", "text"))
+jahreszeitenbeginn <- jahreszeitenbeginn %>% mutate(Datum = as.Date(jahreszeitenbeginn$Datum))
+
+jahreszeiten <- read_excel("Daten/Meteorologische Jahreszeiten.xlsx", 
+    col_types = c("date", "numeric", "numeric", 
+        "numeric", "numeric"))
+jahreszeiten <- jahreszeiten %>% mutate(Datum = as.Date(jahreszeiten$Datum))
+
+bevoelkerung <- read_excel("Daten/Population_Kiel.xlsx", 
+    col_types = c("date", "numeric"))
+bevoelkerung <- bevoelkerung %>% mutate(Datum = as.Date(bevoelkerung$Datum))
+
+schulferien <- read_excel("Daten/Schulferien.xlsx", 
+    col_types = c("date", "numeric"))
+schulferien <- schulferien %>% mutate(Datum = as.Date(schulferien$Datum))
+
+temperaturdifferenz <- read_excel("Daten/Temperaturdifferenz_und_Durchschnitt.xlsx", 
+    col_types = c("date", "numeric", "numeric", 
+        "numeric", "numeric", "numeric"))
+temperaturdifferenz <- temperaturdifferenz %>% mutate(Datum = as.Date(temperaturdifferenz$Datum))
+
+tourismus <- read_excel("Daten/Tourismus.xlsx", 
+    col_types = c("date", "numeric", "numeric", 
+        "numeric", "numeric", "text"))
+tourismus <- tourismus[,-6]
+tourismus <- tourismus %>% mutate(Datum = as.Date(tourismus$Datum))
+
+wahlen <- read_excel("Daten/Wahlen.xlsx", col_types = c("date", 
+    "numeric", "text"))
+wahlen <- wahlen %>% mutate(Datum = as.Date(wahlen$Datum))
+
+weihnachtsmarkt <- read_excel("Daten/Weihnachtsmarkt.xlsx", 
+    col_types = c("date", "numeric"))
+weihnachtsmarkt <- weihnachtsmarkt %>% mutate(Datum = as.Date(weihnachtsmarkt$Datum))
+
+zeitumstellung <- read_excel("Daten/Zeitumstellung.xlsx", 
+    col_types = c("date", "numeric", "text"))
+zeitumstellung <- zeitumstellung %>% mutate(Datum = as.Date(zeitumstellung$Datum))
+###join datasets "umsatz" and "kiwo"###
+##total$Datum<-as.POSIXct.Date(total$Datum)
+total <- left_join(umsatz, kiwo, by = "Datum")
+total <- left_join(total,wetter, by = "Datum")
+total <- left_join(total,arbeitslosigkeit, by = "Datum")
+total <- left_join(total,semesterferien,  by = "Datum")
+total <- left_join(total,datumsangaben,  by = "Datum")
+total <- left_join(total,digitale_woche,  by = "Datum")
+total <- left_join(total,feiertage, by = "Datum")
+total <- left_join(total, jahreszeitenbeginn, by = "Datum")
+total <- left_join(total, jahreszeiten, by = "Datum")
+total <- left_join(total, bevoelkerung, by = "Datum")
+total <- left_join(total, schulferien, by = "Datum")
+total <- left_join(total, temperaturdifferenz, by = "Datum")
+total <- left_join(total, tourismus, by = "Datum")
+total <- left_join(total, wahlen, by = "Datum")
+total <- left_join(total, weihnachtsmarkt, by = "Datum")
+total <- left_join(total, zeitumstellung, by = "Datum")
+head(total)
+
+#kann man so den Datensatz nach Warengruppen einteilen??
+#total_Warengruppe1<-group_by(total$Warengruppe)
+#oder
+#total %>% group_by(Warengruppe) %>% summarise()
+#ungroup(total)
+
+##replace na values in KielerWoche with 0###
+total$Kieler_Woche[is.na(total$Kieler_Woche)] = 0
+
+###dataset wetter: drop column wettercode & join with dataset total###
+##wetter <- wetter[-5]
+
+names(total)
+names(total)[names(total) == 'Brueckentag '] <- 'Brueckentag'
+names(total)[names(total) == 'Langes_Wochenende '] <- 'Langes_Wochenende'
+names(total)[names(total) == 'Differenz_zum Mittel'] <- 'Differenz_zum_Mittel'
+
+#+Digitale_Woche+Neue_Jahreszeit+Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel
+#+Schulferien+Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal
+#+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+#############replace na values with 0###
+total$Semesterferien[is.na(total$Semesterferien)] = 0
+total$Digitale_Woche[is.na(total$Digitale_Woche)] = 0
+total$Neue_Jahreszeit[is.na(total$Neue_Jahreszeit)] = 0
+total$Winter[is.na(total$Winter)] = 0
+total$Fruehling[is.na(total$Fruehling)] = 0
+total$Sommer[is.na(total$Sommer)] = 0
+total$Herbst[is.na(total$Herbst)] = 0
+total$Einwohnerzahl_Kiel[is.na(total$Einwohnerzahl_Kiel)] = 0
+total$Schulferien[is.na(total$Schulferien)] = 0
+total$Durchschnittstemperatur_monatlich[is.na(total$Durchschnittstemperatur_monatlich)] = 0
+total$Differenz_zum_Mittel[is.na(total$Differenz_zum_Mittel)] = 0
+total$Waermer_als_normal[is.na(total$Waermer_als_normal)] = 0
+total$Kaelter_als_normal[is.na(total$Kaelter_als_normal)] = 0
+total$Ankuenfte[is.na(total$Ankuenfte)] = 0
+total$Uebernachtungen[is.na(total$Uebernachtungen)] = 0
+total$Wahl[is.na(total$Wahl)] = 0
+total$Weihnachtsmarkt[is.na(total$Weihnachtsmarkt)] = 0
+
+
+
+
+
+#Lineare Regression:
+#+Wochentag (funktioniert, ist aber dasselbe wie Weekday)
+
+lm_total<-lm(data=total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+
+               Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+
+               Week_in_year+Day_of_year+Day_of_month+Weekday+Digitale_Woche+
+               Gesetzl_Feiertag+Brueckentag+Langes_Wochenende+Wochentag+Neue_Jahreszeit+
+               Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+               Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+               Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+
+               Sommerzeit)
+
+lm_total_chunk<-lm(data=total,Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
+                     Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
+                     Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
+                     Langes_Wochenende+Semesterferien+Digitale_Woche+Neue_Jahreszeit+
+                     Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+                     Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+                     Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+                     ) #Temperatur rausgenommen, da nicht funktional
+summary(lm_total_chunk) #14,88% Erklärungswert bei signifikantem p-value, aber lauter NA's
+
+
+#Support Vector Machine:
+library(e1071)
+
+svm_total<-svm(Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
+                     Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
+                     Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
+                     Langes_Wochenende+Semesterferien+Digitale_Woche+Neue_Jahreszeit+
+                     Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+                     Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+                     Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+               ,data=total)
+summary(svm_total) #kann viele Variablen nicht skalieren, gibt aber Output
+
+#funktionierte mal, enthält aber nicht alle Variablen:
+#svm_lm1<-svm(Umsatz~wochentag+monat+Temperatur+Bewoelkung+
+#                  Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz
+#                +Waermer_als_normal+Kaelter_als_normal+Semesterferien+Arbeitslose+Ankuenfte
+#                +Ankuenfte_gesamt+Uebernachtungen+Uebernachtungen_gesamt
+#                +Jahreszeit+Fruehling+Sommer+Herbst+Winter,data=total)
+#summary(svm_lm1)
+
+
+#SVM Tuning
+svm_tune<- tune(svm, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
+                     Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
+                     Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
+                     Langes_Wochenende+Semesterferien+Digitale_Woche+Neue_Jahreszeit+
+                     Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+                     Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+                     Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+                ,data=total,
+                ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
+summary(svm_tune$best.model)
+
+
+#select training sample
+total_frac1<-sample_frac(total, .10)
+head(total_frac1)
+
+pred_train<-predict(svm_tune$best.model, total_frac1)
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
