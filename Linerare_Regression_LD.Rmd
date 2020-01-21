@@ -1,0 +1,352 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+###load libraries###
+##
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+library(readxl)
+
+###load dataset###
+total <- read_csv("Dataset_total.csv")
+
+### Datentypenn ändern:
+total <- total %>% mutate(Temperatur = as.numeric(total$Temperatur))
+total <- total %>% mutate(wochentag = as.factor(total$wochentag))
+total <- total %>% mutate(monat = as.factor(total$monat))
+total <- total %>% mutate(Warengruppe = as.factor(total$Warengruppe))
+total <- total %>% mutate(Kieler_Woche = as.factor(total$Kieler_Woche))
+total <- total %>% mutate(Bewoelkung = as.factor(total$Bewoelkung))
+total <- total %>% mutate(Windgeschwindigkeit = as.factor(total$Windgeschwindigkeit))
+total <- total %>% mutate(Wettercode = as.factor(total$Wettercode))
+total <- total %>% mutate(Semesterferien = as.factor(total$Semesterferien))
+total <- total %>% mutate(Year = as.factor(total$Year))
+total <- total %>% mutate(Day_of_year = as.factor(total$Day_of_year))
+total <- total %>% mutate(Week_in_year = as.factor(total$Week_in_year))
+total <- total %>% mutate(Day_of_month = as.factor(total$Day_of_month))
+total <- total %>% mutate(Digitale_Woche = as.factor(total$Digitale_Woche))
+total <- total %>% mutate(Feiertagsart = as.factor(total$Feiertagsart))
+total <- total %>% mutate(Gesetzl_Feiertag = as.factor(total$Gesetzl_Feiertag))
+total <- total %>% mutate(Brueckentag = as.factor(total$Brueckentag))
+total <- total %>% mutate(Langes_Wochenende = as.factor(total$Langes_Wochenende))
+total <- total %>% mutate(Neue_Jahreszeit = as.factor(total$Neue_Jahreszeit))
+total <- total %>% mutate(Winter = as.factor(total$Winter))
+total <- total %>% mutate(Fruehling = as.factor(total$Fruehling))
+total <- total %>% mutate(Sommer = as.factor(total$Sommer))
+total <- total %>% mutate(Herbst = as.factor(total$Herbst))
+total <- total %>% mutate(Waermer_als_normal = as.factor(total$Waermer_als_normal))
+total <- total %>% mutate(Kaelter_als_normal = as.factor(total$Kaelter_als_normal))
+total <- total %>% mutate(Wahl = as.factor(total$Wahl))
+total <- total %>% mutate(Weihnachtsmarkt = as.factor(total$Weihnachtsmarkt))
+total <- total %>% mutate(Schulferien = as.factor(total$Schulferien))
+total <- total %>% mutate(Sommerzeit = as.factor(total$Sommerzeit))
+
+
+####Lineare Regression einzeln je Variable
+###Wochentag alleine --> Dienstag, Donnerstag, Freitag nicht sig.
+lm_total <- lm(data = total, Umsatz~wochentag)
+summary(lm_total)
+
+###Lm jede Variable einzeln + Lm, immer eine Variable wird angefügt###
+### + monat --> Dez. nicht sig.
+lm_total <- lm(data = total, Umsatz~monat)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat)
+summary(lm_total)
+
+### +Kieler_Woche --> sig###
+lm_total <- lm(data = total, Umsatz~Kieler_Woche)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche)
+summary(lm_total)
+
+###+Bewoelkung --> Bevoelkung 7 u. 8 sig.###
+lm_total <- lm(data = total, Umsatz~Bewoelkung)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung)
+summary(lm_total)
+
+###+Temperatur --> nicht mehr sig. ###
+###Temperatur alleine --> hoch signifikant###
+lm_total <- lm(data = total, Umsatz~Temperatur)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur)
+summary(lm_total)
+
+###+Windgeschwindigkeit --> nicht sig.
+lm_total <- lm(data = total, Umsatz~Windgeschwindigkeit)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit)
+summary(lm_total)
+
+###+Wettercode --> code 28, 45 sind sig.###
+lm_total <- lm(data = total, Umsatz~Wettercode)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode)
+summary(lm_total)
+
+###+Arbeitslose --> nicht sig.###
+lm_total <- lm(data = total, Umsatz~Arbeitslose)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose)
+summary(lm_total)
+
+###+Semesterferien --> hochsig.###
+lm_total <- lm(data = total, Umsatz~Semesterferien)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien)
+summary(lm_total)
+
+###+Year -->sig.###
+lm_total <- lm(data = total, Umsatz~Year)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year)
+summary(lm_total)
+
+###+Week in Year --> sig.###
+lm_total <- lm(data = total, Umsatz~Week_in_year)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year)
+summary(lm_total)
+
+###+Day of year --> hoch sig.
+lm_total <- lm(data = total, Umsatz~Day_of_year)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year)
+summary(lm_total)
+
+###+day of month --> sig.
+lm_total <- lm(data = total, Umsatz~Day_of_month)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month)
+summary(lm_total)
+
+###+Digitale_Woche --> nicht sig.
+lm_total <- lm(data = total, Umsatz~Digitale_Woche)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche)
+summary(lm_total)
+
+###+Feiertagsart --> überwiegend Sig.###
+lm_total <- lm(data = total, Umsatz~Feiertagsart)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart)
+summary(lm_total)
+
+###+Brueckentag --> nicht sig., alleine schon
+lm_total <- lm(data = total, Umsatz~Brueckentag)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag)
+summary(lm_total)
+
+###+langes_wochenende --> alleine sig, zusammen nicht sig.
+lm_total <- lm(data = total, Umsatz~Langes_Wochenende)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende)
+summary(lm_total)
+
+###+neue Jahreszeit --> nicht sig, 
+lm_total <- lm(data = total, Umsatz~Neue_Jahreszeit)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit)
+summary(lm_total)
+
+###+Winter --> alleine hoch sig., zusammen NA (Kolinearität mit anderen variablen)
+lm_total <- lm(data = total, Umsatz~Winter)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter)
+summary(lm_total)
+
+###+Fruehling --> alleine nicht sig., zusammen NA (Kolinerität mit nderen Variablen)
+lm_total <- lm(data = total, Umsatz~Fruehling)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling)
+summary(lm_total)
+
+###+Sommer --> alleine hoch sig., zusammen NA (Kolineratität mit anderen Variablen) 
+lm_total <- lm(data = total, Umsatz~Sommer)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer)
+summary(lm_total)
+
+###+Herbst --> alleine hoch sig., zusammen NA (Kolinaerität mit andere Variablen)
+lm_total <- lm(data = total, Umsatz~Herbst)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer)
+summary(lm_total)
+
+###+Einwohnerzahl_Kiel --> alleine hoch sig., zusammen sig. --> R²: Anstieg von 0,1602 auf 0,1611 
+lm_total <- lm(data = total, Umsatz~Einwohnerzahl_Kiel)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel)
+summary(lm_total)
+
+###+Schulferien --> hoch sig., R²: Anstieg auf 0,1626 
+lm_total <- lm(data = total, Umsatz~Schulferien)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien)
+summary(lm_total)
+
+###+Durschnittstemp_monatlich --> alleine hoch sig., zusammen NA (Kolinearität mit anderen Variablen) 
+lm_total <- lm(data = total, Umsatz~Durchschnittstemperatur_monatlich)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich)
+summary(lm_total)
+
+###+Tagestemp_tatsächlich --> alleine hoch sig., zusammen sig., R²: Anstieg auf 0,1632 
+lm_total <- lm(data = total, Umsatz~Tagestemperatur_tatsaechlich)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich)
+summary(lm_total)
+
+###+Differenz zum mittel --> alleine nicht sig., zusammen NA
+lm_total <- lm(data = total, Umsatz~Differenz_zum_Mittel)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel)
+summary(lm_total)
+
+###+waermer als normal --> nicht sig.
+lm_total <- lm(data = total, Umsatz~Waermer_als_normal)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal)
+summary(lm_total)
+
+###+Kaelter als normal --> allein sig., zusammen nicht sig. 
+lm_total <- lm(data = total, Umsatz~Kaelter_als_normal)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal)
+summary(lm_total)
+
+###+Ankuenfte --> allein hoch sig., zusammen nicht sig. 
+lm_total <- lm(data = total, Umsatz~Ankuenfte)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte)
+summary(lm_total)
+
+###+Uebernachtungen -->alleine hoch sig., zusammen nicht sig. 
+lm_total <- lm(data = total, Umsatz~Uebernachtungen)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen)
+summary(lm_total)
+
+###+Wahl --> alleine nicht sig., zusammen nicht sig., 
+lm_total <- lm(data = total, Umsatz~Wahl)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl)
+summary(lm_total)
+
+###+Weihnachtsmarkt -->alleine hoch sig., zusammen nicht sig.
+lm_total <- lm(data = total, Umsatz~Weihnachtsmarkt)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt)
+summary(lm_total)
+
+###+Sommerzeit -->alleine hoch sig., zusammen nicht sig.
+lm_total <- lm(data = total, Umsatz~Sommerzeit)
+summary(lm_total)
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+Sommerzeit)
+summary(lm_total)
+
+###Ergebnis R² wenn alle Variablen dabei sind: 0,1635 = 16,35%###
+
+### lm wenn Variablen weggelassen werden###
+###-Wettercode --> R²: Abfall auf 0,1594 --> nicht rausnehmen
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+Sommerzeit)
+summary(lm_total)
+
+###-Arbeitslose --> R²: Abfall auf 0,163 (vorher 0,1635) --> ggf. raus lassen
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+Sommerzeit)
+summary(lm_total)
+
+###-digitale Woche --> R²: bleibt bei 0,163 --> raus lassen
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+Sommerzeit)
+summary(lm_total)
+
+###-Bruckentag --> R²: bleibt bei 0,163 --> raus lassen
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Feiertagsart+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+Sommerzeit)
+summary(lm_total)
+
+###-langes WE --> R²: bleibt bei 0,163 --> raus lassen
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Feiertagsart+Neue_Jahreszeit+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+Sommerzeit)
+summary(lm_total)
+
+###-neue Jahreszeit--> R²: bleibt bei 0,163
+lm_total <- lm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Feiertagsart+Winter+Fruehling+Sommer+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+Sommerzeit)
+summary(lm_total)
+
+###-Winter --> R²
+
+
+    
+##Lineare Regression:
+#+Wochentag (funktioniert, ist aber dasselbe wie Weekday)
+
+lm_total<-lm(data=total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+
+               Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+
+               Week_in_year+Day_of_year+Day_of_month+Weekday+Digitale_Woche+
+               Gesetzl_Feiertag+Brueckentag+Langes_Wochenende+Wochentag+Neue_Jahreszeit+
+               Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+               Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+               Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+
+               Sommerzeit)
+
+lm_total_chunk<-lm(data=total,Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
+                     Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
+                     Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
+                     Langes_Wochenende+Semesterferien+Digitale_Woche+Neue_Jahreszeit+
+                     Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+                     Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+                     Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+                     ) #Temperatur rausgenommen, da nicht funktional
+summary(lm_total_chunk) #14,88% Erklärungswert bei signifikantem p-value, aber lauter NA's
+
+
+#Support Vector Machine:
+library(e1071)
+
+svm_total<-svm(Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
+                     Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
+                     Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
+                     Langes_Wochenende+Semesterferien+Digitale_Woche+Neue_Jahreszeit+
+                     Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+                     Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+                     Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+               ,data=total)
+summary(svm_total) #kann viele Variablen nicht skalieren, gibt aber Output
+
+#funktionierte mal, enthält aber nicht alle Variablen:
+#svm_lm1<-svm(Umsatz~wochentag+monat+Temperatur+Bewoelkung+
+#                  Windgeschwindigkeit+Durchschnittstemperatur+Tagestemperatur+Differenz
+#                +Waermer_als_normal+Kaelter_als_normal+Semesterferien+Arbeitslose+Ankuenfte
+#                +Ankuenfte_gesamt+Uebernachtungen+Uebernachtungen_gesamt
+#                +Jahreszeit+Fruehling+Sommer+Herbst+Winter,data=total)
+#summary(svm_lm1)
+
+
+#SVM Tuning
+svm_tune<- tune(svm, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
+                     Windgeschwindigkeit+Wettercode+Arbeitslose+Year+Week_in_year+
+                     Day_of_year+Day_of_month+Weekday+Gesetzl_Feiertag+Brueckentag+
+                     Langes_Wochenende+Semesterferien+Digitale_Woche+Neue_Jahreszeit+
+                     Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+
+                     Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal+
+                     Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
+                ,data=total,
+                ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
+summary(svm_tune$best.model)
+
+
+#select training sample
+total_frac1<-sample_frac(total, .10)
+head(total_frac1)
+
+pred_train<-predict(svm_tune$best.model, total_frac1)
+
+```
