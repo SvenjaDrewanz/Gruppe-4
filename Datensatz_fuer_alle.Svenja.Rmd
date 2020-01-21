@@ -4,8 +4,11 @@ output: html_notebook
 ---
 
 ```{r}
+
+
+
 ###load libraries###
-##
+
 library(readr)
 library(ggplot2)
 library(dplyr)
@@ -20,54 +23,86 @@ library(magrittr)
 umsatz <- read_csv("Daten/umsatzdaten_gekuerzt.csv", 
     col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
 umsatz <- umsatz %>% mutate(Datum = as.Date(umsatz$Datum))
-kiwo <- read_csv("Daten/kiwo.csv", col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
-kiwo <- kiwo %>% mutate(Datum = as.Date(kiwo$Datum))
-wetter <- read_csv("Daten/wetter.csv")
-wetter <- wetter %>% mutate(Datum = as.Date(wetter$Datum))
 
 ###add weekdays and months to umsatz###
-###
 umsatz$wochentag <- weekdays(umsatz$Datum)
 umsatz$monat <- months(umsatz$Datum)
 
 ###Wochentage und monate sortieren###
-##
 umsatz$wochentag <- factor(umsatz$wochentag, levels = c("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"))
 
 umsatz$monat <- factor(umsatz$monat, levels = c("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"))
 
-### Tabellen hinzufügen: von oben nach unten im Ordner
+
+kiwo <- read_csv("Daten/kiwo.csv", col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
+kiwo <- kiwo %>% mutate(Datum = as.Date(kiwo$Datum))
+
+wetter <- read_csv("Daten/wetter.csv")
+wetter <- wetter %>% mutate(Datum = as.Date(wetter$Datum))
+
+wetter %<>% 
+  mutate(WindFct = cut(Windgeschwindigkeit, 
+                       breaks = c(0, 5, 10, 20, 28, max(Windgeschwindigkeit)), 
+                       labels = c("leicht bis schwach", "mäßig bis frisch", "stark bis stürmisch", "Sturm", "Orkan"), 
+                       include.lowest = T, right = F))
+
+wetter %<>% 
+  mutate(BewoelkungFct = cut(Bewoelkung, 
+                       breaks = c(0, 1, 3, 7, 8), 
+                       labels = c("nicht bewoelkt", "heiter", "stark bewoelkt", "bedeckt"), 
+                       include.lowest = T, right=F))
+
+wetter %<>% 
+  mutate(TemperaturFct = cut(Temperatur, 
+                       breaks = c(-10, 1, 15, 24, 30, 40), 
+                       labels = c("Eistag", "Kalttag", "Warmtag", "Sommertag", "Hitzetag"), 
+                       include.lowest = T, right=F))
+
+wetter %<>% 
+  mutate(WettercodeFct = cut(Wettercode, 
+                       breaks = c(0, 49, 59, 69, 79, 90, 99), 
+                       labels = c("Keine Form von Niederschlag", "Sprühregen", "Regen", "Schnee", "Schauer", "Gewitter"), 
+                       include.lowest = T, right=F))
+
+
 arbeitslosigkeit <- read_delim("Daten/Arbeitslosigkeit.csv", 
     ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
     trim_ws = TRUE) 
 arbeitslosigkeit <- arbeitslosigkeit %>% mutate(Datum = as.Date(arbeitslosigkeit$Datum))
 
+
 semesterferien <- read_excel("Daten/CAU_Semesterferien.xlsx", 
     col_types = c("date", "numeric"))
 semesterferien <- semesterferien %>% mutate(Datum = as.Date(semesterferien$Datum))
+
 
 datumsangaben <- read_delim("Daten/Date.csv", ";", escape_double = FALSE, 
     col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
     trim_ws = TRUE)
 datumsangaben <- datumsangaben %>% mutate(Datum = as.Date(datumsangaben$Datum))
 
+
 digitale_woche <- read_excel("Daten/Digitale_Woche.xlsx", 
     col_types = c("date", "numeric"))
 digitale_woche <- digitale_woche %>% mutate(Datum = as.Date(digitale_woche$Datum))
+
 
 feiertage <- read_delim("Daten/Feiertage.csv", 
     ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")))
 feiertage <- feiertage[,-c(7:13)] #so oft ausführen bis keine Zeile 7 mehr existiert
 feiertage <- feiertage %>% mutate(Datum = as.Date(feiertage$Datum))
 
+
 jahreszeitenbeginn <- read_excel("Daten/Jahreszeitenbeginn.xlsx", 
     col_types = c("date", "numeric", "text"))
 jahreszeitenbeginn <- jahreszeitenbeginn %>% mutate(Datum = as.Date(jahreszeitenbeginn$Datum))
+
 
 jahreszeiten <- read_excel("Daten/Meteorologische Jahreszeiten.xlsx", 
     col_types = c("date", "numeric", "numeric", 
         "numeric", "numeric"))
 jahreszeiten <- jahreszeiten %>% mutate(Datum = as.Date(jahreszeiten$Datum))
+
 
 bevoelkerung <- read_excel("Daten/Population_Kiel.xlsx", 
     col_types = c("date", "numeric"))
@@ -77,10 +112,12 @@ schulferien <- read_excel("Daten/Schulferien.xlsx",
     col_types = c("date", "numeric"))
 schulferien <- schulferien %>% mutate(Datum = as.Date(schulferien$Datum))
 
+
 temperaturdifferenz <- read_excel("Daten/Temperaturdifferenz_und_Durchschnitt.xlsx", 
     col_types = c("date", "numeric", "numeric", 
         "numeric", "numeric", "numeric"))
 temperaturdifferenz <- temperaturdifferenz %>% mutate(Datum = as.Date(temperaturdifferenz$Datum))
+
 
 tourismus <- read_excel("Daten/Tourismus.xlsx", 
     col_types = c("date", "numeric", "numeric", 
@@ -88,17 +125,22 @@ tourismus <- read_excel("Daten/Tourismus.xlsx",
 tourismus <- tourismus[,-6]
 tourismus <- tourismus %>% mutate(Datum = as.Date(tourismus$Datum))
 
+
 wahlen <- read_excel("Daten/Wahlen.xlsx", col_types = c("date", 
     "numeric", "text"))
 wahlen <- wahlen %>% mutate(Datum = as.Date(wahlen$Datum))
+
 
 weihnachtsmarkt <- read_excel("Daten/Weihnachtsmarkt.xlsx", 
     col_types = c("date", "numeric"))
 weihnachtsmarkt <- weihnachtsmarkt %>% mutate(Datum = as.Date(weihnachtsmarkt$Datum))
 
+
 zeitumstellung <- read_excel("Daten/Zeitumstellung.xlsx", 
     col_types = c("date", "numeric", "text"))
 zeitumstellung <- zeitumstellung %>% mutate(Datum = as.Date(zeitumstellung$Datum))
+
+
 ###join datasets "umsatz" and "kiwo"###
 ##total$Datum<-as.POSIXct.Date(total$Datum)
 total <- left_join(umsatz, kiwo, by = "Datum")
@@ -168,7 +210,7 @@ total <- total[,-c(23, 25, 38, 40, 42, 45)]
 total <- total[-17]
 
 #write.csv(total, "Data Set total.csv")
-write_csv(total,"Dataset_total.csv")
+#write_csv(total,"Dataset_total.csv")
 ```
 
 
