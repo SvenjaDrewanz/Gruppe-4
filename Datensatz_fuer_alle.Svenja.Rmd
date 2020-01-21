@@ -5,8 +5,6 @@ output: html_notebook
 
 ```{r}
 
-
-
 ###load libraries###
 
 library(readr)
@@ -23,15 +21,6 @@ library(magrittr)
 umsatz <- read_csv("Daten/umsatzdaten_gekuerzt.csv", 
     col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
 umsatz <- umsatz %>% mutate(Datum = as.Date(umsatz$Datum))
-
-###add weekdays and months to umsatz###
-umsatz$wochentag <- weekdays(umsatz$Datum)
-umsatz$monat <- months(umsatz$Datum)
-
-###Wochentage und monate sortieren###
-umsatz$wochentag <- factor(umsatz$wochentag, levels = c("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"))
-
-umsatz$monat <- factor(umsatz$monat, levels = c("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"))
 
 
 kiwo <- read_csv("Daten/kiwo.csv", col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
@@ -89,7 +78,7 @@ digitale_woche <- digitale_woche %>% mutate(Datum = as.Date(digitale_woche$Datum
 
 feiertage <- read_delim("Daten/Feiertage.csv", 
     ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")))
-feiertage <- feiertage[,-c(7:13)] #so oft ausführen bis keine Zeile 7 mehr existiert
+feiertage <- feiertage[,-c(7:13)] 
 feiertage <- feiertage %>% mutate(Datum = as.Date(feiertage$Datum))
 
 
@@ -141,8 +130,7 @@ zeitumstellung <- read_excel("Daten/Zeitumstellung.xlsx",
 zeitumstellung <- zeitumstellung %>% mutate(Datum = as.Date(zeitumstellung$Datum))
 
 
-###join datasets "umsatz" and "kiwo"###
-##total$Datum<-as.POSIXct.Date(total$Datum)
+###join datasets by Datum ###
 total <- left_join(umsatz, kiwo, by = "Datum")
 total <- left_join(total,wetter, by = "Datum")
 total <- left_join(total,arbeitslosigkeit, by = "Datum")
@@ -159,29 +147,21 @@ total <- left_join(total, tourismus, by = "Datum")
 total <- left_join(total, wahlen, by = "Datum")
 total <- left_join(total, weihnachtsmarkt, by = "Datum")
 total <- left_join(total, zeitumstellung, by = "Datum")
+
 head(total)
 
-#kann man so den Datensatz nach Warengruppen einteilen??
-#total_Warengruppe1<-group_by(total$Warengruppe)
-#oder
-#total %>% group_by(Warengruppe) %>% summarise()
-#ungroup(total)
 
-##replace na values in KielerWoche with 0###
-total$Kieler_Woche[is.na(total$Kieler_Woche)] = 0
 
-###dataset wetter: drop column wettercode & join with dataset total###
-##wetter <- wetter[-5]
+### Adjust the joined Dataset ###
 
 names(total)
 names(total)[names(total) == 'Brueckentag '] <- 'Brueckentag'
 names(total)[names(total) == 'Langes_Wochenende '] <- 'Langes_Wochenende'
 names(total)[names(total) == 'Differenz_zum Mittel'] <- 'Differenz_zum_Mittel'
+names(total)[names(total) == 'Kommentar.y'] <- 'Zeit'
 
-#+Digitale_Woche+Neue_Jahreszeit+Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel
-#+Schulferien+Durchschnittstemperatur_monatlich+Differenz_zum_Mittel+Waermer_als_normal
-#+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
-#############replace na values with 0###
+# Replace some na values with 0 
+total$Kieler_Woche[is.na(total$Kieler_Woche)] = 0 
 total$Semesterferien[is.na(total$Semesterferien)] = 0
 total$Digitale_Woche[is.na(total$Digitale_Woche)] = 0
 total$Neue_Jahreszeit[is.na(total$Neue_Jahreszeit)] = 0
@@ -189,12 +169,7 @@ total$Winter[is.na(total$Winter)] = 0
 total$Fruehling[is.na(total$Fruehling)] = 0
 total$Sommer[is.na(total$Sommer)] = 0
 total$Herbst[is.na(total$Herbst)] = 0
-total$Einwohnerzahl_Kiel[is.na(total$Einwohnerzahl_Kiel)] = 0
 total$Schulferien[is.na(total$Schulferien)] = 0
-total$Durchschnittstemperatur_monatlich[is.na(total$Durchschnittstemperatur_monatlich)] = 0
-total$Differenz_zum_Mittel[is.na(total$Differenz_zum_Mittel)] = 0
-total$Waermer_als_normal[is.na(total$Waermer_als_normal)] = 0
-total$Kaelter_als_normal[is.na(total$Kaelter_als_normal)] = 0
 total$Ankuenfte[is.na(total$Ankuenfte)] = 0
 total$Uebernachtungen[is.na(total$Uebernachtungen)] = 0
 total$Wahl[is.na(total$Wahl)] = 0
@@ -204,10 +179,10 @@ total$Gesetzl_Feiertag[is.na(total$Gesetzl_Feiertag)] = 0
 total$Brueckentag[is.na(total$Brueckentag)] = 0
 total$Langes_Wochenende[is.na(total$Langes_Wochenende)] = 0
 
+
 ###delete columns###
-##
-total <- total[,-c(23, 25, 38, 40, 42, 45)]
-total <- total[-17]
+total <- total[,-c( 25, 27, 40, 42, 44)]
+
 
 #write.csv(total, "Data Set total.csv")
 #write_csv(total,"Dataset_total.csv")
