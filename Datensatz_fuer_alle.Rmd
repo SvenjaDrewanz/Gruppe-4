@@ -12,6 +12,7 @@ library(dplyr)
 library(lubridate)
 library(tidyr)
 library(readxl)
+library(magrittr)
 
 
 ###load datasets###
