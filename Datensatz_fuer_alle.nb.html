@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 
 <meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -1698,7 +1699,6 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
-  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -1751,14 +1751,45 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMjbG9hZCBsaWJyYXJpZXMjIyNcbiMjXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShkcGx5cilcbmxpYnJhcnkobHVicmlkYXRlKVxubGlicmFyeSh0aWR5cilcbmxpYnJhcnkocmVhZHhsKVxuXG5cbiMjI2xvYWQgZGF0YXNldHMjIyNcblxudW1zYXR6IDwtIHJlYWRfY3N2KFwiRGF0ZW4vdW1zYXR6ZGF0ZW5fZ2VrdWVyenQuY3N2XCIsIFxuICAgIGNvbF90eXBlcyA9IGNvbHMoRGF0dW0gPSBjb2xfZGF0ZShmb3JtYXQgPSBcIiVZLSVtLSVkXCIpKSlcbnVtc2F0eiA8LSB1bXNhdHogJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUodW1zYXR6JERhdHVtKSlcbmtpd28gPC0gcmVhZF9jc3YoXCJEYXRlbi9raXdvLmNzdlwiLCBjb2xfdHlwZXMgPSBjb2xzKERhdHVtID0gY29sX2RhdGUoZm9ybWF0ID0gXCIlWS0lbS0lZFwiKSkpXG5raXdvIDwtIGtpd28gJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUoa2l3byREYXR1bSkpXG53ZXR0ZXIgPC0gcmVhZF9jc3YoXCJEYXRlbi93ZXR0ZXIuY3N2XCIpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMjbG9hZCBsaWJyYXJpZXMjIyNcbiMjXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShnZ3Bsb3QyKVxuYGBgIn0= -->
 <pre class="r"><code>###load libraries###
 ##
 library(readr)
-library(ggplot2)
-library(dplyr)
-library(lubridate)
-library(tidyr)
+library(ggplot2)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2Qgb3ZlcndyaXR0ZW4gYnkgJ2RwbHlyJzpcbiAgbWV0aG9kICAgICAgICAgICBmcm9tXG4gIHByaW50LnJvd3dpc2VfZGYgICAgIFxuIn0= -->
+<pre><code>Registered S3 method overwritten by &#39;dplyr&#39;:
+  method           from
+  print.rowwise_df     </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcbmBgYCJ9 -->
+<pre class="r"><code>library(dplyr)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hlIFBha2V0OiDjpLzjuLFkcGx5cuOkvOO4slxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOOkvOO4sXBhY2thZ2U6c3RhdHPjpLzjuLI6XG5cbiAgICBmaWx0ZXIsIGxhZ1xuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOOkvOO4sXBhY2thZ2U6YmFzZeOkvOO4sjpcblxuICAgIGludGVyc2VjdCwgc2V0ZGlmZiwgc2V0ZXF1YWwsIHVuaW9uXG4ifQ== -->
+<pre><code>
+Attache Paket: 㤼㸱dplyr㤼㸲
+
+The following objects are masked from 㤼㸱package:stats㤼㸲:
+
+    filter, lag
+
+The following objects are masked from 㤼㸱package:base㤼㸲:
+
+    intersect, setdiff, setequal, union</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsdWJyaWRhdGUpXG5gYGAifQ== -->
+<pre class="r"><code>library(lubridate)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hlIFBha2V0OiDjpLzjuLFsdWJyaWRhdGXjpLzjuLJcblxuVGhlIGZvbGxvd2luZyBvYmplY3QgaXMgbWFza2VkIGZyb20g46S847ixcGFja2FnZTpiYXNl46S847iyOlxuXG4gICAgZGF0ZVxuIn0= -->
+<pre><code>
+Attache Paket: 㤼㸱lubridate㤼㸲
+
+The following object is masked from 㤼㸱package:base㤼㸲:
+
+    date</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5cilcbmxpYnJhcnkocmVhZHhsKVxuXG5cbiMjI2xvYWQgZGF0YXNldHMjIyNcblxudW1zYXR6IDwtIHJlYWRfY3N2KFwiRGF0ZW4vdW1zYXR6ZGF0ZW5fZ2VrdWVyenQuY3N2XCIsIFxuICAgIGNvbF90eXBlcyA9IGNvbHMoRGF0dW0gPSBjb2xfZGF0ZShmb3JtYXQgPSBcIiVZLSVtLSVkXCIpKSlcbnVtc2F0eiA8LSB1bXNhdHogJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUodW1zYXR6JERhdHVtKSlcbmtpd28gPC0gcmVhZF9jc3YoXCJEYXRlbi9raXdvLmNzdlwiLCBjb2xfdHlwZXMgPSBjb2xzKERhdHVtID0gY29sX2RhdGUoZm9ybWF0ID0gXCIlWS0lbS0lZFwiKSkpXG5raXdvIDwtIGtpd28gJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUoa2l3byREYXR1bSkpXG53ZXR0ZXIgPC0gcmVhZF9jc3YoXCJEYXRlbi93ZXR0ZXIuY3N2XCIpXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyr)
 library(readxl)
 
 
@@ -1885,7 +1916,7 @@ total &lt;- left_join(total, weihnachtsmarkt, by = &quot;Datum&quot;)
 total &lt;- left_join(total, zeitumstellung, by = &quot;Datum&quot;)
 head(total)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6NDUsIm5yb3ciOjZ9LCJyZGYiOiJINHNJQUFBQUFBQUFCdDBYUzJ3YlJYVHpzUjA3WHlVVkF0RkRRQnlRSUJaSldpSEJJZXRpQWtxYVVPRVdGemdzNC9XenZmTHVyRFU3MnpTK0VJN2NPTkplK0p6cG9RSWtUZ2lwNGdRbzRvTEVCZVhBR2VXRVVwQmEzdXg4dW5aYjRUb2lCMGF5Mzd3MzcvOW1adCs4V2I2OFdyaGNzQ3hyekJyTGpsaGpHWnhhMlZjdUxLK2NYYkdzOFZIRVJxeHhLeS9nVmVSYXdNa1N3aG5CWnUvbjlnUy92VDloS2Fqd3ZNTHpDaTlZY3ZRb3pMZytpU0tjektXSTQyWENBZUVkL0NWRzFnNmw2S0JReTltMTZ4LzhWdnZoYTl1OTNZaHJ6MzFydjN0MDQ2TzIvNkVOVDk3NCtLdHZidG5RK3Z0dzlwMmJOdno4eFI4SFQ3K0ZRVTBMdWNRWHl4cE5jb0wrQ0VjbHZjZjVyQTlYd05mZTV6UjFLNlNjTkJVMlVmYUFSaWw4eStOOEozUmJDaStVUTBxQnBUaHk2d3k4RkZvaFFYcTFndndDVFZ3WnZkdVh1bXlEdUR4a01ua21tTnlEZjBMRG1OWXdwVFZzRUJvVFpweUJHaE9vWlNlVjJmcWRkWFhwU2gzbStRb1oyeUtlcnQ1R1RGTnpYOCt6cGJnWlIxeGgrUXAwT0FRMU1KYmVhUFB3SGpxeEhWNUpMMCtVb1N2eEFRS1gxWDgvMlEyNXp3ZUZadGM4THJlUVBhSGc2VDU0eXVvZlVtNzVsNFlZOXZJRnlYZDJZVlVNZStYWGF6aXUyNnUzSlZ6NU0rRXpja1dsOXhrRnRYMXQ3MWtGRi92c25aR0k5dC9lM3BOOGZmVDc0anU2WlNkOEEwSXRkMS9VL3o2a3ZVKzQ5R3RBYU9SZWxzaWcwTWcxdnBQMHhvR0VUY1hYWEZUUVZ2QzlIamw5ZTlpS2FPby9wNkNxdTY2UHNUY2d2NjZuTmZ6K0ZKcEZIZkozY1R3Qy9ML0xuWFErajNVZWhwVWI5aXM0ckwzUzlQUEpqaTVObitrTUFvL3JwLzNDK1I5eC9EUW90STU1NzY0ZFhVdm9hNGVya24vaENjazMzcEQ2cGhYTTlObzc2VHJZMzMrNWw4UTFJRFJ5Qi91ZkN1U1J2MytmdlpRb0dSUWF1Y09iMWpEMlR2cmNEdHNYREZGMzZhZnE5Q3BoRUFEclluUDNIMUo2TzlROEMzZUtsQVFnbWxUUkRZN3U0Ui9tNHErSHRGR0ZPdUdrMkdBbzB0K3BheldDZlVrVHNWT1BBNFZNVmdrRDJtUnhwd082SzdzVVJJVHJqakV2K2w1SU5jZVpJS1JFUnpHMTZZRVB6S2tLSnUzT09kZ0p3Vy9IVklzVUxrTFFBWVptZFdlNFVQVm92UW1SMjlyQmlkZHNweEpUQmM2QnVXRmRLNXdzc1JxdVIzNFlhZEpNQlRBd1pHc0F3MTVkZDY1dmcybUNwNm9BYmNlanp1NDkybVNaN0RwaEkwMmFVaVFNaXV2MlBpZEU2MlJYMnlwN1RlenRmZWlKY21vZFBHQ1lsb2d3N2ZyY2F4QUI3L3FPWHRPODUxZ01ianZKNHFLaXpaOG5GQk1nZFZLZ2RkQXIrV3BmeG1lM0lRWm5nN1FZUktrZE5Ma3BkaER5c2VKVlhUcE1LemZ0ZDM0ZHpiWjh6OVFoSy9lY3hsNEhWak85L2Z5ckh0MEpXL2lzNlpLVzc0aTZhanNWdHhYN1BZbCtxaHd6dDRYVm8vZ3d3akxvNmpySjN2QTk4MUk2ZlpFMEljM0FDWThJdUswVXo2bXkxMER0UUx0T053NFd4VnZMMko2dkVtRG9za1A4eUtFaEM0aFoyU1RnOHdldDVFdTBIUU50Y0YycU9VTncwQmtTNkpCbkx3RytUU2h4V3h6M3FnbnVzVDV5cjlCNEZkTmpOZ3JPK1c1SDY2dUMxMHJrb29DdzlzUFBmcXB5dTFieStPazV0Ym13dzcyUTRya2RGYy8yVE45eEgyRjloTm1ZaW5OZVg4STYwZmJTaThLbUpWL0RscnBDUml4NTkrcjVralNaMFZkSlJ1OEp2QXM4cWhPWDhVbk5sR0lHcjZYa09pbmlFNUthNEpBYUZYbklUZm9MYnVocmluelkzZmtIWGpZcHVhNFFBQUE9In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6NDUsIm5yb3ciOjZ9LCJyZGYiOiJINHNJQUFBQUFBQUFCdDBYUzJ3YlJYVHpzUjA3WHlVVkF0RkRRQnlRSUJaSjJnc2NzaTRtb0tRSkZXNXhnY015WGovYksrL09Xck96VGVNTDRjaU5JKzJGejVrZUtrRGloSkFxVG9BaUxraGNVQTQ5bzV4UUNsTExtNTFQMTI0clhFZmt3RWoybS9mbS9kL003SnUzeXBkWEM1Y0xsbVdOV1dQWkVXc3NnMU1yKytxRjVaV3pLNVkxUG9yWWlEVnU1UVc4aWx3TE9GbENPQ1BZN1AzY251QzM5eWNzQlJXZVYzaGU0UVZMamg2RkdkY25VWVNUdVJSeHZFdzRJTHlMdjhUSTJxRVVIUlJxT2J0Mi9jUGZhejkrWTd0M0duSHRoZS9zOTQ1dWZOejJQN0xoNlJ1ZmZQM3RMUnRhZngvT3ZudlRobCsrL09QZzJiY3hxR2tobC9oaVdhTkpUdEFmNGFpazl6aWY5ZUVLK05yN25LWnVoWlNUcHNJbXloN1FLSVZ2ZVp6dmhHNUw0WVZ5U0Ntd0ZFZHVuWUdYUWlza1NLOVdrRitnaVN1ajkvcFNsMjBRbDRkTUpzOEVrM3Y0VDJnWTB4cW10SVlOUW1QQ2pETlFZd0sxN0tReVc3ZFpWNWV1MUdHZXI1Q3hMZUxwNm0zRU5EWDM5VHhiaXB0eHhCV1dyMENIUTFBRFkrbk5OZy92b3hQYjRaWDA4a1FadWhJZklIQlovUStTM1pEN1lsQm9kczJUY2d2WkV3cWU3b09uclA0aDVaWi9iWWhoTDErUWZHY1hWc1d3VjM2N2h1TzZ2WHBId3BVL0V6NGpWMVI2bjFOUTI5ZjJubGR3c2MvZUdZbG8vKzN0UGNuWFIzOGd2cU5iZHNJM0lOUnlEMFQ5NzBQYSs1Ukx2d2FFUnU0VmlRd0tqVnpqZTBsdkhFallWSHpOUlFWdEJkL3ZrZE8zaDYySXB2NXpDcXE2Ni9vWWV3UHk2M3Bhdys5UG9WblVJWDhQeDJQQS83dmNTZWZ6V09kaFdMbGh2NExEMml0TnY1anM2TkwwbWM0ZzhMaCsyaStkL3duSHo0TkM2NWozN3RyUnRZUytkcmdxK1JlZWtuempEYWx2V3NGTXI3MlRyb1A5dzFkN1NWd0RRaU4zc1ArWlFCNzcrL2Y1eTRtU1FhR1JPN3hwRFdQdnBNL3RzSDNCRUhXWGZxcE9yeElHQWJBdU5uZi9JYVczUTgyemNLZElTUUNpU1JYZDRPZ2UvbUV1L25wRUcxV29FMDZLRFlZaS9aMjZWaVBZbHpRUk8vVTRVTWhrbFRDZ1RSWjNPcUM3c2t0QlJManVHUE9pNzRWVWM1d0pRa3AwRkZPYkh2akFuS3BnMHU2Y2c1MFEvSFpNdFVqaElnUWRZR2hXZDRZTFZZL1dteEM1clIyY2VNMTJLakZWNEJ5WUc5YTF3c2tTcStGNjVJZVJKczFVQUFORHRnWXc3TlYxNS9vT21DWjRxZ3JRZGp6cTdONm5UWmJKcmhNMjBxUXBSY0tndUc3dmMwSzBUbmExcmJMWHhON2VoNTRvcDliQkE0WnBpUWpUcnMrOURoSHdydS9vTmMxN2pzWGd0cE1zTGlyYS9IbENNUUZTSndWYUI3MlNyL1psZkhZYlluQTJTSXRCbE5wQms1dGlCeUVmSzE3VnBjTzBjdE4rNTlmUmJNdjNUQjJ5Y3M5cDdBMWdOZFBiejcvbTBaMndoYythTG1uNWpxaXJ0bE54VzdIZmsraG55akZ6VzFnOWlnOGpMSU91cnBQc0RkOHpMNlhURjBrVDBneWM4SWlBMjByeG5DcDdEZFFPdE90MDQyQlJ2TFdNN2ZrcUFZWXVPOFNQSEJxeWdKaVZUUUkrZjloS3ZrVGJNZEFHMTZXYU13UUhuU0dCRG5uMkV1RGJoQkszeFhHdm11Q2U2Q1AzQ28xWE1UMW1vK0NjNzNhMHZpcDRyVVF1Q2doclAvcnNweXEzYXlXUG41NVRtd3M3M0FzcG50dFI4V3pQOUIzM0VkWkhtSTJwT09mMUphd1RiUzh0QzV1V2ZBMWI2Z29ac2VUZHErZEwwbVJHWHlVWnZTZndMdkNvVGx6R0p6VlRpaG04bHBMcnBJaFBTR3FDUTJwVTVDRTM2Uys0b2E4cDhtRjM5eC9UL0p3cHJoQUFBQT09In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["Datum"],"name":[1],"type":["date"],"align":["right"]},{"label":["Warengruppe"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Umsatz"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["wochentag"],"name":[4],"type":["fctr"],"align":["left"]},{"label":["monat"],"name":[5],"type":["fctr"],"align":["left"]},{"label":["Kieler_Woche"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Bewoelkung"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Temperatur"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Windgeschwindigkeit"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["Wettercode"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["Arbeitslose"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["Semesterferien"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["Year"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["Week_in_year"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["Day_of_year"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["Day_of_month"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["Weekday"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["Digitale_Woche"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["Feiertagsart"],"name":[19],"type":["chr"],"align":["left"]},{"label":["Gesetzl_Feiertag"],"name":[20],"type":["chr"],"align":["left"]},{"label":["Brueckentag "],"name":[21],"type":["chr"],"align":["left"]},{"label":["Langes_Wochenende "],"name":[22],"type":["chr"],"align":["left"]},{"label":["Wochentag"],"name":[23],"type":["chr"],"align":["left"]},{"label":["Neue_Jahreszeit"],"name":[24],"type":["dbl"],"align":["right"]},{"label":["Kommentar.x"],"name":[25],"type":["chr"],"align":["left"]},{"label":["Winter"],"name":[26],"type":["dbl"],"align":["right"]},{"label":["Fruehling"],"name":[27],"type":["dbl"],"align":["right"]},{"label":["Sommer"],"name":[28],"type":["dbl"],"align":["right"]},{"label":["Herbst"],"name":[29],"type":["dbl"],"align":["right"]},{"label":["Einwohnerzahl_Kiel"],"name":[30],"type":["dbl"],"align":["right"]},{"label":["Schulferien"],"name":[31],"type":["dbl"],"align":["right"]},{"label":["Durchschnittstemperatur_monatlich"],"name":[32],"type":["dbl"],"align":["right"]},{"label":["Tagestemperatur_tatsaechlich"],"name":[33],"type":["dbl"],"align":["right"]},{"label":["Differenz_zum Mittel"],"name":[34],"type":["dbl"],"align":["right"]},{"label":["Waermer_als_normal"],"name":[35],"type":["dbl"],"align":["right"]},{"label":["Kaelter_als_normal"],"name":[36],"type":["dbl"],"align":["right"]},{"label":["Ankuenfte"],"name":[37],"type":["dbl"],"align":["right"]},{"label":["Ankuenfte_gesamt"],"name":[38],"type":["dbl"],"align":["right"]},{"label":["Uebernachtungen"],"name":[39],"type":["dbl"],"align":["right"]},{"label":["Uebernachtungen_gesamt"],"name":[40],"type":["dbl"],"align":["right"]},{"label":["Wahl"],"name":[41],"type":["dbl"],"align":["right"]},{"label":["Wahltyp"],"name":[42],"type":["chr"],"align":["left"]},{"label":["Weihnachtsmarkt"],"name":[43],"type":["dbl"],"align":["right"]},{"label":["Sommerzeit"],"name":[44],"type":["dbl"],"align":["right"]},{"label":["Kommentar.y"],"name":[45],"type":["chr"],"align":["left"]}],"data":[{"1":"2013-07-01","2":"1","3":"148.8284","4":"Montag","5":"Juli","6":"NA","7":"6","8":"17.8375","9":"15","10":"20","11":"101428","12":"0","13":"2013","14":"27","15":"182","16":"1","17":"2","18":"NA","19":"NA","20":"NA","21":"NA","22":"NA","23":"NA","24":"NA","25":"NA","26":"0","27":"0","28":"1","29":"0","30":"238977","31":"1","32":"16.3","33":"17.8375","34":"1.5375","35":"1","36":"0","37":"11111","38":"34429","39":"2205","40":"68368","41":"NA","42":"NA","43":"NA","44":"1","45":"Sommerzeit"},{"1":"2013-07-02","2":"1","3":"159.7938","4":"Dienstag","5":"Juli","6":"NA","7":"3","8":"17.3125","9":"10","10":"NA","11":"101428","12":"0","13":"2013","14":"27","15":"183","16":"2","17":"3","18":"NA","19":"NA","20":"NA","21":"NA","22":"NA","23":"NA","24":"NA","25":"NA","26":"0","27":"0","28":"1","29":"0","30":"239246","31":"1","32":"16.3","33":"17.3125","34":"1.0125","35":"1","36":"0","37":"11111","38":"NA","39":"2205","40":"NA","41":"NA","42":"NA","43":"NA","44":"1","45":"Sommerzeit"},{"1":"2013-07-03","2":"1","3":"111.8856","4":"Mittwoch","5":"Juli","6":"NA","7":"7","8":"21.0750","9":"6","10":"61","11":"101428","12":"0","13":"2013","14":"27","15":"184","16":"3","17":"4","18":"NA","19":"NA","20":"NA","21":"NA","22":"NA","23":"NA","24":"NA","25":"NA","26":"0","27":"0","28":"1","29":"0","30":"239246","31":"1","32":"16.3","33":"21.0750","34":"4.7750","35":"1","36":"0","37":"11111","38":"NA","39":"2205","40":"NA","41":"NA","42":"NA","43":"NA","44":"1","45":"Sommerzeit"},{"1":"2013-07-04","2":"1","3":"168.8649","4":"Donnerstag","5":"Juli","6":"NA","7":"7","8":"18.8500","9":"7","10":"20","11":"101428","12":"0","13":"2013","14":"27","15":"185","16":"4","17":"5","18":"NA","19":"NA","20":"NA","21":"NA","22":"NA","23":"NA","24":"NA","25":"NA","26":"0","27":"0","28":"1","29":"0","30":"239246","31":"1","32":"16.3","33":"18.8500","34":"2.5500","35":"1","36":"0","37":"11111","38":"NA","39":"2205","40":"NA","41":"NA","42":"NA","43":"NA","44":"1","45":"Sommerzeit"},{"1":"2013-07-05","2":"1","3":"171.2808","4":"Freitag","5":"Juli","6":"NA","7":"5","8":"19.9750","9":"12","10":"NA","11":"101428","12":"0","13":"2013","14":"27","15":"186","16":"5","17":"6","18":"NA","19":"NA","20":"NA","21":"NA","22":"NA","23":"NA","24":"NA","25":"NA","26":"0","27":"0","28":"1","29":"0","30":"239246","31":"1","32":"16.3","33":"19.9750","34":"3.6750","35":"1","36":"0","37":"11111","38":"NA","39":"2205","40":"NA","41":"NA","42":"NA","43":"NA","44":"1","45":"Sommerzeit"},{"1":"2013-07-06","2":"1","3":"174.5524","4":"Samstag","5":"Juli","6":"NA","7":"0","8":"18.9625","9":"8","10":"NA","11":"101428","12":"0","13":"2013","14":"27","15":"187","16":"6","17":"7","18":"NA","19":"NA","20":"NA","21":"NA","22":"NA","23":"NA","24":"NA","25":"NA","26":"0","27":"0","28":"1","29":"0","30":"239246","31":"1","32":"16.3","33":"18.9625","34":"2.6625","35":"1","36":"0","37":"11111","38":"NA","39":"2205","40":"NA","41":"NA","42":"NA","43":"NA","44":"1","45":"Sommerzeit"}],"options":{"columns":{"min":{},"max":[10],"total":[45]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
