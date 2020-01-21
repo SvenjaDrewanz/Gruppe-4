@@ -19,12 +19,13 @@ total <- read_csv("Dataset_total.csv")
 
 ### Datentypenn ändern:
 total <- total %>% mutate(Temperatur = as.numeric(total$Temperatur))
+total <- total %>% mutate(Bewoelkung = as.integer(total$Bewoelkung))
+total <- total %>% mutate(Windgeschwindigkeit = as.integer(total$Windgeschwindigkeit))
+
 total <- total %>% mutate(wochentag = as.factor(total$wochentag))
 total <- total %>% mutate(monat = as.factor(total$monat))
 total <- total %>% mutate(Warengruppe = as.factor(total$Warengruppe))
 total <- total %>% mutate(Kieler_Woche = as.factor(total$Kieler_Woche))
-total <- total %>% mutate(Bewoelkung = as.factor(total$Bewoelkung))
-total <- total %>% mutate(Windgeschwindigkeit = as.factor(total$Windgeschwindigkeit))
 total <- total %>% mutate(Wettercode = as.factor(total$Wettercode))
 total <- total %>% mutate(Semesterferien = as.factor(total$Semesterferien))
 total <- total %>% mutate(Year = as.factor(total$Year))
