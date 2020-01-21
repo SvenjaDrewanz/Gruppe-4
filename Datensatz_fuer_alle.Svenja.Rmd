@@ -148,7 +148,7 @@ total <- left_join(total, wahlen, by = "Datum")
 total <- left_join(total, weihnachtsmarkt, by = "Datum")
 total <- left_join(total, zeitumstellung, by = "Datum")
 
-head(total)
+
 
 
 
@@ -183,6 +183,7 @@ total$Langes_Wochenende[is.na(total$Langes_Wochenende)] = 0
 ###delete columns###
 total <- total[,-c( 25, 27, 40, 42, 44)]
 
+View(total)
 
 #write.csv(total, "Data Set total.csv")
 #write_csv(total,"Dataset_total.csv")
