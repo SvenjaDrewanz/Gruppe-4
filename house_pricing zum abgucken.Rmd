@@ -1,5 +1,5 @@
 ---
-title: "R Notebook"
+title: "Estimation of Neural Net"
 output: html_notebook
 ---
 
@@ -8,13 +8,8 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
 
 ```{r}
----
-title: "Estimation of Neural Net"
-output: html_notebook
----
-
 ### # Installation ggf. noch benötigter Pakete ###
-```{r}
+
 # Nur ausführen, beim allerersten Mal !!
 install.packages("fastDummies")
 install.packages("reticulate")
