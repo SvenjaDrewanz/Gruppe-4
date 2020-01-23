@@ -13,6 +13,7 @@ library(lubridate)
 library(tidyr)
 library(readxl)
 library(magrittr)
+library(xlsx)
 ```
 
 ### Load datasets
@@ -287,8 +288,10 @@ total <- total[,-c( 23, 40, 48, 50)]
 # Show data
 View(total)
 
-# save data into an csv file
-write_csv(total,"Dataset_total.csv")
+# save data into an csv or xlsx file
+
+#write.xlsx(total,"Dataset_total.xlsx")
+#write_csv(total,"Dataset_total.csv")
 ```
 
 

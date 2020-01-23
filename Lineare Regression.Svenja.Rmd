@@ -77,6 +77,8 @@ total <- total %>% mutate(Ankuenfte = as.numeric(Ankuenfte))
 total <- total %>% mutate(Arbeitslose = as.numeric(Arbeitslose))
 total <- total %>% mutate(Uebernachtungen = as.numeric(Uebernachtungen))
 total <- total %>% mutate(Einwohnerzahl_Kiel = as.numeric(Einwohnerzahl_Kiel))
+
+
 ```
 
 ### Lineare Regression einzeln je Variable
