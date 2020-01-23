@@ -3,21 +3,25 @@ title: "Lineare Regresssion"
 output: html_notebook
 ---
 
-
+### Load librarie
 ```{r}
-###load libraries###
-##
 library(readr)
 library(ggplot2)
 library(dplyr)
 library(lubridate)
 library(tidyr)
 library(readxl)
+```
 
-###load dataset###
+
+### Load dataset
+```{r}
 total <- read_csv("Dataset_total.csv")
+```
+
 
 ### Datentypenn ändern:
+```{r}
 total <- total %>% mutate(Temperatur = as.numeric(total$Temperatur))
 total <- total %>% mutate(Bewoelkung = as.integer(total$Bewoelkung))
 total <- total %>% mutate(Windgeschwindigkeit = as.integer(total$Windgeschwindigkeit))
@@ -47,9 +51,10 @@ total <- total %>% mutate(Wahl = as.factor(total$Wahl))
 total <- total %>% mutate(Weihnachtsmarkt = as.factor(total$Weihnachtsmarkt))
 total <- total %>% mutate(Schulferien = as.factor(total$Schulferien))
 total <- total %>% mutate(Sommerzeit = as.factor(total$Sommerzeit))
+```
 
-
-####Lineare Regression einzeln je Variable
+### Lineare Regression einzeln je Variable
+```{r}
 ###Wochentag alleine --> Dienstag, Donnerstag, Freitag nicht sig.
 lm_total <- lm(data = total, Umsatz~wochentag)
 summary(lm_total)
@@ -149,9 +154,11 @@ lm_total_chunk<-lm(data=total,Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
                      Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt
                      ) #Temperatur rausgenommen, da nicht funktional
 summary(lm_total_chunk) #14,88% Erklärungswert bei signifikantem p-value, aber lauter NA's
+```
 
+### Support Vector Machine:
 
-#Support Vector Machine:
+```{r}
 library(e1071)
 
 svm_total<-svm(Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
@@ -184,9 +191,10 @@ svm_tune<- tune(svm, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+
                 ,data=total,
                 ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
 summary(svm_tune$best.model)
+```
 
-
-#select training sample
+### Select training sample
+```{r}
 total_frac1<-sample_frac(total, .10)
 head(total_frac1)
 

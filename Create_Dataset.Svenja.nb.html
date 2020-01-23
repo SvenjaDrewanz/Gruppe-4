@@ -194,98 +194,114 @@ library(magrittr)</code></pre>
 <h3>Load datasets</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW1zYXR6IDwtIHJlYWRfY3N2KFwiRGF0ZW4vdW1zYXR6ZGF0ZW5fZ2VrdWVyenQuY3N2XCIsIFxuICAgIGNvbF90eXBlcyA9IGNvbHMoRGF0dW0gPSBjb2xfZGF0ZShmb3JtYXQgPSBcIiVZLSVtLSVkXCIpKSlcbnVtc2F0eiA8LSB1bXNhdHogJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUodW1zYXR6JERhdHVtKSlcbmtpd28gPC0gcmVhZF9jc3YoXCJEYXRlbi9raXdvLmNzdlwiLCBjb2xfdHlwZXMgPSBjb2xzKERhdHVtID0gY29sX2RhdGUoZm9ybWF0ID0gXCIlWS0lbS0lZFwiKSkpXG5raXdvIDwtIGtpd28gJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUoa2l3byREYXR1bSkpXG53ZXR0ZXIgPC0gcmVhZF9jc3YoXCJEYXRlbi93ZXR0ZXIuY3N2XCIpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW1zYXR6IDwtIHJlYWRfY3N2KFwiRGF0ZW4vdW1zYXR6ZGF0ZW5fZ2VrdWVyenQuY3N2XCIsIFxuICAgIGNvbF90eXBlcyA9IGNvbHMoRGF0dW0gPSBjb2xfZGF0ZShmb3JtYXQgPSBcIiVZLSVtLSVkXCIpKSlcbnVtc2F0eiA8LSB1bXNhdHogJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUodW1zYXR6JERhdHVtKSlcblxuXG5raXdvIDwtIHJlYWRfY3N2KFwiRGF0ZW4va2l3by5jc3ZcIiwgY29sX3R5cGVzID0gY29scyhEYXR1bSA9IGNvbF9kYXRlKGZvcm1hdCA9IFwiJVktJW0tJWRcIikpKVxua2l3byA8LSBraXdvICU+JSBtdXRhdGUoRGF0dW0gPSBhcy5EYXRlKGtpd28kRGF0dW0pKVxuXG53ZXR0ZXIgPC0gcmVhZF9jc3YoXCJEYXRlbi93ZXR0ZXIuY3N2XCIpXG53ZXR0ZXIgPC0gd2V0dGVyICU+JSBtdXRhdGUoRGF0dW0gPSBhcy5EYXRlKHdldHRlciREYXR1bSkpXG5cbndldHRlciAlPD4lIFxuICBtdXRhdGUoV2luZEZjdCA9IGN1dChXaW5kZ2VzY2h3aW5kaWdrZWl0LCBcbiAgICAgICAgICAgICAgICAgICAgICAgYnJlYWtzID0gYygwLCA1LCAxMCwgMjAsIDI4LCBtYXgoV2luZGdlc2Nod2luZGlna2VpdCkpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgbGFiZWxzID0gYyhcImxlaWNodCBiaXMgc2Nod2FjaFwiLCBcIm3DpMOfaWcgYmlzIGZyaXNjaFwiLCBcInN0YXJrIGJpcyBzdMO8cm1pc2NoXCIsIFwiU3R1cm1cIiwgXCJPcmthblwiKSwgXG4gICAgICAgICAgICAgICAgICAgICAgIGluY2x1ZGUubG93ZXN0ID0gVCwgcmlnaHQgPSBGKSlcblxud2V0dGVyICU8PiUgXG4gIG11dGF0ZShCZXdvZWxrdW5nRmN0ID0gY3V0KEJld29lbGt1bmcsIFxuICAgICAgICAgICAgICAgICAgICAgICBicmVha3MgPSBjKDAsIDEsIDMsIDcsIDgpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgbGFiZWxzID0gYyhcIm5pY2h0IGJld29lbGt0XCIsIFwiaGVpdGVyXCIsIFwic3RhcmsgYmV3b2Vsa3RcIiwgXCJiZWRlY2t0XCIpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgaW5jbHVkZS5sb3dlc3QgPSBULCByaWdodD1GKSlcblxud2V0dGVyICU8PiUgXG4gIG11dGF0ZShUZW1wZXJhdHVyRmN0ID0gY3V0KFRlbXBlcmF0dXIsIFxuICAgICAgICAgICAgICAgICAgICAgICBicmVha3MgPSBjKC0xMCwgMSwgMTUsIDI0LCAzMCwgNDApLCBcbiAgICAgICAgICAgICAgICAgICAgICAgbGFiZWxzID0gYyhcIkVpc3RhZ1wiLCBcIkthbHR0YWdcIiwgXCJXYXJtdGFnXCIsIFwiU29tbWVydGFnXCIsIFwiSGl0emV0YWdcIiksIFxuICAgICAgICAgICAgICAgICAgICAgICBpbmNsdWRlLmxvd2VzdCA9IFQsIHJpZ2h0PUYpKVxuXG53ZXR0ZXIgJTw+JSBcbiAgbXV0YXRlKFdldHRlcmNvZGVGY3QgPSBjdXQoV2V0dGVyY29kZSwgXG4gICAgICAgICAgICAgICAgICAgICAgIGJyZWFrcyA9IGMoMCwgNDksIDU5LCA2OSwgNzksIDkwLCA5OSksIFxuICAgICAgICAgICAgICAgICAgICAgICBsYWJlbHMgPSBjKFwiS2VpbmUgRm9ybSB2b24gTmllZGVyc2NobGFnXCIsIFwiU3Byw7xocmVnZW5cIiwgXCJSZWdlblwiLCBcIlNjaG5lZVwiLCBcIlNjaGF1ZXJcIiwgXCJHZXdpdHRlclwiKSwgXG4gICAgICAgICAgICAgICAgICAgICAgIGluY2x1ZGUubG93ZXN0ID0gVCwgcmlnaHQ9RikpXG5cblxuYXJiZWl0c2xvc2lna2VpdCA8LSByZWFkX2RlbGltKFwiRGF0ZW4vQXJiZWl0c2xvc2lna2VpdC5jc3ZcIiwgXG4gICAgXCI7XCIsIGVzY2FwZV9kb3VibGUgPSBGQUxTRSwgY29sX3R5cGVzID0gY29scyhEYXR1bSA9IGNvbF9kYXRlKGZvcm1hdCA9IFwiJWQuJW0uJVlcIikpLCBcbiAgICB0cmltX3dzID0gVFJVRSkgXG5hcmJlaXRzbG9zaWdrZWl0IDwtIGFyYmVpdHNsb3NpZ2tlaXQgJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUoYXJiZWl0c2xvc2lna2VpdCREYXR1bSkpXG5cblxuc2VtZXN0ZXJmZXJpZW4gPC0gcmVhZF9leGNlbChcIkRhdGVuL0NBVV9TZW1lc3RlcmZlcmllbi54bHN4XCIsIFxuICAgIGNvbF90eXBlcyA9IGMoXCJkYXRlXCIsIFwibnVtZXJpY1wiKSlcbnNlbWVzdGVyZmVyaWVuIDwtIHNlbWVzdGVyZmVyaWVuICU+JSBtdXRhdGUoRGF0dW0gPSBhcy5EYXRlKHNlbWVzdGVyZmVyaWVuJERhdHVtKSlcblxuXG5kYXR1bXNhbmdhYmVuIDwtIHJlYWRfZGVsaW0oXCJEYXRlbi9EYXRlLmNzdlwiLCBcIjtcIiwgZXNjYXBlX2RvdWJsZSA9IEZBTFNFLCBcbiAgICBjb2xfdHlwZXMgPSBjb2xzKERhdHVtID0gY29sX2RhdGUoZm9ybWF0ID0gXCIlZC4lbS4lWVwiKSksIFxuICAgIHRyaW1fd3MgPSBUUlVFKVxuZGF0dW1zYW5nYWJlbiA8LSBkYXR1bXNhbmdhYmVuICU+JSBtdXRhdGUoRGF0dW0gPSBhcy5EYXRlKGRhdHVtc2FuZ2FiZW4kRGF0dW0pKVxuXG5cbmRpZ2l0YWxlX3dvY2hlIDwtIHJlYWRfZXhjZWwoXCJEYXRlbi9EaWdpdGFsZV9Xb2NoZS54bHN4XCIsIFxuICAgIGNvbF90eXBlcyA9IGMoXCJkYXRlXCIsIFwibnVtZXJpY1wiKSlcbmRpZ2l0YWxlX3dvY2hlIDwtIGRpZ2l0YWxlX3dvY2hlICU+JSBtdXRhdGUoRGF0dW0gPSBhcy5EYXRlKGRpZ2l0YWxlX3dvY2hlJERhdHVtKSlcblxuXG5mZWllcnRhZ2UgPC0gcmVhZF9kZWxpbShcIkRhdGVuL0ZlaWVydGFnZS5jc3ZcIiwgXG4gICAgXCI7XCIsIGVzY2FwZV9kb3VibGUgPSBGQUxTRSwgY29sX3R5cGVzID0gY29scyhEYXR1bSA9IGNvbF9kYXRlKGZvcm1hdCA9IFwiJWQuJW0uJVlcIikpKVxuZmVpZXJ0YWdlIDwtIGZlaWVydGFnZVssLWMoNzoxMyldIFxuZmVpZXJ0YWdlIDwtIGZlaWVydGFnZSAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZShmZWllcnRhZ2UkRGF0dW0pKVxuXG5cbmphaHJlc3plaXRlbmJlZ2lubiA8LSByZWFkX2V4Y2VsKFwiRGF0ZW4vSmFocmVzemVpdGVuYmVnaW5uLnhsc3hcIiwgXG4gICAgY29sX3R5cGVzID0gYyhcImRhdGVcIiwgXCJudW1lcmljXCIsIFwidGV4dFwiKSlcbmphaHJlc3plaXRlbmJlZ2lubiA8LSBqYWhyZXN6ZWl0ZW5iZWdpbm4gJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUoamFocmVzemVpdGVuYmVnaW5uJERhdHVtKSlcblxuXG5qYWhyZXN6ZWl0ZW4gPC0gcmVhZF9leGNlbChcIkRhdGVuL01ldGVvcm9sb2dpc2NoZSBKYWhyZXN6ZWl0ZW4ueGxzeFwiLCBcbiAgICBjb2xfdHlwZXMgPSBjKFwiZGF0ZVwiLCBcIm51bWVyaWNcIiwgXCJudW1lcmljXCIsIFxuICAgICAgICBcIm51bWVyaWNcIiwgXCJudW1lcmljXCIpKVxuamFocmVzemVpdGVuIDwtIGphaHJlc3plaXRlbiAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZShqYWhyZXN6ZWl0ZW4kRGF0dW0pKVxuXG5cbmJldm9lbGtlcnVuZyA8LSByZWFkX2V4Y2VsKFwiRGF0ZW4vUG9wdWxhdGlvbl9LaWVsLnhsc3hcIiwgXG4gICAgY29sX3R5cGVzID0gYyhcImRhdGVcIiwgXCJudW1lcmljXCIpKVxuYmV2b2Vsa2VydW5nIDwtIGJldm9lbGtlcnVuZyAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZShiZXZvZWxrZXJ1bmckRGF0dW0pKVxuXG5zY2h1bGZlcmllbiA8LSByZWFkX2V4Y2VsKFwiRGF0ZW4vU2NodWxmZXJpZW4ueGxzeFwiLCBcbiAgICBjb2xfdHlwZXMgPSBjKFwiZGF0ZVwiLCBcIm51bWVyaWNcIikpXG5zY2h1bGZlcmllbiA8LSBzY2h1bGZlcmllbiAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZShzY2h1bGZlcmllbiREYXR1bSkpXG5cblxudGVtcGVyYXR1cmRpZmZlcmVueiA8LSByZWFkX2V4Y2VsKFwiRGF0ZW4vVGVtcGVyYXR1cmRpZmZlcmVuel91bmRfRHVyY2hzY2huaXR0Lnhsc3hcIiwgXG4gICAgY29sX3R5cGVzID0gYyhcImRhdGVcIiwgXCJudW1lcmljXCIsIFwibnVtZXJpY1wiLCBcbiAgICAgICAgXCJudW1lcmljXCIsIFwibnVtZXJpY1wiLCBcIm51bWVyaWNcIikpXG50ZW1wZXJhdHVyZGlmZmVyZW56IDwtIHRlbXBlcmF0dXJkaWZmZXJlbnogJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUodGVtcGVyYXR1cmRpZmZlcmVueiREYXR1bSkpXG5cblxudG91cmlzbXVzIDwtIHJlYWRfZXhjZWwoXCJEYXRlbi9Ub3VyaXNtdXMueGxzeFwiLCBcbiAgICBjb2xfdHlwZXMgPSBjKFwiZGF0ZVwiLCBcIm51bWVyaWNcIiwgXCJudW1lcmljXCIsIFxuICAgICAgICBcIm51bWVyaWNcIiwgXCJudW1lcmljXCIsIFwidGV4dFwiKSlcbnRvdXJpc211cyA8LSB0b3VyaXNtdXNbLC02XVxudG91cmlzbXVzIDwtIHRvdXJpc211cyAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZSh0b3VyaXNtdXMkRGF0dW0pKVxuXG5cbndhaGxlbiA8LSByZWFkX2V4Y2VsKFwiRGF0ZW4vV2FobGVuLnhsc3hcIiwgY29sX3R5cGVzID0gYyhcImRhdGVcIiwgXG4gICAgXCJudW1lcmljXCIsIFwidGV4dFwiKSlcbndhaGxlbiA8LSB3YWhsZW4gJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUod2FobGVuJERhdHVtKSlcblxuXG53ZWlobmFjaHRzbWFya3QgPC0gcmVhZF9leGNlbChcIkRhdGVuL1dlaWhuYWNodHNtYXJrdC54bHN4XCIsIFxuICAgIGNvbF90eXBlcyA9IGMoXCJkYXRlXCIsIFwibnVtZXJpY1wiKSlcbndlaWhuYWNodHNtYXJrdCA8LSB3ZWlobmFjaHRzbWFya3QgJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUod2VpaG5hY2h0c21hcmt0JERhdHVtKSlcblxuXG56ZWl0dW1zdGVsbHVuZyA8LSByZWFkX2V4Y2VsKFwiRGF0ZW4vWmVpdHVtc3RlbGx1bmcueGxzeFwiLCBcbiAgICBjb2xfdHlwZXMgPSBjKFwiZGF0ZVwiLCBcIm51bWVyaWNcIiwgXCJ0ZXh0XCIpKVxuemVpdHVtc3RlbGx1bmcgPC0gemVpdHVtc3RlbGx1bmcgJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUoemVpdHVtc3RlbGx1bmckRGF0dW0pKVxuYGBgIn0= -->
 <pre class="r"><code>umsatz &lt;- read_csv(&quot;Daten/umsatzdaten_gekuerzt.csv&quot;, 
     col_types = cols(Datum = col_date(format = &quot;%Y-%m-%d&quot;)))
 umsatz &lt;- umsatz %&gt;% mutate(Datum = as.Date(umsatz$Datum))
+
+
 kiwo &lt;- read_csv(&quot;Daten/kiwo.csv&quot;, col_types = cols(Datum = col_date(format = &quot;%Y-%m-%d&quot;)))
 kiwo &lt;- kiwo %&gt;% mutate(Datum = as.Date(kiwo$Datum))
-wetter &lt;- read_csv(&quot;Daten/wetter.csv&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICBEYXR1bSA9IGNvbF9kYXRlKGZvcm1hdCA9IFwiXCIpLFxuICBCZXdvZWxrdW5nID0gY29sX2ludGVnZXIoKSxcbiAgVGVtcGVyYXR1ciA9IGNvbF9kb3VibGUoKSxcbiAgV2luZGdlc2Nod2luZGlna2VpdCA9IGNvbF9pbnRlZ2VyKCksXG4gIFdldHRlcmNvZGUgPSBjb2xfaW50ZWdlcigpXG4pXG4ifQ== -->
-<pre><code>Parsed with column specification:
-cols(
-  Datum = col_date(format = &quot;&quot;),
-  Bewoelkung = col_integer(),
-  Temperatur = col_double(),
-  Windgeschwindigkeit = col_integer(),
-  Wettercode = col_integer()
-)</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2V0dGVyIDwtIHdldHRlciAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZSh3ZXR0ZXIkRGF0dW0pKVxud2V0dGVyICU8PiUgXG4gIG11dGF0ZShXaW5kRmN0ID0gY3V0KFdpbmRnZXNjaHdpbmRpZ2tlaXQsIFxuICAgICAgICAgICAgICAgICAgICAgICBicmVha3MgPSBjKDAsIDUsIDEwLCAyMCwgMjgsIG1heChXaW5kZ2VzY2h3aW5kaWdrZWl0KSksIFxuICAgICAgICAgICAgICAgICAgICAgICBsYWJlbHMgPSBjKFwibGVpY2h0IGJpcyBzY2h3YWNoXCIsIFwibcOkw59pZyBiaXMgZnJpc2NoXCIsIFwic3RhcmsgYmlzIHN0w7xybWlzY2hcIiwgXCJTdHVybVwiLCBcIk9ya2FuXCIpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgaW5jbHVkZS5sb3dlc3QgPSBULCByaWdodCA9IEYpKVxud2V0dGVyICU8PiUgXG4gIG11dGF0ZShCZXdvZWxrdW5nRmN0ID0gY3V0KEJld29lbGt1bmcsIFxuICAgICAgICAgICAgICAgICAgICAgICBicmVha3MgPSBjKDAsIDEsIDMsIDcsIDgpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgbGFiZWxzID0gYyhcIm5pY2h0IGJld29lbGt0XCIsIFwiaGVpdGVyXCIsIFwic3RhcmsgYmV3b2Vsa3RcIiwgXCJiZWRlY2t0XCIpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgaW5jbHVkZS5sb3dlc3QgPSBULCByaWdodD1GKSlcbndldHRlciAlPD4lIFxuICBtdXRhdGUoVGVtcGVyYXR1ckZjdCA9IGN1dChUZW1wZXJhdHVyLCBcbiAgICAgICAgICAgICAgICAgICAgICAgYnJlYWtzID0gYygtMTAsIDEsIDE1LCAyNCwgMzAsIDQwKSwgXG4gICAgICAgICAgICAgICAgICAgICAgIGxhYmVscyA9IGMoXCJFaXN0YWdcIiwgXCJLYWx0dGFnXCIsIFwiV2FybXRhZ1wiLCBcIlNvbW1lcnRhZ1wiLCBcIkhpdHpldGFnXCIpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgaW5jbHVkZS5sb3dlc3QgPSBULCByaWdodD1GKSlcbndldHRlciAlPD4lIFxuICBtdXRhdGUoV2V0dGVyY29kZUZjdCA9IGN1dChXZXR0ZXJjb2RlLCBcbiAgICAgICAgICAgICAgICAgICAgICAgYnJlYWtzID0gYygwLCA0OSwgNTksIDY5LCA3OSwgOTAsIDk5KSwgXG4gICAgICAgICAgICAgICAgICAgICAgIGxhYmVscyA9IGMoXCJLZWluZSBGb3JtIHZvbiBOaWVkZXJzY2hsYWdcIiwgXCJTcHLDvGhyZWdlblwiLCBcIlJlZ2VuXCIsIFwiU2NobmVlXCIsIFwiU2NoYXVlclwiLCBcIkdld2l0dGVyXCIpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgaW5jbHVkZS5sb3dlc3QgPSBULCByaWdodD1GKSlcbmFyYmVpdHNsb3NpZ2tlaXQgPC0gcmVhZF9kZWxpbShcIkRhdGVuL0FyYmVpdHNsb3NpZ2tlaXQuY3N2XCIsIFxuICAgIFwiO1wiLCBlc2NhcGVfZG91YmxlID0gRkFMU0UsIGNvbF90eXBlcyA9IGNvbHMoRGF0dW0gPSBjb2xfZGF0ZShmb3JtYXQgPSBcIiVkLiVtLiVZXCIpKSwgXG4gICAgdHJpbV93cyA9IFRSVUUpIFxuYXJiZWl0c2xvc2lna2VpdCA8LSBhcmJlaXRzbG9zaWdrZWl0ICU+JSBtdXRhdGUoRGF0dW0gPSBhcy5EYXRlKGFyYmVpdHNsb3NpZ2tlaXQkRGF0dW0pKVxuc2VtZXN0ZXJmZXJpZW4gPC0gcmVhZF9leGNlbChcIkRhdGVuL0NBVV9TZW1lc3RlcmZlcmllbi54bHN4XCIsIFxuICAgIGNvbF90eXBlcyA9IGMoXCJkYXRlXCIsIFwibnVtZXJpY1wiKSlcbnNlbWVzdGVyZmVyaWVuIDwtIHNlbWVzdGVyZmVyaWVuICU+JSBtdXRhdGUoRGF0dW0gPSBhcy5EYXRlKHNlbWVzdGVyZmVyaWVuJERhdHVtKSlcbmRhdHVtc2FuZ2FiZW4gPC0gcmVhZF9kZWxpbShcIkRhdGVuL0RhdGUuY3N2XCIsIFwiO1wiLCBlc2NhcGVfZG91YmxlID0gRkFMU0UsIFxuICAgIGNvbF90eXBlcyA9IGNvbHMoRGF0dW0gPSBjb2xfZGF0ZShmb3JtYXQgPSBcIiVkLiVtLiVZXCIpKSwgXG4gICAgdHJpbV93cyA9IFRSVUUpXG5kYXR1bXNhbmdhYmVuIDwtIGRhdHVtc2FuZ2FiZW4gJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUoZGF0dW1zYW5nYWJlbiREYXR1bSkpXG5kaWdpdGFsZV93b2NoZSA8LSByZWFkX2V4Y2VsKFwiRGF0ZW4vRGlnaXRhbGVfV29jaGUueGxzeFwiLCBcbiAgICBjb2xfdHlwZXMgPSBjKFwiZGF0ZVwiLCBcIm51bWVyaWNcIikpXG5kaWdpdGFsZV93b2NoZSA8LSBkaWdpdGFsZV93b2NoZSAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZShkaWdpdGFsZV93b2NoZSREYXR1bSkpXG5mZWllcnRhZ2UgPC0gcmVhZF9kZWxpbShcIkRhdGVuL0ZlaWVydGFnZS5jc3ZcIiwgXG4gICAgXCI7XCIsIGVzY2FwZV9kb3VibGUgPSBGQUxTRSwgY29sX3R5cGVzID0gY29scyhEYXR1bSA9IGNvbF9kYXRlKGZvcm1hdCA9IFwiJWQuJW0uJVlcIikpKVxuYGBgIn0= -->
-<pre class="r"><code>wetter &lt;- wetter %&gt;% mutate(Datum = as.Date(wetter$Datum))
+
+wetter &lt;- read_csv(&quot;Daten/wetter.csv&quot;)
+wetter &lt;- wetter %&gt;% mutate(Datum = as.Date(wetter$Datum))
+
 wetter %&lt;&gt;% 
   mutate(WindFct = cut(Windgeschwindigkeit, 
                        breaks = c(0, 5, 10, 20, 28, max(Windgeschwindigkeit)), 
                        labels = c(&quot;leicht bis schwach&quot;, &quot;mäßig bis frisch&quot;, &quot;stark bis stürmisch&quot;, &quot;Sturm&quot;, &quot;Orkan&quot;), 
                        include.lowest = T, right = F))
+
 wetter %&lt;&gt;% 
   mutate(BewoelkungFct = cut(Bewoelkung, 
                        breaks = c(0, 1, 3, 7, 8), 
                        labels = c(&quot;nicht bewoelkt&quot;, &quot;heiter&quot;, &quot;stark bewoelkt&quot;, &quot;bedeckt&quot;), 
                        include.lowest = T, right=F))
+
 wetter %&lt;&gt;% 
   mutate(TemperaturFct = cut(Temperatur, 
                        breaks = c(-10, 1, 15, 24, 30, 40), 
                        labels = c(&quot;Eistag&quot;, &quot;Kalttag&quot;, &quot;Warmtag&quot;, &quot;Sommertag&quot;, &quot;Hitzetag&quot;), 
                        include.lowest = T, right=F))
+
 wetter %&lt;&gt;% 
   mutate(WettercodeFct = cut(Wettercode, 
                        breaks = c(0, 49, 59, 69, 79, 90, 99), 
                        labels = c(&quot;Keine Form von Niederschlag&quot;, &quot;Sprühregen&quot;, &quot;Regen&quot;, &quot;Schnee&quot;, &quot;Schauer&quot;, &quot;Gewitter&quot;), 
                        include.lowest = T, right=F))
+
+
 arbeitslosigkeit &lt;- read_delim(&quot;Daten/Arbeitslosigkeit.csv&quot;, 
     &quot;;&quot;, escape_double = FALSE, col_types = cols(Datum = col_date(format = &quot;%d.%m.%Y&quot;)), 
     trim_ws = TRUE) 
 arbeitslosigkeit &lt;- arbeitslosigkeit %&gt;% mutate(Datum = as.Date(arbeitslosigkeit$Datum))
+
+
 semesterferien &lt;- read_excel(&quot;Daten/CAU_Semesterferien.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;))
 semesterferien &lt;- semesterferien %&gt;% mutate(Datum = as.Date(semesterferien$Datum))
+
+
 datumsangaben &lt;- read_delim(&quot;Daten/Date.csv&quot;, &quot;;&quot;, escape_double = FALSE, 
     col_types = cols(Datum = col_date(format = &quot;%d.%m.%Y&quot;)), 
     trim_ws = TRUE)
 datumsangaben &lt;- datumsangaben %&gt;% mutate(Datum = as.Date(datumsangaben$Datum))
+
+
 digitale_woche &lt;- read_excel(&quot;Daten/Digitale_Woche.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;))
 digitale_woche &lt;- digitale_woche %&gt;% mutate(Datum = as.Date(digitale_woche$Datum))
+
+
 feiertage &lt;- read_delim(&quot;Daten/Feiertage.csv&quot;, 
-    &quot;;&quot;, escape_double = FALSE, col_types = cols(Datum = col_date(format = &quot;%d.%m.%Y&quot;)))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTWlzc2luZyBjb2x1bW4gbmFtZXMgZmlsbGVkIGluOiAnWDcnIFs3XSwgJ1g4JyBbOF0sICdYOScgWzldLCAnWDEwJyBbMTBdLCAnWDExJyBbMTFdLCAnWDEyJyBbMTJdLCAnWDEzJyBbMTNdbnVtYmVyIG9mIGNvbHVtbnMgb2YgcmVzdWx0IGlzIG5vdCBhIG11bHRpcGxlIG9mIHZlY3RvciBsZW5ndGggKGFyZyAyKTEgcGFyc2luZyBmYWlsdXJlLlxucm93IFx1MDAxYlszODs1OzI0Nm0jIEEgdGliYmxlOiAxIHggNVx1MDAxYlszOW0gY29sICAgICByb3cgY29sICAgZXhwZWN0ZWQgICAgICAgICAgIGFjdHVhbCBmaWxlICAgICAgICAgICAgICAgICAgZXhwZWN0ZWQgICBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGludD5cdTAwMWJbMzltXHUwMDFiWzIzbSBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSBcdTAwMWJbM21cdTAwMWJbMzg7NTsyNDZtPGNocj5cdTAwMWJbMzltXHUwMDFiWzIzbSAgICAgICAgICAgICAgXHUwMDFiWzNtXHUwMDFiWzM4OzU7MjQ2bTxjaHI+XHUwMDFiWzM5bVx1MDAxYlsyM20gIFx1MDAxYlszbVx1MDAxYlszODs1OzI0Nm08Y2hyPlx1MDAxYlszOW1cdTAwMWJbMjNtICAgICAgICAgICAgICAgICBhY3R1YWwgXHUwMDFiWzM4OzU7MjUwbTFcdTAwMWJbMzltICAgMjM1IERhdHVtIGRhdGUgbGlrZSAlZC4lbS4lWSBEYXR1bSAgJ0RhdGVuL0ZlaWVydGFnZS5jc3YnIGZpbGUgXHUwMDFiWzM4OzU7MjQ2bSMgQSB0aWJibGU6IDEgeCA1XHUwMDFiWzM5bVxuIn0= -->
-<pre><code>Missing column names filled in: 'X7' [7], 'X8' [8], 'X9' [9], 'X10' [10], 'X11' [11], 'X12' [12], 'X13' [13]number of columns of result is not a multiple of vector length (arg 2)1 parsing failure.
-row [38;5;246m# A tibble: 1 x 5[39m col     row col   expected           actual file                  expected   [3m[38;5;246m&lt;int&gt;[39m[23m [3m[38;5;246m&lt;chr&gt;[39m[23m [3m[38;5;246m&lt;chr&gt;[39m[23m              [3m[38;5;246m&lt;chr&gt;[39m[23m  [3m[38;5;246m&lt;chr&gt;[39m[23m                 actual [38;5;250m1[39m   235 Datum date like %d.%m.%Y Datum  'Daten/Feiertage.csv' file [38;5;246m# A tibble: 1 x 5[39m</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmVpZXJ0YWdlIDwtIGZlaWVydGFnZVssLWMoNzoxMyldIFxuZmVpZXJ0YWdlIDwtIGZlaWVydGFnZSAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZShmZWllcnRhZ2UkRGF0dW0pKVxuamFocmVzemVpdGVuYmVnaW5uIDwtIHJlYWRfZXhjZWwoXCJEYXRlbi9KYWhyZXN6ZWl0ZW5iZWdpbm4ueGxzeFwiLCBcbiAgICBjb2xfdHlwZXMgPSBjKFwiZGF0ZVwiLCBcIm51bWVyaWNcIiwgXCJ0ZXh0XCIpKVxuamFocmVzemVpdGVuYmVnaW5uIDwtIGphaHJlc3plaXRlbmJlZ2lubiAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZShqYWhyZXN6ZWl0ZW5iZWdpbm4kRGF0dW0pKVxuamFocmVzemVpdGVuIDwtIHJlYWRfZXhjZWwoXCJEYXRlbi9NZXRlb3JvbG9naXNjaGUgSmFocmVzemVpdGVuLnhsc3hcIiwgXG4gICAgY29sX3R5cGVzID0gYyhcImRhdGVcIiwgXCJudW1lcmljXCIsIFwibnVtZXJpY1wiLCBcbiAgICAgICAgXCJudW1lcmljXCIsIFwibnVtZXJpY1wiKSlcbmphaHJlc3plaXRlbiA8LSBqYWhyZXN6ZWl0ZW4gJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUoamFocmVzemVpdGVuJERhdHVtKSlcbmJldm9lbGtlcnVuZyA8LSByZWFkX2V4Y2VsKFwiRGF0ZW4vUG9wdWxhdGlvbl9LaWVsLnhsc3hcIiwgXG4gICAgY29sX3R5cGVzID0gYyhcImRhdGVcIiwgXCJudW1lcmljXCIpKVxuYmV2b2Vsa2VydW5nIDwtIGJldm9lbGtlcnVuZyAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZShiZXZvZWxrZXJ1bmckRGF0dW0pKVxuc2NodWxmZXJpZW4gPC0gcmVhZF9leGNlbChcIkRhdGVuL1NjaHVsZmVyaWVuLnhsc3hcIiwgXG4gICAgY29sX3R5cGVzID0gYyhcImRhdGVcIiwgXCJudW1lcmljXCIpKVxuc2NodWxmZXJpZW4gPC0gc2NodWxmZXJpZW4gJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUoc2NodWxmZXJpZW4kRGF0dW0pKVxudGVtcGVyYXR1cmRpZmZlcmVueiA8LSByZWFkX2V4Y2VsKFwiRGF0ZW4vVGVtcGVyYXR1cmRpZmZlcmVuel91bmRfRHVyY2hzY2huaXR0Lnhsc3hcIiwgXG4gICAgY29sX3R5cGVzID0gYyhcImRhdGVcIiwgXCJudW1lcmljXCIsIFwibnVtZXJpY1wiLCBcbiAgICAgICAgXCJudW1lcmljXCIsIFwibnVtZXJpY1wiLCBcIm51bWVyaWNcIikpXG50ZW1wZXJhdHVyZGlmZmVyZW56IDwtIHRlbXBlcmF0dXJkaWZmZXJlbnogJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUodGVtcGVyYXR1cmRpZmZlcmVueiREYXR1bSkpXG50b3VyaXNtdXMgPC0gcmVhZF9leGNlbChcIkRhdGVuL1RvdXJpc211cy54bHN4XCIsIFxuICAgIGNvbF90eXBlcyA9IGMoXCJkYXRlXCIsIFwibnVtZXJpY1wiLCBcIm51bWVyaWNcIiwgXG4gICAgICAgIFwibnVtZXJpY1wiLCBcIm51bWVyaWNcIiwgXCJ0ZXh0XCIpKVxudG91cmlzbXVzIDwtIHRvdXJpc211c1ssLTZdXG50b3VyaXNtdXMgPC0gdG91cmlzbXVzICU+JSBtdXRhdGUoRGF0dW0gPSBhcy5EYXRlKHRvdXJpc211cyREYXR1bSkpXG53YWhsZW4gPC0gcmVhZF9leGNlbChcIkRhdGVuL1dhaGxlbi54bHN4XCIsIGNvbF90eXBlcyA9IGMoXCJkYXRlXCIsIFxuICAgIFwibnVtZXJpY1wiLCBcInRleHRcIikpXG53YWhsZW4gPC0gd2FobGVuICU+JSBtdXRhdGUoRGF0dW0gPSBhcy5EYXRlKHdhaGxlbiREYXR1bSkpXG53ZWlobmFjaHRzbWFya3QgPC0gcmVhZF9leGNlbChcIkRhdGVuL1dlaWhuYWNodHNtYXJrdC54bHN4XCIsIFxuICAgIGNvbF90eXBlcyA9IGMoXCJkYXRlXCIsIFwibnVtZXJpY1wiKSlcbndlaWhuYWNodHNtYXJrdCA8LSB3ZWlobmFjaHRzbWFya3QgJT4lIG11dGF0ZShEYXR1bSA9IGFzLkRhdGUod2VpaG5hY2h0c21hcmt0JERhdHVtKSlcbnplaXR1bXN0ZWxsdW5nIDwtIHJlYWRfZXhjZWwoXCJEYXRlbi9aZWl0dW1zdGVsbHVuZy54bHN4XCIsIFxuICAgIGNvbF90eXBlcyA9IGMoXCJkYXRlXCIsIFwibnVtZXJpY1wiLCBcInRleHRcIikpXG56ZWl0dW1zdGVsbHVuZyA8LSB6ZWl0dW1zdGVsbHVuZyAlPiUgbXV0YXRlKERhdHVtID0gYXMuRGF0ZSh6ZWl0dW1zdGVsbHVuZyREYXR1bSkpXG5gYGAifQ== -->
-<pre class="r"><code>feiertage &lt;- feiertage[,-c(7:13)] 
+    &quot;;&quot;, escape_double = FALSE, col_types = cols(Datum = col_date(format = &quot;%d.%m.%Y&quot;)))
+feiertage &lt;- feiertage[,-c(7:13)] 
 feiertage &lt;- feiertage %&gt;% mutate(Datum = as.Date(feiertage$Datum))
+
+
 jahreszeitenbeginn &lt;- read_excel(&quot;Daten/Jahreszeitenbeginn.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;, &quot;text&quot;))
 jahreszeitenbeginn &lt;- jahreszeitenbeginn %&gt;% mutate(Datum = as.Date(jahreszeitenbeginn$Datum))
+
+
 jahreszeiten &lt;- read_excel(&quot;Daten/Meteorologische Jahreszeiten.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;, &quot;numeric&quot;, 
         &quot;numeric&quot;, &quot;numeric&quot;))
 jahreszeiten &lt;- jahreszeiten %&gt;% mutate(Datum = as.Date(jahreszeiten$Datum))
+
+
 bevoelkerung &lt;- read_excel(&quot;Daten/Population_Kiel.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;))
 bevoelkerung &lt;- bevoelkerung %&gt;% mutate(Datum = as.Date(bevoelkerung$Datum))
+
 schulferien &lt;- read_excel(&quot;Daten/Schulferien.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;))
 schulferien &lt;- schulferien %&gt;% mutate(Datum = as.Date(schulferien$Datum))
+
+
 temperaturdifferenz &lt;- read_excel(&quot;Daten/Temperaturdifferenz_und_Durchschnitt.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;, &quot;numeric&quot;, 
         &quot;numeric&quot;, &quot;numeric&quot;, &quot;numeric&quot;))
 temperaturdifferenz &lt;- temperaturdifferenz %&gt;% mutate(Datum = as.Date(temperaturdifferenz$Datum))
+
+
 tourismus &lt;- read_excel(&quot;Daten/Tourismus.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;, &quot;numeric&quot;, 
         &quot;numeric&quot;, &quot;numeric&quot;, &quot;text&quot;))
 tourismus &lt;- tourismus[,-6]
 tourismus &lt;- tourismus %&gt;% mutate(Datum = as.Date(tourismus$Datum))
+
+
 wahlen &lt;- read_excel(&quot;Daten/Wahlen.xlsx&quot;, col_types = c(&quot;date&quot;, 
     &quot;numeric&quot;, &quot;text&quot;))
 wahlen &lt;- wahlen %&gt;% mutate(Datum = as.Date(wahlen$Datum))
+
+
 weihnachtsmarkt &lt;- read_excel(&quot;Daten/Weihnachtsmarkt.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;))
 weihnachtsmarkt &lt;- weihnachtsmarkt %&gt;% mutate(Datum = as.Date(weihnachtsmarkt$Datum))
+
+
 zeitumstellung &lt;- read_excel(&quot;Daten/Zeitumstellung.xlsx&quot;, 
     col_types = c(&quot;date&quot;, &quot;numeric&quot;, &quot;text&quot;))
 zeitumstellung &lt;- zeitumstellung %&gt;% mutate(Datum = as.Date(zeitumstellung$Datum))</code></pre>
