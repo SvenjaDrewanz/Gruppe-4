@@ -164,6 +164,11 @@ names(total)[names(total) == 'Langes_Wochenende '] <- 'Langes_Wochenende'
 names(total)[names(total) == 'Differenz_zum Mittel'] <- 'Differenz_zum_Mittel'
 names(total)[names(total) == 'Kommentar.y'] <- 'Zeit'
 
+# add columns for: umsatz_vortag & umsatz_vorherigewoche
+### muss noch auf Daten angepasst werden: 
+total %>%  
+
+
 # Replace some na values with 0 
 total$Kieler_Woche[is.na(total$Kieler_Woche)] = 0 
 total$Semesterferien[is.na(total$Semesterferien)] = 0
