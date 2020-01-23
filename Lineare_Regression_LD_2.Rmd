@@ -3,7 +3,6 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-
 ```{r}
 ###load libraries###
 ##
@@ -253,18 +252,22 @@ summary(lm_total)
 lm_total <- lm(data = total, Umsatz~Sommerzeit)
 summary(lm_total)
 
+###Generalisierte Lineare Regression###
+###Lineare Regression kann mit 0 u. 1 nichts anfangen. Generalisierte Lm beachtet neben Normalverteilung auch Binomial und Poisson###
 lm_total <- glm(data = total, Umsatz~wochentag+monat+Kieler_Woche+Bewoelkung+Temperatur+Windgeschwindigkeit+Wettercode+Arbeitslose+Semesterferien+Year+Week_in_year+Day_of_year+Day_of_month+Digitale_Woche+Feiertagsart+Brueckentag+Langes_Wochenende+Neue_Jahreszeit+Winter+Fruehling+Sommer+Herbst+Einwohnerzahl_Kiel+Schulferien+Durchschnittstemperatur_monatlich+Tagestemperatur_tatsaechlich+Differenz_zum_Mittel+Waermer_als_normal+Kaelter_als_normal+Ankuenfte+Uebernachtungen+Wahl+Weihnachtsmarkt+Sommerzeit)
 summary(lm_total)
 
+###Ermittlung des R² --> 0,18 = 18%
 with(summary(lm_total), 1 - deviance/null.deviance)
 
 
+###Zusammenfassung welche Variablen alle Signifikant sind###
 require(broom)    
 lm_total_tidy = tidy(lm_total)
 lm_total_tidy[lm_total_tidy$p.value < 0.05,]
 
 
-
+###Plotten der Variablen die Signifikant sind###
 plot_coeffs <- function(lm_total) {
       coeffs <- coefficients(lm_total)
       mp <- barplot(coeffs, col="#3F97D0", xaxt='n', main="Regression Coefficients")
@@ -277,9 +280,6 @@ plot_coeffs(lm_total)
 
 
 wochentag + Kieler_Woche + Arbeitslose + Year + Week_in_year + Feiertagsart 
-
-
-
 
 
 ###Ergebnis R² wenn alle Variablen dabei sind: multiple R²: 0,1805 = 18,05%, Adjusted R²: 0,1254 = 12,54###
@@ -352,4 +352,5 @@ summary(lm_total)
 ###Final, wenn einige Variablen nicht berücksichtigt werden multiple R²: 0,1799 = 17,99%, adjusted R² 0,1255 = 12,55%
 
 
-    
+```
+
