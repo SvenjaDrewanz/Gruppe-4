@@ -3,8 +3,9 @@ title: "Datensatz komplett"
 output: html_notebook
 ---
 
-### Load libraries
 ```{r}
+
+###load libraries###
 
 library(readr)
 library(ggplot2)
@@ -13,11 +14,10 @@ library(lubridate)
 library(tidyr)
 library(readxl)
 library(magrittr)
-```
 
-### Load datasets
 
-```{r}
+###load datasets###
+
 umsatz <- read_csv("Daten/umsatzdaten_gekuerzt.csv", 
     col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
 umsatz <- umsatz %>% mutate(Datum = as.Date(umsatz$Datum))
@@ -128,13 +128,9 @@ weihnachtsmarkt <- weihnachtsmarkt %>% mutate(Datum = as.Date(weihnachtsmarkt$Da
 zeitumstellung <- read_excel("Daten/Zeitumstellung.xlsx", 
     col_types = c("date", "numeric", "text"))
 zeitumstellung <- zeitumstellung %>% mutate(Datum = as.Date(zeitumstellung$Datum))
-```
 
 
-### Join datasets by Datum 
-
-```{r}
-
+###join datasets by Datum ###
 total <- left_join(umsatz, kiwo, by = "Datum")
 total <- left_join(total,wetter, by = "Datum")
 total <- left_join(total,arbeitslosigkeit, by = "Datum")
@@ -151,12 +147,12 @@ total <- left_join(total, tourismus, by = "Datum")
 total <- left_join(total, wahlen, by = "Datum")
 total <- left_join(total, weihnachtsmarkt, by = "Datum")
 total <- left_join(total, zeitumstellung, by = "Datum")
-```
 
-### Adjust the joined Dataset
 
-```{r}
-# Set missing names
+
+
+
+### Adjust the joined Dataset ###
 
 names(total)
 names(total)[names(total) == 'Brueckentag '] <- 'Brueckentag'
@@ -183,16 +179,14 @@ total$Gesetzl_Feiertag[is.na(total$Gesetzl_Feiertag)] = 0
 total$Brueckentag[is.na(total$Brueckentag)] = 0
 total$Langes_Wochenende[is.na(total$Langes_Wochenende)] = 0
 
-# delete columns you don't need
-total <- total[,-c( 26, 28, 41, 43, 45)]
-```
 
-```{r}
-# Show data
+###delete columns###
+total <- total[,-c( 25, 27, 40, 42, 44)]
+
 View(total)
 
-# save data into an csv file
-write_csv(total,"Dataset_total.csv")
+
+#write_csv(total,"Dataset_total.csv")
 ```
 
 
