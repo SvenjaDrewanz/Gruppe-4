@@ -14,7 +14,7 @@ library(tidyr)
 library(readxl)
 
 ###load dataset###
-total <- read_csv("Dataset_total.csv")
+total <- read_excel("Dataset_total.xlsx")
 
 
 ### Datentypenn ändern:
@@ -281,6 +281,15 @@ plot_coeffs(lm_total)
 
 wochentag + Kieler_Woche + Arbeitslose + Year + Week_in_year + Feiertagsart 
 
+###Generalisierte Lineare Regression mit weiteren Variablen aus Create Dataset###
+###Lineare Regression kann mit 0 u. 1 nichts anfangen. Generalisierte Lm beachtet neben Normalverteilung auch Binomial und Poisson###
+lm_total <- glm(data = total, 
+                Umsatz~preday_turnover + preweek_turnover_1 + preweek_turnover_2 + preyear_turnover + Year + Week_in_year + Day_of_year + Day_of_month + Weekday + Month + Kieler_Woche + Weihnachtsmarkt + Wahl + Wahltyp + Digitale_Woche + Feiertagsart + Schulferien + Bewoelkung + Temperatur + Windgeschwindigkeit + Wettercode + WindFct + BewoelkungFct + TemperaturFct + WettercodeFct + Durchschnittstemperatur_monatlich + Tagestemperatur_tatsaechlich + Waermer_als_normal + Kaelter_als_normal + Neue_Jahreszeit + Winter + Fruehling + Sommer + Herbst + Sommerzeit + Zeit + Ankuenfte + Uebernachtungen + Arbeitslose + Einwohnerzahl_Kiel)
+                  
+summary(lm_total)
+
+###Ermittlung des R² --> 0,86 = 86%
+with(summary(lm_total), 1 - deviance/null.deviance)
 
 ###Ergebnis R² wenn alle Variablen dabei sind: multiple R²: 0,1805 = 18,05%, Adjusted R²: 0,1254 = 12,54###
 
