@@ -1,0 +1,81 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+# Load ggplot2
+library(readr)
+library(lubridate)
+library (ggplot2)
+library (dplyr)
+
+###Datensatz laden###
+total <- read_excel("Dataset_total.xlsx")
+
+###Berechnung sd, mean, min und max von "Arbeitslose"
+sd= sd(total$Arbeitslose)
+mean(total$Arbeitslose)
+min(total$Arbeitslose)
+max(total$Arbeitslose)
+
+## Data
+total2 <- total %>% select(Year, Arbeitslose)
+
+# Kalkulation mean, sd, se und IC
+my_sum <- total2 %>%
+  group_by(Year) %>%
+  summarise( 
+    n=n(),
+    mean_Arbeitslose=mean(Arbeitslose),
+    sd=sd(Arbeitslose)
+  ) %>%
+  mutate( se=sd/sqrt(n))  %>%
+mutate( ic=se * qt((1-0.05)/2 + .5, n-1))
+
+    
+### Balkendiagramm + Konfidenzintervall von der Variable Arbeitslose über die Jahre ###
+  ggplot(my_sum) +
+  geom_bar( aes(x=Year, y=mean_Arbeitslose), stat="identity", fill="skyblue", alpha=0.5) +
+  geom_errorbar( aes(x=Year, ymin=mean_Arbeitslose-ic, ymax=mean_Arbeitslose+ic), width=0.4, colour="orange", alpha=0.9, size=1.5) +
+  ggtitle("Arbeitslose pro Jahr in Kiel")  
+  
+
+```
+```{r}
+# Load ggplot2
+library(readr)
+library(lubridate)
+library (ggplot2)
+library (dplyr)
+
+###Datensatz laden###
+total <- read_excel("Dataset_total.xlsx")
+
+###Berechnung sd, mean, min und max von "Einwohnerzahl Kie"
+sd= sd(total$Einwohnerzahl_Kiel)
+mean(total$Einwohnerzahl_Kiel)
+min(total$Einwohnerzahl_Kiel)
+max(total$Einwohnerzahl_Kiel)
+
+## Data
+total3 <- total %>% select(Year, Einwohnerzahl_Kiel)
+
+# Kalkulation mean, sd, se und IC
+my_sum <- total3 %>%
+  group_by(Year) %>%
+  summarise( 
+    n=n(),
+    mean_Einwohnerzahl_Kiel=mean(Einwohnerzahl_Kiel),
+    sd=sd(Einwohnerzahl_Kiel)
+  ) %>%
+  mutate( se=sd/sqrt(n))  %>%
+mutate( ic=se * qt((1-0.05)/2 + .5, n-1))
+
+    
+### Balkendiagramm + Konfidenzintervall von der Variable Einwohnerzahl in Kiel über die Jahre ###
+  ggplot(my_sum) +
+  geom_bar( aes(x=Year, y=mean_Einwohnerzahl_Kiel), stat="identity", fill="dodgerblue3", alpha=0.5) +
+  geom_errorbar( aes(x=Year, ymin=mean_Einwohnerzahl_Kiel-ic, ymax=mean_Einwohnerzahl_Kiel+ic), width=0.4, colour="orange", alpha=0.9, size=1.5) + ggtitle("Einwohnerzahl pro Jahr in Kiel") 
+    
+
