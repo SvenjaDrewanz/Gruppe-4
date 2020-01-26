@@ -66,7 +66,7 @@ lm_total <- glm(data = total,
                   
 summary(lm_total)
 
-###Ermittlung des R² --> 0,86 = 88%
+###Ermittlung des R² --> 0,88 = 88%
 with(summary(lm_total), 1 - deviance/null.deviance)
 
 ###Zusammenfassung welche Variablen alle Signifikant sind###
@@ -79,6 +79,9 @@ lm_total <- lm(data = total,
                 Umsatz~preday_turnover + preweek_turnover_1 + preweek_turnover_2 + preyear_turnover + Year + Week_in_year + Day_of_year + Day_of_month + Weekday + Month + Kieler_Woche + Weihnachtsmarkt + Wahl + Wahltyp + Digitale_Woche + Feiertagsart + Schulferien + Bewoelkung + Temperatur + Windgeschwindigkeit + Wettercode + WindFct + BewoelkungFct + TemperaturFct + WettercodeFct + Durchschnittstemperatur_monatlich + Tagestemperatur_tatsaechlich + Waermer_als_normal + Kaelter_als_normal + Neue_Jahreszeit + Winter + Fruehling + Sommer + Herbst + Sommerzeit + Zeit + Ankuenfte + Uebernachtungen + Arbeitslose + Einwohnerzahl_Kiel)
                   
 summary(lm_total)
+
+###Ermittlung des R² von normaler lm --> 0,88 = 87%
+with(summary(lm_total), 1 - deviance/null.deviance)
 
 ###Variablen die Wichtig sind: preday_turnover, preweek_turnover_1, preweek_turnover_2, preyear_turnover, Week_in_year4, Week_in_year5, Week_in_year6, Week_in_year7, Week_in_year8 ###
 lm_total_2 <- glm(data = total, 
@@ -93,3 +96,8 @@ plot_coeffs <- function(lm_total_2) {
 }
 
 plot_coeffs(lm_total_2)
+
+###Variablen die Wichtig sind: preday_turnover, preweek_turnover_1, preweek_turnover_2, preyear_turnover, Week_in_year4, Week_in_year5, Week_in_year6, Week_in_year7, Week_in_year8 ###
+lm_total_3 <- lm(data = total, 
+                Umsatz~preday_turnover + preweek_turnover_1 + preweek_turnover_2 + preyear_turnover + Week_in_year4 + Week_in_year5 + Week_in_year6 + Week_in_year7 + Week_in_year8)
+  summary(lm_total)
