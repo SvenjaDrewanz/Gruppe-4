@@ -111,7 +111,7 @@ svm_1 <- svm(Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Ki
 
 ### Best SVM Model
 ```{r}
-svm_tune <- tune(svm, Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Kieler_Woche, data=train_dataset_total, ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(2:3)) )
+svm_tune <- tune(svm, Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Kieler_Woche, data=train_dataset_total, ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(2:3)), na.action = na.omit )
 
 summary(svm_tune$best.model)
 
