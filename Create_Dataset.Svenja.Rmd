@@ -1,0 +1,297 @@
+---
+title: "Datensatz komplett"
+output: html_notebook
+---
+
+### Load libraries
+```{r}
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+library(readxl)
+library(magrittr)
+library(xlsx)
+```
+
+### Load datasets
+
+```{r}
+umsatz <- read_csv("Daten/umsatzdaten_gekuerzt.csv", 
+    col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
+umsatz <- umsatz %>% mutate(Datum = as.Date(umsatz$Datum))
+
+
+kiwo <- read_csv("Daten/kiwo.csv", col_types = cols(Datum = col_date(format = "%Y-%m-%d")))
+kiwo <- kiwo %>% mutate(Datum = as.Date(kiwo$Datum))
+
+wetter <- read_csv("Daten/wetter.csv")
+wetter <- wetter %>% mutate(Datum = as.Date(wetter$Datum))
+
+wetter %<>% 
+  mutate(WindFct = cut(Windgeschwindigkeit, 
+                       breaks = c(0, 5, 10, 20, 28, max(Windgeschwindigkeit)), 
+                       labels = c("leicht bis schwach", "mäßig bis frisch", "stark bis stürmisch", "Sturm", "Orkan"), 
+                       include.lowest = T, right = F))
+
+wetter %<>% 
+  mutate(BewoelkungFct = cut(Bewoelkung, 
+                       breaks = c(0, 1, 3, 7, 8), 
+                       labels = c("nicht bewoelkt", "heiter", "stark bewoelkt", "bedeckt"), 
+                       include.lowest = T, right=F))
+
+wetter %<>% 
+  mutate(TemperaturFct = cut(Temperatur, 
+                       breaks = c(-10, 1, 15, 24, 30, 40), 
+                       labels = c("Eistag", "Kalttag", "Warmtag", "Sommertag", "Hitzetag"), 
+                       include.lowest = T, right=F))
+
+wetter %<>% 
+  mutate(WettercodeFct = cut(Wettercode, 
+                       breaks = c(0, 49, 59, 69, 79, 90, 99), 
+                       labels = c("Keine Form von Niederschlag", "Sprühregen", "Regen", "Schnee", "Schauer", "Gewitter"), 
+                       include.lowest = T, right=F))
+
+
+arbeitslosigkeit <- read_delim("Daten/Arbeitslosigkeit.csv", 
+    ";", escape_double = FALSE, col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
+    trim_ws = TRUE) 
+arbeitslosigkeit <- arbeitslosigkeit %>% mutate(Datum = as.Date(arbeitslosigkeit$Datum))
+
+
+semesterferien <- read_excel("Daten/CAU_Semesterferien.xlsx", 
+    col_types = c("date", "numeric"))
+semesterferien <- semesterferien %>% mutate(Datum = as.Date(semesterferien$Datum))
+
+
+datumsangaben <- read_delim("Daten/Date.csv", ";", escape_double = FALSE, 
+    col_types = cols(Datum = col_date(format = "%d.%m.%Y")), 
+    trim_ws = TRUE)
+datumsangaben <- datumsangaben %>% mutate(Datum = as.Date(datumsangaben$Datum))
+
+
+digitale_woche <- read_excel("Daten/Digitale_Woche.xlsx", 
+    col_types = c("date", "numeric"))
+digitale_woche <- digitale_woche %>% mutate(Datum = as.Date(digitale_woche$Datum))
+
+
+feiertage <- read_excel("Daten/feiertage.xlsx", col_types = c("text", "date", "numeric","numeric", "numeric", "text"))
+feiertage <- feiertage %>% mutate(Datum = as.Date(feiertage$Datum))
+
+
+jahreszeitenbeginn <- read_excel("Daten/Jahreszeitenbeginn.xlsx", 
+    col_types = c("date", "numeric", "text"))
+jahreszeitenbeginn <- jahreszeitenbeginn %>% mutate(Datum = as.Date(jahreszeitenbeginn$Datum))
+
+
+jahreszeiten <- read_excel("Daten/Meteorologische Jahreszeiten.xlsx", 
+    col_types = c("date", "numeric", "numeric", 
+        "numeric", "numeric"))
+jahreszeiten <- jahreszeiten %>% mutate(Datum = as.Date(jahreszeiten$Datum))
+
+
+bevoelkerung <- read_excel("Daten/Population_Kiel.xlsx", 
+    col_types = c("date", "numeric"))
+bevoelkerung <- bevoelkerung %>% mutate(Datum = as.Date(bevoelkerung$Datum))
+
+schulferien <- read_excel("Daten/Schulferien.xlsx", 
+    col_types = c("date", "numeric"))
+schulferien <- schulferien %>% mutate(Datum = as.Date(schulferien$Datum))
+
+
+temperaturdifferenz <- read_excel("Daten/Temperaturdifferenz_und_Durchschnitt.xlsx", 
+    col_types = c("date", "numeric", "numeric", 
+        "numeric", "numeric", "numeric"))
+temperaturdifferenz <- temperaturdifferenz %>% mutate(Datum = as.Date(temperaturdifferenz$Datum))
+
+
+tourismus <- read_excel("Daten/Tourismus.xlsx", 
+    col_types = c("date", "numeric", "numeric", 
+        "numeric", "numeric", "text"))
+tourismus <- tourismus[,-6]
+tourismus <- tourismus %>% mutate(Datum = as.Date(tourismus$Datum))
+
+
+wahlen <- read_excel("Daten/Wahlen.xlsx", col_types = c("date", 
+    "numeric", "text"))
+wahlen <- wahlen %>% mutate(Datum = as.Date(wahlen$Datum))
+
+
+weihnachtsmarkt <- read_excel("Daten/Weihnachtsmarkt.xlsx", 
+    col_types = c("date", "numeric"))
+weihnachtsmarkt <- weihnachtsmarkt %>% mutate(Datum = as.Date(weihnachtsmarkt$Datum))
+
+
+zeitumstellung <- read_excel("Daten/Zeitumstellung.xlsx", 
+    col_types = c("date", "numeric", "text"))
+zeitumstellung <- zeitumstellung %>% mutate(Datum = as.Date(zeitumstellung$Datum))
+```
+
+
+### Create new Umsatz varaibles (e.g turnover one week ago, two weeks ago, one year ago )
+```{r}
+
+
+# Create a variable  called 'preday_turnover'that includes the turnover one day ago
+
+umsatz <- umsatz %>% mutate(preday_turnover = NA)
+empty_list <- vector(mode = "list", length = 6)
+
+for ( j in 1:6) {
+   empty_list[[j]] <- umsatz %>% filter(Warengruppe == j)
+     for (i in 2: nrow(empty_list[[j]])) {
+          day <- empty_list[[j]][i,]$Datum
+          preday <- (day -1)
+         if (sum(empty_list[[j]]$Datum == preday) != 0){
+         empty_list[[j]][empty_list[[j]]$Datum == day,  ]$preday_turnover <- empty_list[[j]][empty_list[[j]]$Datum == preday, ]$Umsatz 
+       } else {empty_list[[j]][empty_list[[j]]$Datum == day,  ]$preday_turnover <- NA}
+     }
+  }
+
+umsatz <- rbind(empty_list[[1]], empty_list[[2]], empty_list[[3]], empty_list[[4]], empty_list[[5]], empty_list[[6]])
+
+
+
+# Create a variable  called 'preweek_turnover_1'that includes the turnover one week ago
+
+umsatz <- umsatz %>% mutate(preweek_turnover_1 = NA)
+empty_list <- vector(mode = "list", length = 6)
+
+for ( j in 1:6) {
+  empty_list[[j]] <- umsatz %>% filter(Warengruppe == j)
+    for (i in 2: nrow(empty_list[[j]])) {
+    day <- empty_list[[j]][i,]$Datum
+    preweek <- (day -7)
+       if (sum(empty_list[[j]]$Datum == preweek) != 0){
+      empty_list[[j]][empty_list[[j]]$Datum == day,  ]$preweek_turnover_1 <- empty_list[[j]][empty_list[[j]]$Datum == preweek, ]$Umsatz 
+    } else {empty_list[[j]][empty_list[[j]]$Datum == day,  ]$preweek_turnover_1 <- NA}
+  }
+}
+
+umsatz <- rbind(empty_list[[1]], empty_list[[2]], empty_list[[3]], empty_list[[4]], empty_list[[5]], empty_list[[6]])
+
+
+
+
+# Create a variable  called 'preweek_turnover_2'that includes the turnover two weeks ago
+
+umsatz <- umsatz %>% mutate(preweek_turnover_2 = NA)
+empty_list <- vector(mode = "list", length = 6)
+
+for ( j in 1:6) {
+  empty_list[[j]] <- umsatz %>% filter(Warengruppe == j)
+    for (i in 2: nrow(empty_list[[j]])) {
+        day <- empty_list[[j]][i,]$Datum
+        preweek_2 <- (day -14)
+         if (sum(empty_list[[j]]$Datum == preweek_2) != 0){
+         empty_list[[j]][empty_list[[j]]$Datum == day,  ]$preweek_turnover_2 <- empty_list[[j]][empty_list[[j]]$Datum == preweek_2, ]$Umsatz 
+     } else {empty_list[[j]][empty_list[[j]]$Datum == day,  ]$preweek_turnover_2 <- NA}
+  }
+}
+
+umsatz <- rbind(empty_list[[1]], empty_list[[2]], empty_list[[3]], empty_list[[4]], empty_list[[5]], empty_list[[6]])
+
+
+
+
+
+# Create a variable  called 'preyear_turnover'that includes the turnover one year ago
+
+
+umsatz <- umsatz %>% mutate(preyear_turnover = NA)
+empty_list <- vector(mode = "list", length = 6)
+
+for ( j in 1:6) {
+  empty_list[[j]] <- umsatz %>% filter(Warengruppe == j)
+   for (i in 2: nrow(empty_list[[j]])) {
+    day <- empty_list[[j]][i,]$Datum
+    preyear <- (day -365)
+     if (sum(empty_list[[j]]$Datum == preyear) != 0){
+      empty_list[[j]][empty_list[[j]]$Datum == day,  ]$preyear_turnover <- empty_list[[j]][empty_list[[j]]$Datum == preyear, ]$Umsatz 
+    } else {empty_list[[j]][empty_list[[j]]$Datum == day,  ]$preyear_turnover <- NA}
+  }
+}
+
+umsatz <- rbind(empty_list[[1]], empty_list[[2]], empty_list[[3]], empty_list[[4]], empty_list[[5]], empty_list[[6]])
+
+```
+
+### Join datasets by Datum 
+
+```{r}
+
+total <- left_join(umsatz, datumsangaben, by = "Datum")
+
+total <- left_join(total,kiwo,  by = "Datum")
+total <- left_join(total, weihnachtsmarkt, by = "Datum")
+total <- left_join(total, wahlen, by = "Datum")
+total <- left_join(total,digitale_woche,  by = "Datum")
+
+total <- left_join(total,feiertage, by = "Datum")
+total <- left_join(total, schulferien, by = "Datum")
+total <- left_join(total,semesterferien,  by = "Datum")
+
+total <- left_join(total,wetter, by = "Datum")
+total <- left_join(total, temperaturdifferenz, by = "Datum")
+
+total <- left_join(total, jahreszeitenbeginn, by = "Datum")
+total <- left_join(total, jahreszeiten, by = "Datum")
+total <- left_join(total, zeitumstellung, by = "Datum")
+
+
+total <- left_join(total, tourismus, by = "Datum")
+total <- left_join(total,arbeitslosigkeit, by = "Datum")
+total <- left_join(total, bevoelkerung, by = "Datum")
+
+
+
+```
+
+### Adjust the joined Dataset
+
+```{r}
+# remove duplicate rows
+total <- total %>% distinct()
+
+# Set missing names
+names(total)[names(total) == 'Kommentar.y'] <- 'Zeit'
+
+# Replace some na values with 0 
+total$Kieler_Woche[is.na(total$Kieler_Woche)] = 0 
+total$Semesterferien[is.na(total$Semesterferien)] = 0
+total$Digitale_Woche[is.na(total$Digitale_Woche)] = 0
+total$Neue_Jahreszeit[is.na(total$Neue_Jahreszeit)] = 0
+total$Winter[is.na(total$Winter)] = 0
+total$Fruehling[is.na(total$Fruehling)] = 0
+total$Sommer[is.na(total$Sommer)] = 0
+total$Herbst[is.na(total$Herbst)] = 0
+total$Schulferien[is.na(total$Schulferien)] = 0
+total$Ankuenfte[is.na(total$Ankuenfte)] = 0
+total$Uebernachtungen[is.na(total$Uebernachtungen)] = 0
+total$Wahl[is.na(total$Wahl)] = 0
+total$Weihnachtsmarkt[is.na(total$Weihnachtsmarkt)] = 0
+total$Feiertagsart[is.na(total$Feiertagsart)] = 0
+total$Gesetzl_Feiertag[is.na(total$Gesetzl_Feiertag)] = 0
+total$Brueckentag[is.na(total$Brueckentag)] = 0
+total$Langes_Wochenende[is.na(total$Langes_Wochenende)] = 0
+total$Wahltyp[is.na(total$Wahltyp)] = 0 
+
+# delete columns you don't need
+total <- total[,-c( 23, 40, 48, 50)]
+```
+
+
+
+```{r}
+# Show data
+View(total)
+
+# save data into an csv or xlsx file
+
+#write.xlsx(total,"Dataset_total.xlsx")
+#write_csv(total,"Dataset_total.csv")
+```
+
+
