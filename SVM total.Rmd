@@ -1,5 +1,5 @@
 ---
-title: "SVM Total"
+title: "SVM"
 output: html_notebook
 ---
 
