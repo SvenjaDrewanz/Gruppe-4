@@ -88,9 +88,17 @@ total <- total %>% mutate(Einwohnerzahl_Kiel = as.numeric(Einwohnerzahl_Kiel))
 
 ```
 
+### Delete Wettercode due to a lot of NA's
+```{r}
+total <- total %>% select(-c(WettercodeFct, Wettercode))
+
+```
+
 
 ### Split dataset into train and test data
 ```{r}
+total <- na.omit(total)
+
 ## 75% of the sample size
 smp_size <- floor(0.75 * nrow(total))
 
@@ -105,14 +113,22 @@ test_dataset_total <- total[-train_ind, ]
 
 ### Estimation of various SVM
 ```{r}
-svm_1 <- svm(Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Kieler_Woche, data=train_dataset_total, na.action = na.omit)
+svm_tune_1 <- tune(svm, Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Kieler_Woche, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
+
+
 
 ```
 
-### Best SVM Model
+### Checking the prediction Quality
 ```{r}
-svm_tune <- tune(svm, Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Kieler_Woche, data=train_dataset_total, ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(2:3)), na.action = na.omit )
 
-summary(svm_tune$best.model)
+# Calculating the prediction for the training data using the best model according to the grid search
+pred_train <- predict(svm_tune_1$best.model, train_dataset_total)
+mape(train_dataset_total$Umsatz, pred_train)
+
+# Calculating the prediction for the test data using the best model according to the grid search
+pred_test <- predict(svm_tune_1$best.model, test_dataset_total)
+mape(test_dataset_total$Umsatz, pred_test)
 
 ```
+
