@@ -113,10 +113,11 @@ test_dataset_total <- total[-train_ind, ]
 
 ### Estimation of various SVM
 ```{r}
-set.seed(123)
 
+set.seed(123)
 svm_1 <- tune(svm, Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Kieler_Woche, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
 
+set.seed(123)
 svm_2 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turnover + Week_in_year, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
 
 set.seed(123)
@@ -128,6 +129,7 @@ svm_4 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turno
 set.seed(123)
 svm_5 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turnover + Schulferien + Semesterferien + WindFct + BewoelkungFct + Waermer_als_normal, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
 
+set.seed(123)
 svm_6 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turnover + Ankuenfte + Uebernachtungen + WindFct + BewoelkungFct + Waermer_als_normal, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
 
 ```
@@ -141,13 +143,14 @@ pred_train_2 <- predict(svm_2$best.model, train_dataset_total)
 pred_train_3 <- predict(svm_3$best.model, train_dataset_total)
 pred_train_4 <- predict(svm_4$best.model, train_dataset_total)
 pred_train_5 <- predict(svm_5$best.model, train_dataset_total)
+pred_train_6 <- predict(svm_6$best.model, train_dataset_total)
 
-rbind(mape(train_dataset_total$Umsatz, pred_train_1),
-      mape(train_dataset_total$Umsatz, pred_train_2),
-      mape(train_dataset_total$Umsatz, pred_train_3),
-      mape(train_dataset_total$Umsatz, pred_train_4),
-      mape(train_dataset_total$Umsatz, pred_train_5),
-      mape(train_dataset_total$Umsatz, pred_train_6))
+PredQualityTrain <- rbind(mape(train_dataset_total$Umsatz, pred_train_1),
+                          mape(train_dataset_total$Umsatz, pred_train_2),
+                          mape(train_dataset_total$Umsatz, pred_train_3),
+                          mape(train_dataset_total$Umsatz, pred_train_4),
+                          mape(train_dataset_total$Umsatz, pred_train_5),
+                          mape(train_dataset_total$Umsatz, pred_train_6))
 
 
 # Calculating the prediction for the test data using the best model according to the grid search
@@ -156,13 +159,14 @@ pred_test_2 <- predict(svm_2$best.model, test_dataset_total)
 pred_test_3 <- predict(svm_3$best.model, test_dataset_total)
 pred_test_4 <- predict(svm_4$best.model, test_dataset_total)
 pred_test_5 <- predict(svm_5$best.model, test_dataset_total)
+pred_test_6 <- predict(svm_6$best.model, test_dataset_total)
 
-rbind(mape(test_dataset_total$Umsatz, pred_test_1),
-      mape(test_dataset_total$Umsatz, pred_test_2),
-      mape(test_dataset_total$Umsatz, pred_test_3),
-      mape(test_dataset_total$Umsatz, pred_test_4),
-      mape(test_dataset_total$Umsatz, pred_test_5),
-      mape(test_dataset_total$Umsatz, pred_test_6))
+PredQualityTestt <-rbind(mape(test_dataset_total$Umsatz, pred_test_1),
+                         mape(test_dataset_total$Umsatz, pred_test_2),
+                         mape(test_dataset_total$Umsatz, pred_test_3),
+                         mape(test_dataset_total$Umsatz, pred_test_4),
+                         mape(test_dataset_total$Umsatz, pred_test_5),
+                         mape(test_dataset_total$Umsatz, pred_test_6))
 
 
 
