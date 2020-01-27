@@ -146,15 +146,12 @@ svm_6 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turno
 #list.save(svm_5, 'svm_5.rds')
 #list.save(svm_6, 'svm_6.rds')
 
-
 svm_1 <- readRDS("./svm_1.rds")
 svm_2 <- readRDS("./svm_2.rds")
 svm_3 <- readRDS("./svm_3.rds")
 svm_4 <- readRDS("./svm_4.rds")
 svm_5 <- readRDS("./svm_5.rds")
 svm_6 <- readRDS("./svm_6.rds")
-
-
 
 ```
 
@@ -200,4 +197,12 @@ colnames(Quality)<- c("Model", "Mape_Train", "Mape_Test")
 write_csv(Quality, "TableMapeSVM.csv")
 
 ```
+
+
+### Create prediction for 01.06.2019
+```{r}
+
+
+```
+
 

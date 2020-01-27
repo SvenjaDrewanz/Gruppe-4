@@ -33,7 +33,7 @@ wetter <- wetter %>% mutate(Datum = as.Date(wetter$Datum))
 wetter %<>% 
   mutate(WindFct = cut(Windgeschwindigkeit, 
                        breaks = c(0, 5, 10, 20, 28, max(Windgeschwindigkeit)), 
-                       labels = c("leicht bis schwach", "mäßig bis frisch", "stark bis stürmisch", "Sturm", "Orkan"), 
+                       labels = c("leicht bis schwach", "maessig bis frisch", "stark bis stuermisch", "Sturm", "Orkan"), 
                        include.lowest = T, right = F))
 
 wetter %<>% 
@@ -51,7 +51,7 @@ wetter %<>%
 wetter %<>% 
   mutate(WettercodeFct = cut(Wettercode, 
                        breaks = c(0, 49, 59, 69, 79, 90, 99), 
-                       labels = c("Keine Form von Niederschlag", "Sprühregen", "Regen", "Schnee", "Schauer", "Gewitter"), 
+                       labels = c("Keine Form von Niederschlag", "Spruehregen", "Regen", "Schnee", "Schauer", "Gewitter"), 
                        include.lowest = T, right=F))
 
 
