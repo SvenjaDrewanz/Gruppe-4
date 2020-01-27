@@ -15,6 +15,7 @@ library(lubridate)
 library(tidyr)
 library(readxl)
 library(caTools)
+library(rlist)
 ```
 
 
@@ -131,13 +132,38 @@ svm_5 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turno
 
 set.seed(123)
 svm_6 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turnover + Ankuenfte + Uebernachtungen + WindFct + BewoelkungFct + Waermer_als_normal, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
+```
+
+
+
+### Save SVM/ Uploade SVM 
+```{r}
+
+#list.save(svm_1, 'svm_1.rds')
+#list.save(svm_2, 'svm_2.rds')
+#list.save(svm_3, 'svm_3.rds')
+#list.save(svm_4, 'svm_4.rds')
+#list.save(svm_5, 'svm_5.rds')
+#list.save(svm_6, 'svm_6.rds')
+
+
+svm_1 <- readRDS("./svm_1.rds")
+svm_2 <- readRDS("./svm_2.rds")
+svm_3 <- readRDS("./svm_3.rds")
+svm_4 <- readRDS("./svm_4.rds")
+svm_5 <- readRDS("./svm_5.rds")
+svm_6 <- readRDS("./svm_6.rds")
+
+
 
 ```
+
 
 ### Checking the prediction Quality
 ```{r}
 
 # Calculating the prediction for the training data using the best model according to the grid search
+
 pred_train_1 <- predict(svm_1$best.model, train_dataset_total)
 pred_train_2 <- predict(svm_2$best.model, train_dataset_total)
 pred_train_3 <- predict(svm_3$best.model, train_dataset_total)
@@ -161,15 +187,17 @@ pred_test_4 <- predict(svm_4$best.model, test_dataset_total)
 pred_test_5 <- predict(svm_5$best.model, test_dataset_total)
 pred_test_6 <- predict(svm_6$best.model, test_dataset_total)
 
-PredQualityTestt <-rbind(mape(test_dataset_total$Umsatz, pred_test_1),
+PredQualityTest <-rbind(mape(test_dataset_total$Umsatz, pred_test_1),
                          mape(test_dataset_total$Umsatz, pred_test_2),
                          mape(test_dataset_total$Umsatz, pred_test_3),
                          mape(test_dataset_total$Umsatz, pred_test_4),
                          mape(test_dataset_total$Umsatz, pred_test_5),
                          mape(test_dataset_total$Umsatz, pred_test_6))
 
+Quality <- data.frame( c(1,2,3,4,5,6), PredQualityTrain, PredQualityTest)
+colnames(Quality)<- c("Model", "Mape_Train", "Mape_Test")
 
-
+write_csv(Quality, "TableMapeSVM.csv")
 
 ```
 
