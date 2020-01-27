@@ -91,21 +91,28 @@ total <- total %>% mutate(Einwohnerzahl_Kiel = as.numeric(Einwohnerzahl_Kiel))
 
 ### Split dataset into train and test data
 ```{r}
+## 75% of the sample size
+smp_size <- floor(0.75 * nrow(total))
+
+## set the seed to make your partition reproducible
 set.seed(123)
-data1= sample.split(total,SplitRatio = 0.3)
-train_dataset_total =subset(total,data1==TRUE)
-test_dataset_total =subset(total,data1==FALSE)
+train_ind <- sample(seq_len(nrow(total)), size = smp_size)
+train_dataset_total <- total[train_ind, ]
+test_dataset_total <- total[-train_ind, ]
+
 ```
 
 
 ### Estimation of various SVM
 ```{r}
-svm_1 <- svm(Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Kieler_Woche, data=train_dataset_total, ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(2:3)))
+svm_1 <- svm(Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Kieler_Woche, data=train_dataset_total, na.action = na.omit)
 
 ```
 
 ### Best SVM Model
 ```{r}
+svm_tune <- tune(svm, Umsatz ~ Weekday + Month + preweek_turnover_1 + Semesterferien + Kieler_Woche, data=train_dataset_total, ranges = list(epsilon = seq(0.2,1,0.1), cost = 2^(2:3)) )
 
+summary(svm_tune$best.model)
 
 ```
