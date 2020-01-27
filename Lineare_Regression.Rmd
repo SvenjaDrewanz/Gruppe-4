@@ -1,0 +1,152 @@
+---
+title: "Lineare Regression"
+output: html_notebook
+---
+
+```{r}
+# Packages
+library(dplyr)
+library(readr)
+library(lubridate)
+library(broom)
+library(Metrics)
+```
+
+
+```{r}
+# Importing Training and Test Data
+total <- read.csv("Dataset_total.csv")
+
+###Adjust the classes of the variables
+total <- total %>% mutate(Datum = as.Date(Datum))
+total <- total %>% mutate(Warengruppe = as.factor(Warengruppe))
+total <- total %>% mutate(Umsatz = as.numeric(Umsatz))
+total <- total %>% mutate(preday_turnover = as.numeric(preday_turnover))
+total <- total %>% mutate(preweek_turnover_1 = as.numeric(preweek_turnover_1))
+total <- total %>% mutate(preweek_turnover_2 = as.numeric(preweek_turnover_2))
+total <- total %>% mutate(preyear_turnover = as.numeric(preyear_turnover))
+total <- total %>% mutate(Year = as.factor(Year))
+total <- total %>% mutate(Day_of_year = as.factor(Day_of_year))
+total <- total %>% mutate(Week_in_year = as.factor(Week_in_year))
+total <- total %>% mutate(Day_of_month = as.factor(Day_of_month))
+total <- total %>% mutate(Weekday = as.factor(Weekday))
+total <- total %>% mutate(Month = as.factor(Month))
+total <- total %>% mutate(Kieler_Woche = as.factor(Kieler_Woche))
+total <- total %>% mutate(Weihnachtsmarkt = as.factor(Weihnachtsmarkt))
+total <- total %>% mutate(Wahl = as.factor(Wahl))
+total <- total %>% mutate(Wahltyp = as.factor(Wahltyp))
+total <- total %>% mutate(Digitale_Woche = as.factor(Digitale_Woche))
+total <- total %>% mutate(Feiertagsart = as.factor(Feiertagsart))
+total <- total %>% mutate(Gesetzl_Feiertag = as.factor(Gesetzl_Feiertag))
+total <- total %>% mutate(Brueckentag = as.factor(Brueckentag))
+total <- total %>% mutate(Langes_Wochenende = as.factor(Langes_Wochenende))
+total <- total %>% mutate(Semesterferien = as.factor(Semesterferien))
+total <- total %>% mutate(Schulferien = as.factor(Schulferien))
+total <- total %>% mutate(Temperatur = as.numeric(Temperatur))
+total <- total %>% mutate(Bewoelkung = as.integer(Bewoelkung))
+total <- total %>% mutate(Windgeschwindigkeit = as.integer(Windgeschwindigkeit))
+total <- total %>% mutate(Wettercode = as.factor(Wettercode))
+total <- total %>% mutate(WindFct = as.factor(WindFct))
+total <- total %>% mutate(BewoelkungFct = as.factor(BewoelkungFct))
+total <- total %>% mutate(WettercodeFct = as.factor(WettercodeFct))
+total <- total %>% mutate(TemperaturFct   = as.factor(TemperaturFct  ))
+total <- total %>% mutate(Durchschnittstemperatur_monatlich = as.numeric(Durchschnittstemperatur_monatlich))
+total <- total %>% mutate(Tagestemperatur_tatsaechlich = as.numeric(Tagestemperatur_tatsaechlich))
+total <- total %>% mutate(Differenz_zum.Mittel = as.numeric(Differenz_zum.Mittel))
+total <- total %>% mutate(Kaelter_als_normal = as.factor(Kaelter_als_normal))
+total <- total %>% mutate(Waermer_als_normal = as.factor(Waermer_als_normal))
+total <- total %>% mutate(Neue_Jahreszeit = as.factor(Neue_Jahreszeit))
+total <- total %>% mutate(Winter = as.factor(Winter))
+total <- total %>% mutate(Fruehling = as.factor(Fruehling))
+total <- total %>% mutate(Sommer = as.factor(Sommer))
+total <- total %>% mutate(Herbst = as.factor(Herbst))
+total <- total %>% mutate(Sommerzeit = as.factor(Sommerzeit))
+total <- total %>% mutate(Zeit = as.factor(Zeit))
+total <- total %>% mutate(Ankuenfte = as.numeric(Ankuenfte))
+total <- total %>% mutate(Arbeitslose = as.numeric(Arbeitslose))
+total <- total %>% mutate(Uebernachtungen = as.numeric(Uebernachtungen))
+total <- total %>% mutate(Einwohnerzahl_Kiel = as.numeric(Einwohnerzahl_Kiel))
+```
+
+
+```{r}
+### Delete Wettercode due to a lot of NA's
+total <- total %>% select(-c(WettercodeFct, Wettercode))
+
+
+### Split dataset into train and test data
+## 75% of the sample size
+smp_size <- floor(0.75 * nrow(total))
+
+## set the seed to make your partition reproducible
+set.seed(123)
+train_ind <- sample(seq_len(nrow(total)), size = smp_size)
+train_dataset_total <- total[train_ind, ]
+test_dataset_total <- total[-train_ind, ]
+```
+
+
+```{r}
+# Estimating (Training) Models
+mod1 <- lm(Umsatz ~ preday_turnover + preweek_turnover_1, train_dataset_total )
+
+mod2 <- lm(Umsatz ~ preday_turnover + preweek_turnover_1 + preweek_turnover_2 + preyear_turnover + Weekday, train_dataset_total)
+
+mod3 <- lm(Umsatz ~ preday_turnover + preweek_turnover_1 + preweek_turnover_2 + preyear_turnover + Weekday + Kieler_Woche + Schulferien + Semesterferien, train_dataset_total)
+
+mod4 <- lm(Umsatz ~ preday_turnover + preweek_turnover_1 + preweek_turnover_2 + preyear_turnover + Weekday + Kieler_Woche + Schulferien + Semesterferien + WindFct + BewoelkungFct + TemperaturFct, train_dataset_total)
+
+mod5 <- lm(Umsatz ~ preday_turnover + preweek_turnover_1 + preweek_turnover_2 + preyear_turnover + Weekday + Kieler_Woche + Schulferien + Semesterferien + WindFct + BewoelkungFct + TemperaturFct + Waermer_als_normal + Kaelter_als_normal, train_dataset_total)
+
+mod6 <- lm(Umsatz ~ preday_turnover + preweek_turnover_1 + preweek_turnover_2 + preyear_turnover + Weekday + Kieler_Woche + Schulferien + Semesterferien + WindFct + BewoelkungFct + TemperaturFct + Waermer_als_normal + Kaelter_als_normal + Ankuenfte + Uebernachtungen, train_dataset_total)
+
+```
+
+
+```{r}
+###see summaries of models###
+##
+summary(mod1)
+summary(mod2)
+summary(mod3)
+summary(mod4)
+summary(mod5)
+summary(mod6)
+
+###save model as r-objects###
+##
+save(mod1, file = "lmmod1.rda")
+save(mod2, file = "lmmod2.rda")
+save(mod3, file = "lmmod3.rda")
+save(mod4, file = "lmmod4.rda")
+save(mod5, file = "lmmod5.rda")
+save(mod6, file = "lmmod6.rda")
+```
+
+```{r}
+# Preparation of Model Results
+rbind(glance(mod1), glance(mod2), glance(mod3), glance(mod4), glance(mod5), glance(mod6))
+```
+
+
+```{r}
+# Model Prediction Quality for the Training Data Using the Mean Absolute Percentage Error
+rbind(mape(train_dataset_total$Umsatz, predict(mod1)),
+      mape(train_dataset_total$Umsatz, predict(mod2)),
+      mape(train_dataset_total$Umsatz, predict(mod3)),
+      mape(train_dataset_total$Umsatz, predict(mod4)),
+      mape(train_dataset_total$Umsatz, predict(mod5)),
+      mape(train_dataset_total$Umsatz, predict(mod6)))
+```
+
+
+```{r}
+# Model Prediction Quality for the (Unknown) Test Data Using the Mean Absolute Percentage Error
+rbind(mape(test_dataset_total$Umsatz, predict(mod1, newdata=test_dataset_total)),
+      mape(test_dataset_total$Umsatz, predict(mod2, newdata=test_dataset_total)),
+      mape(test_dataset_total$Umsatz, predict(mod3, newdata=test_dataset_total)),
+      mape(test_dataset_total$Umsatz, predict(mod4, newdata=test_dataset_total)),
+      mape(test_dataset_total$Umsatz, predict(mod5, newdata=test_dataset_total)),
+      mape(test_dataset_total$Umsatz, predict(mod6, newdata=test_dataset_total)))
+```
+
