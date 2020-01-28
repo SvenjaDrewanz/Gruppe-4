@@ -290,7 +290,7 @@ View(total)
 
 # save data into an csv or xlsx file
 
-#write_csv(total,"Dataset_total.csv")
+write_csv(total,"Dataset_total.csv")
 ```
 
 
