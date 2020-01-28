@@ -1,0 +1,111 @@
+---
+title: "Seperate Warengruppe, Create Training- & Testdatasets"
+output: html_notebook
+---
+
+Filtern nach Warengruppe und erstellen getrennter Datensätze
+```{r}
+####load libraries###
+##
+library(tidyr)
+library(readr)
+library(caTools)
+
+###load dataset###
+##
+Dataset_total <- read_csv("Dataset_total.csv")
+
+###filter according to warengruppe###
+##
+warengruppe1 <- Dataset_total %>%
+  filter(Warengruppe == 1)
+warengruppe2 <- Dataset_total %>%
+  filter(Warengruppe == 2)
+warengruppe3 <- Dataset_total %>%
+  filter(Warengruppe == 3)
+warengruppe4 <- Dataset_total %>%
+  filter(Warengruppe == 4)
+warengruppe5 <- Dataset_total %>%
+  filter(Warengruppe == 5)
+warengruppe6 <- Dataset_total %>%
+  filter(Warengruppe == 6)
+
+###write csv for all warengruppe variables###
+##
+write_csv(warengruppe1, "Warengruppe1.csv")
+write_csv(warengruppe2, "Warengruppe2.csv")
+write_csv(warengruppe3, "Warengruppe3.csv")
+write_csv(warengruppe4, "Warengruppe4.csv")
+write_csv(warengruppe5, "Warengruppe5.csv")
+write_csv(warengruppe6, "Warengruppe6.csv")
+
+```
+
+Create Training- and Testsest for WHOLE Dataset and save as csv
+```{r}
+###use caTools function to split, SplitRatio for 70/30###
+##
+data1= sample.split(Dataset_total,SplitRatio = 0.3)
+
+###subsetting into Train data###
+##
+train_dataset_total =subset(Dataset_total,data1==TRUE)
+
+#subsetting into Test data
+test_dataset_total =subset(Dataset_total,data1==FALSE)
+
+write_csv(train_dataset_total, "Train_Dataset_total.csv")
+write_csv(test_dataset_total, "Test_Dataset_total.csv")
+```
+
+Create Training- and Testset for EACH Warengruppe and save as csv
+```{r}
+###Procedure for Warengruppe 1###
+##
+data2= sample.split(warengruppe1, SplitRatio = 0.3)
+train_warengruppe1 <- subset(warengruppe1, data2==TRUE)
+test_warengruppe1 <- subset(warengruppe1, data2==FALSE)
+write_csv(train_warengruppe1, "Train_Warengruppe1.csv")
+write_csv(test_warengruppe1, "Test_Warengruppe1.csv")
+
+###Repeat for Warengruppe 2###
+##
+data3= sample.split(warengruppe2, SplitRatio = 0.3)
+train_warengruppe2 <- subset(warengruppe2, data3==TRUE)
+test_warengruppe2 <- subset(warengruppe2, data3==FALSE)
+write_csv(train_warengruppe2, "Train_Warengruppe2.csv")
+write_csv(test_warengruppe2, "Test_Warengruppe2.csv")
+
+###Warengruppe 3###
+##
+data4= sample.split(warengruppe3, SplitRatio = 0.3)
+train_warengruppe3 <- subset(warengruppe3, data4==TRUE)
+test_warengruppe3 <- subset(warengruppe3, data4==FALSE)
+write_csv(train_warengruppe3, "Train_Warengruppe3.csv")
+write_csv(test_warengruppe3, "Test_Warengruppe3.csv")
+
+###Warengruppe 4###
+##
+data5= sample.split(warengruppe4, SplitRatio = 0.3)
+train_warengruppe4 <- subset(warengruppe4, data5==TRUE)
+test_warengruppe4 <- subset(warengruppe4, data5==FALSE)
+write_csv(train_warengruppe4, "Train_Warengruppe4.csv")
+write_csv(test_warengruppe4, "Test_Warengruppe4.csv")
+
+###Warengruppe 5###
+##
+data6= sample.split(warengruppe5, SplitRatio = 0.3)
+train_warengruppe5 <- subset(warengruppe5, data6==TRUE)
+test_warengruppe5 <- subset(warengruppe5, data6==FALSE)
+write_csv(train_warengruppe5, "Train_Warengruppe5.csv")
+write_csv(test_warengruppe5, "Test_Warengruppe5.csv")
+
+###Warengruppe 6###
+##
+data7= sample.split(warengruppe6, SplitRatio = 0.3)
+train_warengruppe6 <- subset(warengruppe6, data7==TRUE)
+test_warengruppe6 <- subset(warengruppe6, data7==FALSE)
+write_csv(train_warengruppe6, "Train_Warengruppe6.csv")
+write_csv(test_warengruppe6, "Test_Warengruppe6.csv")
+```
+
