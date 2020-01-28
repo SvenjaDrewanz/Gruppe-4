@@ -5,7 +5,7 @@ output: html_notebook
 
 ```{r}
 # Packages
-library(dplyr)
+library(dplyr)s
 library(readr)
 library(lubridate)
 library(broom)

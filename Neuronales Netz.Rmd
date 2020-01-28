@@ -1,0 +1,250 @@
+---
+title: "Neuronales Netz"
+output: html_notebook
+---
+
+
+
+```{r}
+###install packages###
+##
+install.packages("fastDummies")
+install.packages("reticulate")
+install.packages("Metrics")
+library(reticulate)
+py_install("pandas")
+py_install("numpy")
+py_install("tensorflow")
+```
+
+```{r}
+###load libraries###
+##
+library(reticulate)
+library(dplyr)
+library(readr)
+library(fastDummies)
+library(ggplot2)
+library(Metrics)
+library(lubridate)
+```
+
+```{r}
+###Funktionsdefinitionen###
+###
+norm_cols <- function (.data, norm_values = NULL) {
+  for (i in 1:nrow(norm_values)  ) {
+    .data$norm <- (.data[[norm_values$name[i]]] - norm_values$mean[i]) / norm_values$sd[i]
+    names(.data)[length(.data)] <- paste0(norm_values$name[i], "_norm")
+  }
+  return (.data)
+}
+
+get.norm_values <- function (.data, select_columns = NULL) {
+  result <- NULL
+  for (col_name in select_columns) {
+    mean <- mean(.data[[col_name]], na.rm = TRUE)
+    sd <- sd(.data[[col_name]], na.rm = TRUE)
+    result <- rbind (result, c(mean, sd))
+  }
+  result <- as.data.frame(result, stringsAsFactors = FALSE)
+  result <- data.frame (select_columns, result, stringsAsFactors = FALSE)
+  names(result) <- c("name", "mean", "sd")
+  return (result)
+}
+```
+
+```{r}
+###load dataset###
+##
+total <- read_csv("Dataset_total.csv")
+
+###adjust dataset_total###
+###Adjust the classes of the variables
+total <- total %>% mutate(Datum = as.Date(Datum))
+total <- total %>% mutate(Warengruppe = as.factor(Warengruppe))
+total <- total %>% mutate(Umsatz = as.numeric(Umsatz))
+total <- total %>% mutate(preday_turnover = as.numeric(preday_turnover))
+total <- total %>% mutate(preweek_turnover_1 = as.numeric(preweek_turnover_1))
+total <- total %>% mutate(preweek_turnover_2 = as.numeric(preweek_turnover_2))
+total <- total %>% mutate(preyear_turnover = as.numeric(preyear_turnover))
+total <- total %>% mutate(Year = as.factor(Year))
+total <- total %>% mutate(Day_of_year = as.factor(Day_of_year))
+total <- total %>% mutate(Week_in_year = as.factor(Week_in_year))
+total <- total %>% mutate(Day_of_month = as.factor(Day_of_month))
+total <- total %>% mutate(Weekday = as.factor(Weekday))
+total <- total %>% mutate(Month = as.factor(Month))
+total <- total %>% mutate(Kieler_Woche = as.factor(Kieler_Woche))
+total <- total %>% mutate(Weihnachtsmarkt = as.factor(Weihnachtsmarkt))
+total <- total %>% mutate(Wahl = as.factor(Wahl))
+total <- total %>% mutate(Wahltyp = as.factor(Wahltyp))
+total <- total %>% mutate(Digitale_Woche = as.factor(Digitale_Woche))
+total <- total %>% mutate(Feiertagsart = as.factor(Feiertagsart))
+total <- total %>% mutate(Gesetzl_Feiertag = as.factor(Gesetzl_Feiertag))
+total <- total %>% mutate(Brueckentag = as.factor(Brueckentag))
+total <- total %>% mutate(Langes_Wochenende = as.factor(Langes_Wochenende))
+total <- total %>% mutate(Semesterferien = as.factor(Semesterferien))
+total <- total %>% mutate(Schulferien = as.factor(Schulferien))
+total <- total %>% mutate(Temperatur = as.numeric(Temperatur))
+total <- total %>% mutate(Bewoelkung = as.integer(Bewoelkung))
+total <- total %>% mutate(Windgeschwindigkeit = as.integer(Windgeschwindigkeit))
+total <- total %>% mutate(Wettercode = as.factor(Wettercode))
+total <- total %>% mutate(WindFct = as.factor(WindFct))
+total <- total %>% mutate(BewoelkungFct = as.factor(BewoelkungFct))
+total <- total %>% mutate(WettercodeFct = as.factor(WettercodeFct))
+total <- total %>% mutate(TemperaturFct   = as.factor(TemperaturFct  ))
+total <- total %>% mutate(Durchschnittstemperatur_monatlich = as.numeric(Durchschnittstemperatur_monatlich))
+total <- total %>% mutate(Tagestemperatur_tatsaechlich = as.numeric(Tagestemperatur_tatsaechlich))
+total <- total %>% mutate(Kaelter_als_normal = as.factor(Kaelter_als_normal))
+total <- total %>% mutate(Waermer_als_normal = as.factor(Waermer_als_normal))
+total <- total %>% mutate(Neue_Jahreszeit = as.factor(Neue_Jahreszeit))
+total <- total %>% mutate(Winter = as.factor(Winter))
+total <- total %>% mutate(Fruehling = as.factor(Fruehling))
+total <- total %>% mutate(Sommer = as.factor(Sommer))
+total <- total %>% mutate(Herbst = as.factor(Herbst))
+total <- total %>% mutate(Sommerzeit = as.factor(Sommerzeit))
+total <- total %>% mutate(Zeit = as.factor(Zeit))
+total <- total %>% mutate(Ankuenfte = as.numeric(Ankuenfte))
+total <- total %>% mutate(Arbeitslose = as.numeric(Arbeitslose))
+total <- total %>% mutate(Uebernachtungen = as.numeric(Uebernachtungen))
+total <- total %>% mutate(Einwohnerzahl_Kiel = as.numeric(Einwohnerzahl_Kiel))
+
+###Delete Wettercode due to a lot of NA's
+total <- total %>% select(-c(WettercodeFct, Wettercode))
+```
+
+Preparing Dataset for Neural Network
+```{r}
+# Rekodierung von kategoriellen Variablen (zu Dummy-Variablen)
+dummy_list <- c("Warengruppe", "Kieler_Woche", "Weihnachtsmarkt", "Wahl", "Digitale_Woche", "Schulferien", "Semesterferien", "Waermer_als_normal", "Kaelter_als_nomral", "Winter", "Fruehling", "Sommer", "Herbst", "Year", "Month", "Weekday", "Gesetzl_Feiertag", "Brueckentag", "Langes_Wochenende")
+
+dataset_total_dummy = dummy_cols(total, dummy_list)
+
+# Standardisierung von metrischen Variablen
+norm_list <- c("Umsatz", "preday_turnover", "preweek_turnover_1", "preweek_turnover_2", "preyear_turnover", "Temperatur", "Windgeschwindigkeit", "Bewoelkung", "Durchschnittstemperatur_monatlich", "Tagestemperatur_tatsaechlich", "Ankuenfte", "Uebernachtungen", "Arbeitslose", "Einwohnerzahl_Kiel")
+
+# Berechnung der Mittelwerte und Standardabweichungen der zu standardisierenden Variablen
+norm_values_list <- get.norm_values(dataset_total_dummy, norm_list)
+
+# Standardisierung der angegebenen metrischen Variablen
+dataset_total_norm <- norm_cols(dataset_total_dummy, norm_values_list)
+
+# Definition von Variablenlisten, um das Arbeiten mit diesen zu erleichtern
+warengruppe_dummies = c('warengruppe1', 'warengruppe2', 'warengruppe3', 'warengruppe4', 'warengruppe5', 'warengruppe6')
+weekday_dummies = c('weekday1', 'weekday2', 'weekday3', 'weekday4','weekday5', 'weekday6', 'weekday7')
+month_dummies = c('month1', 'month2', 'month3', 'month4', 'month5', 'month6', 'month7', 'month8', 'month9', 'month10', 'month11', 'month12')
+
+# Definition der Features (der unabhängigen Variablen auf deren Basis die Vorhersagen erzeugt werden sollen)
+features = c('preday_turnover_norm', 'preweek_turnover_1_norm', 'preweek_turnover_2_norm', 'preyear_turnover_norm', 'Temperatur_norm', 'Windgeschwindigkeit_norm', 'Bewoelkung_norm',  warengruppe_dummies, weekday_dummies, month_dummies)
+
+# Definition der Label-Variable (der abhaengigen Variable, die vorhergesagt werden soll) sowie
+label = 'Umsatz_norm'
+
+### Split dataset into train and test data
+## 75% of the sample size
+smp_size <- floor(0.75 * nrow(total))
+
+## set the seed to make your partition reproducible
+set.seed(123)
+train_ind <- sample(seq_len(nrow(total)), size = smp_size)
+train_dataset_total <- total[train_ind, ]
+test_dataset_total <- total[-train_ind, ]
+
+# Selektion der Variable, die als Label definiert wurde
+train_labels = dataset_total_norm[train_ind, label]
+test_labels = dataset_total_norm[-train_ind, label]
+```
+
+### Schätzung des Neuronalen Netzes
+```{python}
+# Benoetigte Python Libraries einbinden
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# Definition der Form des tiefen neuronalen Netzes (Deep Neural Nets)
+model = keras.Sequential([
+  layers.Dense(5, activation='relu', input_shape=[len(r.train_dataset_total.keys())]),
+  layers.Dense(4, activation='relu'),
+  layers.Dense(1)
+])
+
+# Definition der Kosten-(Loss-)Funktion und der Optimierungsfunktion mit seinen Hyperparametern
+model.compile(loss="mse",
+              optimizer=tf.keras.optimizers.SGD(lr=1e-6, momentum=0.9))
+
+# Ausgabe einer Zusammenfassung zur Form des Modells, das geschaetzt wird (nicht notwendig)
+model.summary()
+
+# Schaetzung des Modells
+history = model.fit(r.train_dataset_total, r.train_labels, epochs=200, validation_split = 0.1, verbose=0)
+```
+
+
+### Speichern des Neuronalen Netzes für spätere Vorhersagen ###
+```{python}
+model.save("python_model.h5")
+```
+
+```{r}
+# Grafische Ausgabe der Modelloptimierung
+# create data
+data <- data.frame(val_loss = unlist(py$history$history$val_loss),
+                  loss = unlist(py$history$history$loss))
+# Plot
+ggplot(data[-1,]) +
+  geom_line( aes(x=1:length(val_loss), y=val_loss, colour = "Validation Loss" )) +
+  geom_line( aes(x=1:length(loss), y=loss, colour = "Training Loss" )) +
+  scale_colour_manual( values = c("Training Loss"="blue", "Validation Loss"="red") ) +
+  labs(title="Loss Function Values During Optimization") +
+  xlab("Iteration Number") +
+  ylab("Loss") 
+```
+
+### Auswertung der Schätzergebnisse ###
+```{r}
+# Schätzung der (normierten) Preise für die Trainings- und Testdaten
+train_predictions_norm <- py$model$predict(train_dataset_total)
+test_predictions_norm <- py$model$predict(test_dataset_total)
+# Rückberechnung der normierten Preisschätzungen zu den tatsächlichen Preisschätzungen bzw. Preisen
+train_predictions <- (train_predictions_norm * norm_values_list$sd[1] ) + norm_values_list$mean[1]
+test_predictions <- (test_predictions_norm * norm_values_list$sd[1]) + norm_values_list$mean[1]
+# Selektion der zugehörigen tatsächlichen Preise
+train_actuals <- total$Umsatz[train_ind]
+test_actuals <- total$Umsatz[-train_ind]
+# Vergleich der Gütekriterien für die Traingings- und Testdaten
+cat(paste0("MAPE on the Training Data:\t", format(mape(train_actuals, train_predictions)*100, digits=3, nsmall=2)))
+cat(paste0("\nMAPE on the Test Data:\t\t", format(mape(test_actuals, test_predictions)*100, digits=3, nsmall=2)))
+```
+
+```{r}
+## Grafischer vergleich der vorhergesagten und der tatsächlichen Preise für die Trainings- und Testdaten
+# Zusammenstellung der Daten für die Plots
+data_train <- data.frame(prediction = train_predictions/1000, actual = train_actuals/1000)
+data_test <- data.frame(prediction = test_predictions/1000, actual = test_actuals/1000)
+# Plot der Ergebnisse der Trainingsdaten
+ggplot(data_train[1:100,]) +
+  geom_line( aes(x=1:length(prediction), y=prediction, colour = "Predicted Values" )) +
+  geom_line( aes(x=1:length(actual), y=actual, colour = "Actual Values" )) +
+  scale_colour_manual( values = c("Predicted Values"="blue", "Actual Values"="red") ) +
+  labs(title="Predicted and Actual Values for the Training Data") +
+  xlab("Case Number") +
+  ylab("Price in 1.000 USD") 
+# Plot der Ergebnisse der Testdaten
+ggplot(data_test[1:100,]) +
+  geom_line( aes(x=1:length(prediction), y=prediction, colour = "Predicted Values" )) +
+  geom_line( aes(x=1:length(actual), y=actual, colour = "Actual Values" )) +
+  scale_colour_manual( values = c("Predicted Values"="blue", "Actual Values"="red") ) +
+  labs(title="Predicted and Actual Values for the Test Data") +
+  xlab("Case Number") +
+  ylab("Price in 1.000 USD") 
+```
+
+```{r}
+# Vorhersage für einen einzelnen Fall
+cat(paste0("Vorergesagter Preis:\t", format(test_predictions[100], digits=2, nsmall =0)))
+cat(paste0("\nTatsächlicher Preis:\t", test_actuals[100]))
+
+```
+
