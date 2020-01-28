@@ -1,11 +1,10 @@
 ---
-title: "Datensatz komplett"
+title: "Target Date"
 output: html_notebook
 ---
 
 ### Load libraries
 ```{r}
-
 library(readr)
 library(ggplot2)
 library(dplyr)
@@ -129,6 +128,16 @@ zeitumstellung <- read_excel("Daten/Zeitumstellung.xlsx",
 zeitumstellung <- zeitumstellung %>% mutate(Datum = as.Date(zeitumstellung$Datum))
 ```
 
+###  Ad target date
+```{r}
+umsatz <- rbind(umsatz, c("2019-06-01", 1, NA))
+umsatz <- rbind(umsatz, c("2019-06-01", 2, NA))
+umsatz <- rbind(umsatz, c("2019-06-01", 3, NA))
+umsatz <- rbind(umsatz, c("2019-06-01", 4, NA))
+umsatz <- rbind(umsatz, c("2019-06-01", 5, NA))
+umsatz <- rbind(umsatz, c("2019-06-01", 6, NA))
+
+```
 
 ### Create new Umsatz varaibles (e.g turnover one week ago, two weeks ago, one year ago )
 ```{r}
@@ -218,32 +227,40 @@ umsatz <- rbind(empty_list[[1]], empty_list[[2]], empty_list[[3]], empty_list[[4
 
 ```
 
+
+###  Select target date
+```{r}
+umsatz <- umsatz %>% filter(Datum == "2019-06-01")
+
+```
+
+
 ### Join datasets by Datum 
 
 ```{r}
 
-total <- left_join(umsatz, datumsangaben, by = "Datum")
+target <- left_join(umsatz, datumsangaben, by = "Datum")
 
-total <- left_join(total,kiwo,  by = "Datum")
-total <- left_join(total, weihnachtsmarkt, by = "Datum")
-total <- left_join(total, wahlen, by = "Datum")
-total <- left_join(total,digitale_woche,  by = "Datum")
+target <- left_join(target,kiwo,  by = "Datum")
+target <- left_join(target, weihnachtsmarkt, by = "Datum")
+target <- left_join(target, wahlen, by = "Datum")
+target <- left_join(target,digitale_woche,  by = "Datum")
 
-total <- left_join(total,feiertage, by = "Datum")
-total <- left_join(total, schulferien, by = "Datum")
-total <- left_join(total,semesterferien,  by = "Datum")
+target <- left_join(target,feiertage, by = "Datum")
+target <- left_join(target, schulferien, by = "Datum")
+target <- left_join(target,semesterferien,  by = "Datum")
 
-total <- left_join(total,wetter, by = "Datum")
-total <- left_join(total, temperaturdifferenz, by = "Datum")
+target <- left_join(target,wetter, by = "Datum")
+target <- left_join(target, temperaturdifferenz, by = "Datum")
 
-total <- left_join(total, jahreszeitenbeginn, by = "Datum")
-total <- left_join(total, jahreszeiten, by = "Datum")
-total <- left_join(total, zeitumstellung, by = "Datum")
+target <- left_join(target, jahreszeitenbeginn, by = "Datum")
+target <- left_join(target, jahreszeiten, by = "Datum")
+target <- left_join(target, zeitumstellung, by = "Datum")
 
 
-total <- left_join(total, tourismus, by = "Datum")
-total <- left_join(total,arbeitslosigkeit, by = "Datum")
-total <- left_join(total, bevoelkerung, by = "Datum")
+target <- left_join(target, tourismus, by = "Datum")
+target <- left_join(target,arbeitslosigkeit, by = "Datum")
+target <- left_join(target, bevoelkerung, by = "Datum")
 
 
 
@@ -253,44 +270,44 @@ total <- left_join(total, bevoelkerung, by = "Datum")
 
 ```{r}
 # remove duplicate rows
-total <- total %>% distinct()
+target <- target %>% distinct()
 
 # Set missing names
-names(total)[names(total) == 'Kommentar.y'] <- 'Zeit'
+names(target)[names(target) == 'Kommentar.y'] <- 'Zeit'
 
 # Replace some na values with 0 
-total$Kieler_Woche[is.na(total$Kieler_Woche)] = 0 
-total$Semesterferien[is.na(total$Semesterferien)] = 0
-total$Digitale_Woche[is.na(total$Digitale_Woche)] = 0
-total$Neue_Jahreszeit[is.na(total$Neue_Jahreszeit)] = 0
-total$Winter[is.na(total$Winter)] = 0
-total$Fruehling[is.na(total$Fruehling)] = 0
-total$Sommer[is.na(total$Sommer)] = 0
-total$Herbst[is.na(total$Herbst)] = 0
-total$Schulferien[is.na(total$Schulferien)] = 0
-total$Ankuenfte[is.na(total$Ankuenfte)] = 0
-total$Uebernachtungen[is.na(total$Uebernachtungen)] = 0
-total$Wahl[is.na(total$Wahl)] = 0
-total$Weihnachtsmarkt[is.na(total$Weihnachtsmarkt)] = 0
-total$Feiertagsart[is.na(total$Feiertagsart)] = 0
-total$Gesetzl_Feiertag[is.na(total$Gesetzl_Feiertag)] = 0
-total$Brueckentag[is.na(total$Brueckentag)] = 0
-total$Langes_Wochenende[is.na(total$Langes_Wochenende)] = 0
-total$Wahltyp[is.na(total$Wahltyp)] = 0 
+target$Kieler_Woche[is.na(target$Kieler_Woche)] = 0 
+target$Semesterferien[is.na(target$Semesterferien)] = 0
+target$Digitale_Woche[is.na(target$Digitale_Woche)] = 0
+target$Neue_Jahreszeit[is.na(target$Neue_Jahreszeit)] = 0
+target$Winter[is.na(target$Winter)] = 0
+target$Fruehling[is.na(target$Fruehling)] = 0
+target$Sommer[is.na(target$Sommer)] = 0
+target$Herbst[is.na(target$Herbst)] = 0
+target$Schulferien[is.na(target$Schulferien)] = 0
+target$Ankuenfte[is.na(target$Ankuenfte)] = 0
+target$Uebernachtungen[is.na(target$Uebernachtungen)] = 0
+target$Wahl[is.na(target$Wahl)] = 0
+target$Weihnachtsmarkt[is.na(target$Weihnachtsmarkt)] = 0
+target$Feiertagsart[is.na(target$Feiertagsart)] = 0
+target$Gesetzl_Feiertag[is.na(target$Gesetzl_Feiertag)] = 0
+target$Brueckentag[is.na(target$Brueckentag)] = 0
+target$Langes_Wochenende[is.na(target$Langes_Wochenende)] = 0
+target$Wahltyp[is.na(target$Wahltyp)] = 0 
 
 # delete columns you don't need
-total <- total[,-c( 23, 40, 48, 50)]
+target <- target[,-c( 23, 40, 48, 50)]
 ```
 
 
 
 ```{r}
 # Show data
-View(total)
+View(target)
 
 # save data into an csv or xlsx file
 
-#write_csv(total,"Dataset_total.csv")
+write_csv(target,"Dataset_target.csv")
 ```
 
 

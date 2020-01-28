@@ -221,7 +221,7 @@ PredQualityTest <-rbind(mape(test_dataset_total$Umsatz, pred_test_1),
 Quality <- data.frame( c(1,2,3,4,5,6,7,8,9), PredQualityTrain, PredQualityTest)
 colnames(Quality)<- c("Model", "Mape_Train", "Mape_Test")
 
-write_csv(Quality, "TableMapeSVM.csv")
+#write_csv(Quality, "TableMapeSVM.csv")
 
 ```
 
