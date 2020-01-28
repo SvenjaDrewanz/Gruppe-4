@@ -226,14 +226,8 @@ colnames(Quality)<- c("Model", "Mape_Train", "Mape_Test")
 ```
 
 
-### Save best model
-```{r}
 
-bestmodel <- svm_8$best.model
-
-```
-
-### Load testdataset for the targetdate
+### Load testdataset for the targetdate 
 ```{r}
 
 Dataset_target <- read_csv("Dataset_target.csv")
@@ -301,7 +295,7 @@ Dataset_target <- Dataset_target %>% select(-c(WettercodeFct, Wettercode))
 ```
 
 
-### Create prediction for 01.06.2019
+### Create prediction for 01.06.2019 by using the best model (= model 8)
 
 ```{r}
 
