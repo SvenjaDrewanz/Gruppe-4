@@ -443,13 +443,14 @@ Dataset_target &lt;- Dataset_target %&gt;% select(-c(WettercodeFct, Wettercode))
 <h3>Create prediction for 01.06.2019</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERpaXVCaVlHQmdZbUJtQlpMTVFDWUxFNUJnWkdCaDRBVFJGUXdNek1KZ0JRd01mRURNWnYrQkFRd2NHS0EwQjVRV2dOSWlVRnFDQVFiQStod2k3N2xkV2JxaHpDSCsycjIzTnRXWEhKSXV2YzhRM0pMamtIaFBQZUJveXptSHhCN1dZSWU2bXc3SnRSdjUvNHV1UTNNSWExNWlibW94a0NFQWRneEVrRHM4c1NnMUw3Mm90S0FnRlNyRUY1cGJuRmhTVlZDVW41NlhYNXlLWmdwblVYNjVIckpKYkRCL21zTVlGakNHSlpUQlpHZ0FaeG5DV1Vibzdrdk9TU3lHbVFvVDVFcEpMRW5VU3lzQ1dnamsvVVBUd3A1ZlVKS1pud2ZVeEFRS1lWWTB6WXhGYUFMOHBYa2dwNmZvSm1lVTVtWHJtb0lzQUV0RE1DK1Vaa05pTTBHc1pQb1BOWW9WYWhRYk1OUXk4MkJoeHBxVG1KU2FBd3RBWUJDQlEwaXZvQ2d6cndUbUU2Qm9zVjVKZmtraVRCMVhjbjRPVEFUc040Wi9BUCttNkFSUEFnQUEifQ== -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Warengruppe"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Umsatzprognose"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"103.4731","_rn_":"7"},{"1":"2","2":"127.3574","_rn_":"8"},{"1":"3","2":"150.5917","_rn_":"9"},{"1":"4","2":"142.9423","_rn_":"10"},{"1":"5","2":"140.3757","_rn_":"11"},{"1":"6","2":"155.9279","_rn_":"12"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5EYXRhc2V0X3RhcmdldCA8LSByYmluZChEYXRhc2V0X3RhcmdldCwgdGVzdF9kYXRhc2V0X3RvdGFsWzE6MTAwLF0pXG5wcmVkX3RhcmdldCA8LSBwcmVkaWN0KHN2bV84JGJlc3QubW9kZWwsIERhdGFzZXRfdGFyZ2V0KSBcbnByZWRfdGFyZ2V0IDwtIHByZWRfdGFyZ2V0WzE6Nl1cblxuUHJvZ25vc2UgPC0gZGF0YS5mcmFtZSggV2FyZW5ncnVwcGUgPSBjKDEsMiwzLDQsNSw2KSwgVW1zYXR6cHJvZ25vc2UgPSBwcmVkX3RhcmdldClcbmBgYCJ9 -->
+<pre class="r"><code>
+Dataset_target &lt;- rbind(Dataset_target, test_dataset_total[1:100,])
+pred_target &lt;- predict(svm_8$best.model, Dataset_target) 
+pred_target &lt;- pred_target[1:6]
+
+Prognose &lt;- data.frame( Warengruppe = c(1,2,3,4,5,6), Umsatzprognose = pred_target)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
