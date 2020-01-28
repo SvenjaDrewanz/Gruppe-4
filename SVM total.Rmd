@@ -226,10 +226,89 @@ colnames(Quality)<- c("Model", "Mape_Train", "Mape_Test")
 ```
 
 
-### Create prediction for 01.06.2019
+### Save best model
 ```{r}
 
+bestmodel <- svm_8$best.model
 
 ```
 
+### Load testdataset for the targetdate
+```{r}
+
+Dataset_target <- read_csv("Dataset_target.csv")
+
+Dataset_target <- Dataset_target %>% mutate(Datum = as.Date(Datum))
+
+Dataset_target <- Dataset_target %>% mutate(Warengruppe = as.factor(Warengruppe))
+Dataset_target <- Dataset_target %>% mutate(Umsatz = as.numeric(Umsatz))
+Dataset_target <- Dataset_target %>% mutate(preday_turnover = as.numeric(preday_turnover))
+Dataset_target <- Dataset_target %>% mutate(preweek_turnover_1 = as.numeric(preweek_turnover_1))
+Dataset_target <- Dataset_target %>% mutate(preweek_turnover_2 = as.numeric(preweek_turnover_2))
+Dataset_target <- Dataset_target %>% mutate(preyear_turnover = as.numeric(preyear_turnover))
+
+Dataset_target <- Dataset_target %>% mutate(Year = as.factor(Year))
+Dataset_target <- Dataset_target %>% mutate(Day_of_year = as.factor(Day_of_year))
+Dataset_target <- Dataset_target %>% mutate(Week_in_year = as.factor(Week_in_year))
+Dataset_target <- Dataset_target %>% mutate(Day_of_month = as.factor(Day_of_month))
+Dataset_target <- Dataset_target %>% mutate(Weekday = as.factor(Weekday))
+Dataset_target <- Dataset_target %>% mutate(Month = as.factor(Month))
+
+Dataset_target <- Dataset_target %>% mutate(Kieler_Woche = as.factor(Kieler_Woche))
+Dataset_target <- Dataset_target %>% mutate(Weihnachtsmarkt = as.factor(Weihnachtsmarkt))
+Dataset_target <- Dataset_target %>% mutate(Wahl = as.factor(Wahl))
+Dataset_target <- Dataset_target %>% mutate(Wahltyp = as.factor(Wahltyp))
+Dataset_target <- Dataset_target %>% mutate(Digitale_Woche = as.factor(Digitale_Woche))
+Dataset_target <- Dataset_target %>% mutate(Feiertagsart = as.factor(Feiertagsart))
+Dataset_target <- Dataset_target %>% mutate(Gesetzl_Feiertag = as.factor(Gesetzl_Feiertag))
+Dataset_target <- Dataset_target %>% mutate(Brueckentag = as.factor(Brueckentag))
+Dataset_target <- Dataset_target %>% mutate(Langes_Wochenende = as.factor(Langes_Wochenende))
+Dataset_target <- Dataset_target %>% mutate(Semesterferien = as.factor(Semesterferien))
+Dataset_target <- Dataset_target %>% mutate(Schulferien = as.factor(Schulferien))
+
+
+Dataset_target <- Dataset_target %>% mutate(Temperatur = as.numeric(Temperatur))
+Dataset_target <- Dataset_target %>% mutate(Bewoelkung = as.integer(Bewoelkung))
+Dataset_target <- Dataset_target %>% mutate(Windgeschwindigkeit = as.integer(Windgeschwindigkeit))
+Dataset_target <- Dataset_target %>% mutate(Wettercode = as.factor(Wettercode))
+Dataset_target <- Dataset_target %>% mutate(WindFct = as.factor(WindFct))
+Dataset_target <- Dataset_target %>% mutate(BewoelkungFct = as.factor(BewoelkungFct))
+Dataset_target <- Dataset_target %>% mutate(WettercodeFct = as.factor(WettercodeFct))
+Dataset_target <- Dataset_target %>% mutate(TemperaturFct   = as.factor(TemperaturFct  ))
+
+Dataset_target <- Dataset_target %>% mutate(Durchschnittstemperatur_monatlich = as.numeric(Durchschnittstemperatur_monatlich))
+Dataset_target <- Dataset_target %>% mutate(Tagestemperatur_tatsaechlich = as.numeric(Tagestemperatur_tatsaechlich))
+Dataset_target <- Dataset_target %>% mutate(`Differenz_zum Mittel` = as.numeric(`Differenz_zum Mittel`))
+Dataset_target <- Dataset_target %>% mutate(Kaelter_als_normal = as.factor(Kaelter_als_normal))
+Dataset_target <- Dataset_target %>% mutate(Waermer_als_normal = as.factor(Waermer_als_normal))
+
+
+Dataset_target <- Dataset_target %>% mutate(Neue_Jahreszeit = as.factor(Neue_Jahreszeit))
+Dataset_target <- Dataset_target %>% mutate(Winter = as.factor(Winter))
+Dataset_target <- Dataset_target %>% mutate(Fruehling = as.factor(Fruehling))
+Dataset_target <- Dataset_target %>% mutate(Sommer = as.factor(Sommer))
+Dataset_target <- Dataset_target %>% mutate(Herbst = as.factor(Herbst))
+Dataset_target <- Dataset_target %>% mutate(Sommerzeit = as.factor(Sommerzeit))
+Dataset_target <- Dataset_target %>% mutate(Zeit = as.factor(Zeit))
+
+Dataset_target <- Dataset_target %>% mutate(Ankuenfte = as.numeric(Ankuenfte))
+Dataset_target <- Dataset_target %>% mutate(Arbeitslose = as.numeric(Arbeitslose))
+Dataset_target <- Dataset_target %>% mutate(Uebernachtungen = as.numeric(Uebernachtungen))
+Dataset_target <- Dataset_target %>% mutate(Einwohnerzahl_Kiel = as.numeric(Einwohnerzahl_Kiel))
+
+Dataset_target <- Dataset_target %>% select(-c(WettercodeFct, Wettercode))
+
+```
+
+
+### Create prediction for 01.06.2019
+
+```{r}
+
+Dataset_target <- rbind(Dataset_target, test_dataset_total[1:100,])
+pred_target <- predict(svm_8$best.model, Dataset_target) 
+pred_target <- pred_target[1:6]
+
+Prognose <- data.frame( Warengruppe = c(1,2,3,4,5,6), Umsatzprognose = pred_target)
+```
 
