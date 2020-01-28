@@ -132,6 +132,15 @@ svm_5 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turno
 
 set.seed(123)
 svm_6 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turnover + Ankuenfte + Uebernachtungen + WindFct + BewoelkungFct + Waermer_als_normal, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
+
+set.seed(123)
+svm_7 <- tune(svm, Umsatz ~ Warengruppe + preday_turnover + preweek_turnover_1 + preweek_turnover_2 + preyear_turnover + Weekday + Year + Month + Day_of_year + Day_of_month + TemperaturFct + Semesterferien + Kieler_Woche + Feiertagsart, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
+
+set.seed(123)
+svm_8 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turnover + Week_in_year + Warengruppe  + preweek_turnover_1 + Weekday + Year + Month + Day_of_month + TemperaturFct + Semesterferien + Kieler_Woche + Feiertagsart, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
+
+set.seed(123)
+svm_9 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turnover + Week_in_year + preweek_turnover_1 + Warengruppe + Weekday + Year + Month + Day_of_month + Day_of_year + TemperaturFct + BewoelkungFct+ Semesterferien + Kieler_Woche + Ankuenfte + Feiertagsart, data=train_dataset_total, ranges=list(epsilon=seq(0.2,1,0.1),cost=2^(2:3)))
 ```
 
 
@@ -145,6 +154,9 @@ svm_6 <- tune(svm, Umsatz ~ preday_turnover + preweek_turnover_2 + preyear_turno
 #list.save(svm_4, 'svm_4.rds')
 #list.save(svm_5, 'svm_5.rds')
 #list.save(svm_6, 'svm_6.rds')
+#list.save(svm_7, 'svm_7.rds')
+#list.save(svm_8, 'svm_8.rds')
+#list.save(svm_9, 'svm_9.rds')
 
 svm_1 <- readRDS("./svm_1.rds")
 svm_2 <- readRDS("./svm_2.rds")
@@ -152,7 +164,9 @@ svm_3 <- readRDS("./svm_3.rds")
 svm_4 <- readRDS("./svm_4.rds")
 svm_5 <- readRDS("./svm_5.rds")
 svm_6 <- readRDS("./svm_6.rds")
-
+svm_7 <- readRDS("./svm_7.rds")
+svm_8 <- readRDS("./svm_8.rds")
+svm_9 <- readRDS("./svm_9.rds")
 ```
 
 
@@ -167,13 +181,19 @@ pred_train_3 <- predict(svm_3$best.model, train_dataset_total)
 pred_train_4 <- predict(svm_4$best.model, train_dataset_total)
 pred_train_5 <- predict(svm_5$best.model, train_dataset_total)
 pred_train_6 <- predict(svm_6$best.model, train_dataset_total)
+pred_train_7 <- predict(svm_7$best.model, train_dataset_total)
+pred_train_8 <- predict(svm_8$best.model, train_dataset_total)
+pred_train_9 <- predict(svm_9$best.model, train_dataset_total)
 
 PredQualityTrain <- rbind(mape(train_dataset_total$Umsatz, pred_train_1),
                           mape(train_dataset_total$Umsatz, pred_train_2),
                           mape(train_dataset_total$Umsatz, pred_train_3),
                           mape(train_dataset_total$Umsatz, pred_train_4),
                           mape(train_dataset_total$Umsatz, pred_train_5),
-                          mape(train_dataset_total$Umsatz, pred_train_6))
+                          mape(train_dataset_total$Umsatz, pred_train_6),
+                          mape(train_dataset_total$Umsatz, pred_train_7),
+                          mape(train_dataset_total$Umsatz, pred_train_8),
+                          mape(train_dataset_total$Umsatz, pred_train_9))
 
 
 # Calculating the prediction for the test data using the best model according to the grid search
@@ -183,15 +203,22 @@ pred_test_3 <- predict(svm_3$best.model, test_dataset_total)
 pred_test_4 <- predict(svm_4$best.model, test_dataset_total)
 pred_test_5 <- predict(svm_5$best.model, test_dataset_total)
 pred_test_6 <- predict(svm_6$best.model, test_dataset_total)
+pred_test_7 <- predict(svm_7$best.model, test_dataset_total)
+pred_test_8 <- predict(svm_8$best.model, test_dataset_total)
+pred_test_9 <- predict(svm_9$best.model, test_dataset_total)
 
 PredQualityTest <-rbind(mape(test_dataset_total$Umsatz, pred_test_1),
                          mape(test_dataset_total$Umsatz, pred_test_2),
                          mape(test_dataset_total$Umsatz, pred_test_3),
                          mape(test_dataset_total$Umsatz, pred_test_4),
                          mape(test_dataset_total$Umsatz, pred_test_5),
-                         mape(test_dataset_total$Umsatz, pred_test_6))
+                         mape(test_dataset_total$Umsatz, pred_test_6),
+                         mape(test_dataset_total$Umsatz, pred_test_7),
+                         mape(test_dataset_total$Umsatz, pred_test_8),
+                         mape(test_dataset_total$Umsatz, pred_test_9)
+                        )
 
-Quality <- data.frame( c(1,2,3,4,5,6), PredQualityTrain, PredQualityTest)
+Quality <- data.frame( c(1,2,3,4,5,6,7,8,9), PredQualityTrain, PredQualityTest)
 colnames(Quality)<- c("Model", "Mape_Train", "Mape_Test")
 
 write_csv(Quality, "TableMapeSVM.csv")
